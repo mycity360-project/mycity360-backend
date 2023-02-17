@@ -6,10 +6,8 @@ YELLOW='\033[0;33m'
 
 
 start_process() {
-    echo "${RED}Starting script!!!!!!"
     echo "${GREEN}Starting script!!!!!!"
-    echo "${YELLOW}Starting script!!!!!!"
-    
+
     echo "${GREEN}Entering into frontend folder"
 
     cd frontend
