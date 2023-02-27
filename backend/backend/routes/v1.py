@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, re_path, include
 from django.shortcuts import render
-from ..views import state, system_config, location
+from ..views import state, system_config, location, user, area
 
 
 urlpatterns = [
@@ -11,4 +11,8 @@ urlpatterns = [
     path("system-config/<int:pk>/", system_config.system_config_details),
     path("location/", location.location_list),
     path("location/<int:pk>/", location.location_details),
+    path("area/", area.area_list),
+    path("area/<int:pk>/", area.area_details),
+    path("user/", user.user_list),
+    path("user/<int:pk>/", user.user_details),
 ]
