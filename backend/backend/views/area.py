@@ -1,14 +1,20 @@
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import (
+    api_view,
+    authentication_classes,
+    permission_classes,
+)
+from rest_framework.permissions import AllowAny
 from ..models.user import User
 from ..serializers.user import UserSerializers
 from oauth2_provider.decorators import protected_resource
 
 
 @api_view(["GET", "POST"])
-@protected_resource()
+@permission_classes([AllowAny])
 def user_list(request):
+
     if request.method == "GET":
         user = User.objects.all()
         serializers = UserSerializers(user, many=True)

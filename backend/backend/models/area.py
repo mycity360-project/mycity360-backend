@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from .core import Core
+from ..utils.core import Core
 from .location import Location
 from ..managers.area import AreaManager, AreaQueryset
 
@@ -45,4 +45,3 @@ class Area(Core):
 
     def __unicode__(self):
         return self.name
-

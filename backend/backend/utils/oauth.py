@@ -36,7 +36,8 @@ def generate_access_token(user_id, client_id=None, expires_in=None):
     #     raise InvalidParameter(messages.CLIENT_NOT_REGISTER)
     expires_in = (
         expires_in
-        if expires_in is not None else "300"
+        if expires_in is not None
+        else "300"
         # else constants.ACCESS_TOKEN_EXPIRE_SECONDS
     )
     expires = timezone.now() + timedelta(seconds=expires_in)

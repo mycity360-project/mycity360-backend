@@ -19,7 +19,7 @@ class UserManager(BaseUserManager):
         return super(UserManager, self).get_queryset()
 
     def create_superuser(
-            self, username, password, email=None, phone=None, **extra_fields
+        self, username, password, email=None, phone=None, **extra_fields
     ):
         """
         Special Manager method for createsuperuser command
@@ -30,8 +30,9 @@ class UserManager(BaseUserManager):
             raise ValueError(_("Superuser must have is_staff=True."))
         if extra_fields.get("is_superuser") is not True:
             raise ValueError(_("Superuser must have is_superuser=True."))
-        return self.create_user(username, password, email, phone,
-                                **extra_fields)
+        return self.create_user(
+            username, password, email, phone, **extra_fields
+        )
 
     def create_user(self, username, password, email, phone, **extra_fields):
         """
@@ -42,10 +43,12 @@ class UserManager(BaseUserManager):
             raise ValueError("The given username must be set")
         email = self.model.normalize_email(email)
         # phone = self.model.normalize_phone(phone)
-        phone = phone
+        if not phone:
+            phone = ""
         username = self.model.normalize_username(username)
-        user = self.model(username=username, phone=phone, email=email, **extra_fields)
+        user = self.model(
+            username=username, phone=phone, email=email, **extra_fields
+        )
         user.set_password(password)
         user.save(using=self._db)
         return user
-

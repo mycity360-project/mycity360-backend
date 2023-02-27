@@ -28,11 +28,15 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "created_date",
-                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Created At"
+                    ),
                 ),
                 (
                     "updated_date",
-                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="Updated At"
+                    ),
                 ),
                 (
                     "is_deleted",
@@ -49,12 +53,17 @@ class Migration(migrations.Migration):
                 (
                     "extra_data",
                     models.JSONField(
-                        blank=True, default=dict, null=True, verbose_name="Extra Data"
+                        blank=True,
+                        default=dict,
+                        null=True,
+                        verbose_name="Extra Data",
                     ),
                 ),
                 (
                     "name",
-                    models.CharField(max_length=128, unique=True, verbose_name="name"),
+                    models.CharField(
+                        max_length=128, unique=True, verbose_name="name"
+                    ),
                 ),
             ],
             options={
@@ -76,11 +85,15 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "created_date",
-                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Created At"
+                    ),
                 ),
                 (
                     "updated_date",
-                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="Updated At"
+                    ),
                 ),
                 (
                     "is_deleted",
@@ -97,12 +110,17 @@ class Migration(migrations.Migration):
                 (
                     "extra_data",
                     models.JSONField(
-                        blank=True, default=dict, null=True, verbose_name="Extra Data"
+                        blank=True,
+                        default=dict,
+                        null=True,
+                        verbose_name="Extra Data",
                     ),
                 ),
                 (
                     "name",
-                    models.CharField(max_length=128, unique=True, verbose_name="name"),
+                    models.CharField(
+                        max_length=128, unique=True, verbose_name="name"
+                    ),
                 ),
                 (
                     "state",
@@ -133,11 +151,15 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "created_date",
-                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Created At"
+                    ),
                 ),
                 (
                     "updated_date",
-                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="Updated At"
+                    ),
                 ),
                 (
                     "is_deleted",
@@ -154,12 +176,17 @@ class Migration(migrations.Migration):
                 (
                     "extra_data",
                     models.JSONField(
-                        blank=True, default=dict, null=True, verbose_name="Extra Data"
+                        blank=True,
+                        default=dict,
+                        null=True,
+                        verbose_name="Extra Data",
                     ),
                 ),
                 (
                     "name",
-                    models.CharField(max_length=128, unique=True, verbose_name="name"),
+                    models.CharField(
+                        max_length=128, unique=True, verbose_name="name"
+                    ),
                 ),
                 (
                     "pincode",
@@ -194,7 +221,10 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("password", models.CharField(max_length=128, verbose_name="password")),
+                (
+                    "password",
+                    models.CharField(max_length=128, verbose_name="password"),
+                ),
                 (
                     "last_login",
                     models.DateTimeField(
@@ -211,11 +241,15 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "created_date",
-                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Created At"
+                    ),
                 ),
                 (
                     "updated_date",
-                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="Updated At"
+                    ),
                 ),
                 (
                     "is_deleted",
@@ -226,7 +260,10 @@ class Migration(migrations.Migration):
                 (
                     "extra_data",
                     models.JSONField(
-                        blank=True, default=dict, null=True, verbose_name="Extra Data"
+                        blank=True,
+                        default=dict,
+                        null=True,
+                        verbose_name="Extra Data",
                     ),
                 ),
                 (
@@ -311,7 +348,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "date_joined",
-                    models.DateTimeField(auto_now_add=True, verbose_name="date joined"),
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="date joined"
+                    ),
                 ),
                 (
                     "is_phone_verified",
@@ -327,7 +366,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "is_gmail_login",
-                    models.BooleanField(default=False, verbose_name="Is Gmail Login"),
+                    models.BooleanField(
+                        default=False, verbose_name="Is Gmail Login"
+                    ),
                 ),
                 (
                     "password_updated_on",
@@ -357,7 +398,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "current_address",
-                    models.TextField(blank=True, verbose_name="current address"),
+                    models.TextField(
+                        blank=True, verbose_name="current address"
+                    ),
                 ),
                 (
                     "role",

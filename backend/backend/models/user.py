@@ -13,7 +13,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from .core import Core
+from ..utils.core import Core
 from .area import Area
 from ..managers.user import UserManager, UserQueryset
 
@@ -35,7 +35,8 @@ class User(AbstractBaseUser, PermissionsMixin, Core):
         max_length=128,
         unique=True,
         help_text=_(
-            "Required. 128 characters or fewer." "Letters, digits and @/./+/-/_ only."
+            "Required. 128 characters or fewer."
+            "Letters, digits and @/./+/-/_ only."
         ),
     )
     first_name = models.CharField(_("first name"), max_length=128, blank=True)
@@ -60,7 +61,9 @@ class User(AbstractBaseUser, PermissionsMixin, Core):
     is_staff = models.BooleanField(
         _("staff status"),
         default=False,
-        help_text=_("Designates whether the user can log into this admin site."),
+        help_text=_(
+            "Designates whether the user can log into this admin site."
+        ),
     )
     is_active = models.BooleanField(
         _("active"),
@@ -71,8 +74,12 @@ class User(AbstractBaseUser, PermissionsMixin, Core):
         ),
     )
     date_joined = models.DateTimeField(_("date joined"), auto_now_add=True)
-    is_phone_verified = models.BooleanField(_("Is Phone Verified"), default=False)
-    is_email_verified = models.BooleanField(_("Is Email Verified"), default=False)
+    is_phone_verified = models.BooleanField(
+        _("Is Phone Verified"), default=False
+    )
+    is_email_verified = models.BooleanField(
+        _("Is Email Verified"), default=False
+    )
     is_gmail_login = models.BooleanField(_("Is Gmail Login"), default=False)
     password_updated_on = models.DateTimeField(
         _("Password Updated On"), default=timezone.now
@@ -85,10 +92,13 @@ class User(AbstractBaseUser, PermissionsMixin, Core):
     failed_login_time = models.DateTimeField(
         verbose_name=_("Last failed login attempt time"), null=True, blank=True
     )
-    area = models.ForeignKey(verbose_name=_("Area"),
+    area = models.ForeignKey(
+        verbose_name=_("Area"),
         to=Area,
         related_name="user_area",
-        on_delete=models.SET_NULL, null=True)
+        on_delete=models.SET_NULL,
+        null=True,
+    )
     current_address = models.TextField(_("current address"), blank=True)
     role = models.CharField(
         _("role"),
@@ -109,8 +119,12 @@ class User(AbstractBaseUser, PermissionsMixin, Core):
         default=0,
         validators=[MinLengthValidator(6), MaxValueValidator(6)],
     )
-    email_expiry = models.DateTimeField(_("Email Expiry"), null=True, blank=True)
-    phone_expiry = models.DateTimeField(_("Phone Expiry"), null=True, blank=True)
+    email_expiry = models.DateTimeField(
+        _("Email Expiry"), null=True, blank=True
+    )
+    phone_expiry = models.DateTimeField(
+        _("Phone Expiry"), null=True, blank=True
+    )
 
     objects = UserManager.from_queryset(UserQueryset)()
 

@@ -7,7 +7,6 @@ class AreaQueryset(models.QuerySet):
         return self.filter(name=name)
 
 
-class AreaManager(BaseUserManager):
+class AreaManager(models.Manager):
     def get_queryset(self):
         return super(AreaManager, self).get_queryset()
-

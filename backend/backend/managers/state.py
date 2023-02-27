@@ -1,4 +1,3 @@
-from django.contrib.auth.models import BaseUserManager
 from django.db import models
 
 
@@ -7,7 +6,6 @@ class StateQueryset(models.QuerySet):
         return self.filter(name=name)
 
 
-class StateManager(BaseUserManager):
+class StateManager(models.Manager):
     def get_queryset(self):
         return super(StateManager, self).get_queryset()
-
