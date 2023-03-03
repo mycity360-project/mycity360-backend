@@ -37,7 +37,7 @@ def generate_access_token(user_id, client_id=None, expires_in=None):
     expires_in = (
         expires_in
         if expires_in is not None
-        else "300"
+        else 86400
         # else constants.ACCESS_TOKEN_EXPIRE_SECONDS
     )
     expires = timezone.now() + timedelta(seconds=expires_in)
@@ -68,7 +68,7 @@ def get_token_json(access_token):
     token = {
         "access_token": access_token.token,
         # "expires_in": constants.ACCESS_TOKEN_EXPIRE_SECONDS,
-        "expires_in": 300,
+        "expires_in": 86400,
         "token_type": "Bearer",
         "refresh_token": access_token.refresh_token.token,
         "scope": access_token.scope,

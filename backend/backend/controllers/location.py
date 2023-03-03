@@ -30,7 +30,6 @@ def create_location(data):
 
 def get_location(pk):
     location = location_gateway.get_location(pk)
-    print(location)
     return location
 
 
@@ -44,4 +43,3 @@ def update_location(pk, data):
 def delete_location(pk):
     location = location_gateway.delete_location(pk)
     return location
-

@@ -1,51 +1,3 @@
-# from rest_framework.response import Response
-# from rest_framework import status
-# from rest_framework.decorators import api_view
-# from ..models.user import User
-# from ..serializers.user import UserSerializers
-# from oauth2_provider.decorators import protected_resource
-# 
-# 
-# @api_view(["GET", "POST"])
-# @protected_resource()
-# def user_list(request):
-#     if request.method == "GET":
-#         user = User.objects.all()
-#         serializers = UserSerializers(user, many=True)
-#         return Response(serializers.data)
-# 
-#     elif request.method == "POST":
-#         serializers = UserSerializers(data=request.data)
-#         if serializers.is_valid():
-#             serializers.save()
-#             return Response(serializers.data, status=status.HTTP_201_CREATED)
-#         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
-# 
-# 
-# @api_view(["GET", "PUT", "DELETE"])
-# @protected_resource()
-# def user_details(request, pk):
-#     try:
-#         user = User.objects.get(pk=pk)
-#     except User.DoesNotExist:
-#         return Response(status=status.HTTP_404_NOT_FOUND)
-# 
-#     if request.method == "GET":
-#         serializers = UserSerializers(User)
-#         return Response(serializers.data)
-# 
-#     elif request.method == "PUT":
-#         serializers = UserSerializers(User, request.data)
-#         if serializers.is_valid():
-#             serializers.save()
-#             return Response(serializers.data)
-#         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
-# 
-#     elif request.method == "DELETE":
-#         user.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
 from rest_framework import status
 from rest_framework.decorators import (
     api_view,
@@ -87,3 +39,45 @@ def user_details(request, pk):
     elif request.method == "DELETE":
         response = user_controller.delete_user(pk)
         return response, status.HTTP_204_NO_CONTENT
+
+
+@api_view(["POST"])
+@authentication_classes([])
+@permission_classes([])
+@response_handler()
+def signup(request):
+    if request.method == "POST":
+        response = user_controller.signup(**request.data)
+        return response, status.HTTP_201_CREATED
+
+
+@api_view(["POST"])
+@authentication_classes([])
+@permission_classes([])
+@response_handler()
+def login(request):
+    if request.method == "POST":
+        data = request.data
+        response = user_controller.login(
+            email=data.get("email"),
+            phone=data.get("phone"),
+            password=data.get("password"),
+            client_id=data.get("client_id"),
+        )
+        return response, status.HTTP_201_CREATED
+
+
+@api_view(["POST"])
+@authentication_classes([])
+@permission_classes([])
+@response_handler()
+def verify_otp(request, pk):
+    if request.method == "POST":
+        data = request.data
+        response = user_controller.verify_otp(
+            pk=pk,
+            email_otp=data.get("email_otp"),
+            phone_otp=data.get("phone_otp"),
+            client_id=data.get("client_id"),
+        )
+        return response, status.HTTP_201_CREATED

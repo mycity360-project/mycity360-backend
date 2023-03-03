@@ -25,7 +25,6 @@ def create_state(data):
 
 def get_state(pk):
     state = state_gateway.get_state(pk)
-    print(state)
     return state
 
 
@@ -39,4 +38,3 @@ def update_state(pk, data):
 def delete_state(pk):
     state = state_gateway.delete_state(pk)
     return state
-

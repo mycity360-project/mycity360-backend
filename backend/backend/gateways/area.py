@@ -28,8 +28,8 @@ def update_area(pk, data):
         # TODO:
         # Raise error
         return {
-                   "id": ["area with this id does not exist"]
-               }, status.HTTP_404_NOT_FOUND
+            "id": ["area with this id does not exist"]
+        }, status.HTTP_404_NOT_FOUND
 
 
 def get_area(pk):
@@ -41,8 +41,8 @@ def get_area(pk):
         # TODO:
         # Raise error
         return {
-                   "id": ["area with this id does not exist"]
-               }, status.HTTP_404_NOT_FOUND
+            "id": ["area with this id does not exist"]
+        }, status.HTTP_404_NOT_FOUND
 
 
 def delete_area(pk):
@@ -53,5 +53,5 @@ def delete_area(pk):
         # TODO:
         # Raise error
         return {
-                   "id": ["area with this id does not exist"]
-               }, status.HTTP_404_NOT_FOUND
+            "id": ["area with this id does not exist"]
+        }, status.HTTP_404_NOT_FOUND

@@ -9,4 +9,3 @@ class AreaSerializers(serializers.ModelSerializer):
     class Meta:
         model = Area
         fields = "__all__"
-

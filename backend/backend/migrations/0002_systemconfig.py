@@ -23,11 +23,15 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "created_date",
-                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Created At"
+                    ),
                 ),
                 (
                     "updated_date",
-                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="Updated At"
+                    ),
                 ),
                 (
                     "is_deleted",
@@ -44,14 +48,22 @@ class Migration(migrations.Migration):
                 (
                     "extra_data",
                     models.JSONField(
-                        blank=True, default=dict, null=True, verbose_name="Extra Data"
+                        blank=True,
+                        default=dict,
+                        null=True,
+                        verbose_name="Extra Data",
                     ),
                 ),
                 (
                     "key",
-                    models.CharField(max_length=1024, unique=True, verbose_name="name"),
+                    models.CharField(
+                        max_length=1024, unique=True, verbose_name="name"
+                    ),
                 ),
-                ("value", models.CharField(max_length=1024, verbose_name="value")),
+                (
+                    "value",
+                    models.CharField(max_length=1024, verbose_name="value"),
+                ),
             ],
             options={
                 "verbose_name": "System Config",

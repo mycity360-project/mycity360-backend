@@ -6,8 +6,8 @@ from __future__ import unicode_literals
 from django.db import models
 from django.core.validators import (
     RegexValidator,
-    MinLengthValidator,
     MaxValueValidator,
+    MinValueValidator,
 )
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
@@ -87,7 +87,7 @@ class User(AbstractBaseUser, PermissionsMixin, Core):
     failed_login_attempts = models.PositiveSmallIntegerField(
         verbose_name=_("No of Failed Login Attempts"),
         default=0,
-        validators=[MinLengthValidator(0), MaxValueValidator(10)],
+        validators=[MinValueValidator(0), MaxValueValidator(10)],
     )
     failed_login_time = models.DateTimeField(
         verbose_name=_("Last failed login attempt time"), null=True, blank=True
@@ -112,12 +112,16 @@ class User(AbstractBaseUser, PermissionsMixin, Core):
     email_otp = models.PositiveIntegerField(
         verbose_name=_("Email OTP"),
         default=0,
-        validators=[MinLengthValidator(6), MaxValueValidator(6)],
+        validators=[MinValueValidator(111111), MaxValueValidator(999999)],
+        null=True,
+        blank=True,
     )
     phone_otp = models.PositiveIntegerField(
         verbose_name=_("Phone OTP"),
         default=0,
-        validators=[MinLengthValidator(6), MaxValueValidator(6)],
+        validators=[MinValueValidator(111111), MaxValueValidator(999999)],
+        null=True,
+        blank=True,
     )
     email_expiry = models.DateTimeField(
         _("Email Expiry"), null=True, blank=True

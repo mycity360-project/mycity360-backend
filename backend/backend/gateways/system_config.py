@@ -5,8 +5,10 @@ from ..serializers.system_config import SystemConfigSerializers
 from oauth2_provider.decorators import protected_resource
 
 
-def list_system_config():
+def list_system_config(keys=None):
     system_config = SystemConfig.objects.all().filter(is_deleted=False)
+    if keys:
+        system_config = system_config.filter(key__in=keys)
     serializers = SystemConfigSerializers(system_config, many=True)
     return serializers.data
 
@@ -19,7 +21,9 @@ def create_system_config(data):
 
 def update_system_config(pk, data):
     try:
-        system_config = SystemConfig.objects.filter(is_deleted=False).get(id=pk)
+        system_config = SystemConfig.objects.filter(is_deleted=False).get(
+            id=pk
+        )
         serializers = SystemConfigSerializers(system_config, data)
         if serializers.is_valid():
             serializers.save()
@@ -28,30 +32,39 @@ def update_system_config(pk, data):
         # TODO:
         # Raise error
         return {
-                   "id": ["system_config with this id does not exist"]
-               }, status.HTTP_404_NOT_FOUND
+            "id": ["system_config with this id does not exist"]
+        }, status.HTTP_404_NOT_FOUND
 
 
-def get_system_config(pk):
+def get_system_config(pk=None, key=None):
     try:
-        system_config = SystemConfig.objects.filter(is_deleted=False).get(id=pk)
+        kwargs = dict()
+        if pk:
+            kwargs["pk"] = pk
+        if key:
+            kwargs["key"] = key
+        system_config = SystemConfig.objects.filter(is_deleted=False).get(
+            **kwargs
+        )
         serializers = SystemConfigSerializers(system_config)
         return serializers.data
     except SystemConfig.DoesNotExist:
         # TODO:
         # Raise error
         return {
-                   "id": ["system_config with this id does not exist"]
-               }, status.HTTP_404_NOT_FOUND
+            "id": ["system_config with this id does not exist"]
+        }, status.HTTP_404_NOT_FOUND
 
 
 def delete_system_config(pk):
     try:
-        system_config = SystemConfig.objects.filter(is_deleted=False).get(pk=pk)
+        system_config = SystemConfig.objects.filter(is_deleted=False).get(
+            pk=pk
+        )
         return system_config.delete()
     except SystemConfig.DoesNotExist:
         # TODO:
         # Raise error
         return {
-                   "id": ["system_config with this id does not exist"]
-               }, status.HTTP_404_NOT_FOUND
+            "id": ["system_config with this id does not exist"]
+        }, status.HTTP_404_NOT_FOUND

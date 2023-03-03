@@ -27,7 +27,6 @@ def create_area(data):
 
 def get_area(pk):
     area = area_gateway.get_area(pk)
-    print(area)
     return area
 
 
@@ -41,4 +40,3 @@ def update_area(pk, data):
 def delete_area(pk):
     area = area_gateway.delete_area(pk)
     return area
-

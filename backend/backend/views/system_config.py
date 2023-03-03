@@ -33,7 +33,9 @@ def system_config_details(request, pk):
         return response, status.HTTP_200_OK
 
     elif request.method == "PUT":
-        response = system_config_controller.update_system_config(pk, request.data)
+        response = system_config_controller.update_system_config(
+            pk, request.data
+        )
         return response, status.HTTP_200_OK
 
     elif request.method == "DELETE":

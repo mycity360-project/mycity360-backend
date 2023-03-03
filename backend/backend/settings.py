@@ -151,3 +151,13 @@ OAUTH2_PROVIDER = {
         "groups": "Access to your groups",
     }
 }
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "wramwork@gmail.com"
+EMAIL_HOST_PASSWORD = "Mridul12#"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+
+GOOGLE_APPLICATION_CREDENTIALS = "token.json"

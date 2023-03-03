@@ -1,3 +1,5 @@
+import datetime
+
 from rest_framework.response import Response
 from rest_framework import status
 from ..models.user import User
@@ -11,48 +13,77 @@ def list_user():
     return serializers.data
 
 
-def create_user(data):
+def create_user(data, password=None):
     user = User.objects.create(**data)
-    user.set_password(data.get("password"))
+    user.set_password(password)
+    user.password_created_on = datetime.datetime.now()
+    user.save()
     serializers = UserSerializers(user)
     return serializers.data
 
 
-def update_user(pk, data):
+def update_user(id, data):
     try:
-        user = User.objects.filter(is_deleted=False).get(id=pk)
+        user = User.objects.filter(is_deleted=False).get(id=id)
         serializers = UserSerializers(user, data)
         if serializers.is_valid():
-            serializers.save()
+            serializers.save(area_id=data.get("area").get("id"))
             return serializers.data
+        return serializers.errors
     except User.DoesNotExist:
         # TODO:
         # Raise error
         return {
-                   "id": ["user with this id does not exist"]
-               }, status.HTTP_404_NOT_FOUND
+            "id": ["user with this id does not exist"]
+        }, status.HTTP_404_NOT_FOUND
 
 
-def get_user(pk):
+def get_user(id=None, email=None, phone=None):
     try:
-        user = User.objects.filter(is_deleted=False).get(id=pk)
+        kwargs = dict()
+        if id:
+            kwargs["id"] = id
+        if email:
+            kwargs["email"] = email
+        if phone:
+            kwargs["phone"] = phone
+        user = User.objects.filter(is_deleted=False).get(**kwargs)
         serializers = UserSerializers(user)
         return serializers.data
     except User.DoesNotExist:
         # TODO:
         # Raise error
         return {
-                   "id": ["user with this id does not exist"]
-               }, status.HTTP_404_NOT_FOUND
+            "id": ["user with this id does not exist"]
+        }, status.HTTP_404_NOT_FOUND
 
 
-def delete_user(pk):
+def delete_user(id):
     try:
-        user = User.objects.filter(is_deleted=False).get(pk=pk)
+        user = User.objects.filter(is_deleted=False).get(id=id)
         return user.delete()
     except User.DoesNotExist:
         # TODO:
         # Raise error
         return {
-                   "id": ["user with this id does not exist"]
-               }, status.HTTP_404_NOT_FOUND
+            "id": ["user with this id does not exist"]
+        }, status.HTTP_404_NOT_FOUND
+
+
+def verify_password(password, id=None, email=None, phone=None):
+    try:
+        kwargs = dict()
+        if id:
+            kwargs["id"] = id
+        if email:
+            kwargs["email"] = email
+        if phone:
+            kwargs["phone"] = phone
+        user = User.objects.filter(is_deleted=False).get(**kwargs)
+        return user.check_password(password)
+    except User.DoesNotExist:
+        # TODO:
+        # Raise error
+        return {
+            "id": ["user with this id does not exist"]
+        }, status.HTTP_404_NOT_FOUND

@@ -28,8 +28,8 @@ def update_state(pk, data):
         # TODO:
         # Raise error
         return {
-                   "id": ["state with this id does not exist"]
-               }, status.HTTP_404_NOT_FOUND
+            "id": ["state with this id does not exist"]
+        }, status.HTTP_404_NOT_FOUND
 
 
 def get_state(pk):
@@ -41,8 +41,8 @@ def get_state(pk):
         # TODO:
         # Raise error
         return {
-                   "id": ["state with this id does not exist"]
-               }, status.HTTP_404_NOT_FOUND
+            "id": ["state with this id does not exist"]
+        }, status.HTTP_404_NOT_FOUND
 
 
 def delete_state(pk):
@@ -53,5 +53,5 @@ def delete_state(pk):
         # TODO:
         # Raise error
         return {
-                   "id": ["state with this id does not exist"]
-               }, status.HTTP_404_NOT_FOUND
+            "id": ["state with this id does not exist"]
+        }, status.HTTP_404_NOT_FOUND

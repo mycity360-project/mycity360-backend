@@ -27,8 +27,8 @@ def update_location(pk, data):
         # TODO:
         # Raise error
         return {
-                   "id": ["location with this id does not exist"]
-               }, status.HTTP_404_NOT_FOUND
+            "id": ["location with this id does not exist"]
+        }, status.HTTP_404_NOT_FOUND
 
 
 def get_location(pk):
@@ -40,8 +40,8 @@ def get_location(pk):
         # TODO:
         # Raise error
         return {
-                   "id": ["location with this id does not exist"]
-               }, status.HTTP_404_NOT_FOUND
+            "id": ["location with this id does not exist"]
+        }, status.HTTP_404_NOT_FOUND
 
 
 def delete_location(pk):
@@ -52,5 +52,5 @@ def delete_location(pk):
         # TODO:
         # Raise error
         return {
-                   "id": ["location with this id does not exist"]
-               }, status.HTTP_404_NOT_FOUND
+            "id": ["location with this id does not exist"]
+        }, status.HTTP_404_NOT_FOUND
