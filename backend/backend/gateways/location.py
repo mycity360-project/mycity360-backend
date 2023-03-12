@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.exceptions import ValidationError
 from ..models.location import Location
 from ..serializers.location import LocationSerializers
 
@@ -24,11 +25,7 @@ def update_location(pk, data):
             serializers.save(state_id=data.get("state").get("id"))
             return serializers.data
     except Location.DoesNotExist:
-        # TODO:
-        # Raise error
-        return {
-            "id": ["location with this id does not exist"]
-        }, status.HTTP_404_NOT_FOUND
+        raise ValidationError(detail="Location with this id does not exist")
 
 
 def get_location(pk):
@@ -37,11 +34,7 @@ def get_location(pk):
         serializers = LocationSerializers(location)
         return serializers.data
     except Location.DoesNotExist:
-        # TODO:
-        # Raise error
-        return {
-            "id": ["location with this id does not exist"]
-        }, status.HTTP_404_NOT_FOUND
+        raise ValidationError(detail="Location with this id does not exist")
 
 
 def delete_location(pk):
@@ -49,8 +42,4 @@ def delete_location(pk):
         location = Location.objects.filter(is_deleted=False).get(pk=pk)
         return location.delete()
     except Location.DoesNotExist:
-        # TODO:
-        # Raise error
-        return {
-            "id": ["location with this id does not exist"]
-        }, status.HTTP_404_NOT_FOUND
+        raise ValidationError(detail="Location with this id does not exist")

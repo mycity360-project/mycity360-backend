@@ -141,6 +141,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
     ),
+    'EXCEPTION_HANDLER': 'backend.utils.exception.custom_exception_handler'
 }
 
 OAUTH2_PROVIDER = {

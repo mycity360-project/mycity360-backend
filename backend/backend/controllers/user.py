@@ -2,6 +2,7 @@ import datetime
 
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.exceptions import ValidationError, NotFound
 from ..serializers.user import UserSerializers
 from oauth2_provider.decorators import protected_resource
 from ..gateways import user as user_gateway
@@ -12,10 +13,6 @@ from ..constants import (
 )
 from ..utils import services, oauth
 from dateutil import parser
-
-# TODO:
-# Apply validation user with phone and email already exist
-# Data required validation
 
 
 def list_user():
@@ -28,18 +25,14 @@ def create_user(data):
         data.pop("id")
     if not data.get("username"):
         data["username"] = data.get("phone")
-
     serializers = UserSerializers(data=data)
-    if serializers.is_valid():
+    if serializers.is_valid(raise_exception=True):
         if data.get("area").get("id"):
             area = data.pop("area")
             data["area_id"] = area.get("id")
         password = data.pop("password")
         user = user_gateway.create_user(data, password)
         return user
-    # TODO:
-    # Raise error in this case
-    return serializers.errors
 
 
 def get_user(id):
@@ -61,20 +54,19 @@ def delete_user(id):
 
 def signup(client_id=None, **kwargs):
     if not client_id:
-        pass
-        # TODO: Raise error
+        raise ValidationError(detail="Client id is required")
     if not (kwargs.get("email") or kwargs.get("phone")):
-        pass
-        # TODO: Raise error
+        raise ValidationError(detail="Email or Phone is required")
     try:
         user = user_gateway.get_user(email=kwargs.get("email"))
-        # TODO: Raise error user already exist
-    except:
+        print(user)
+        raise ValidationError(detail="User already exist with email")
+    except NotFound:
         pass
     try:
         user = user_gateway.get_user(phone=kwargs.get("phone"))
-        # TODO: Raise error user already exist
-    except:
+        raise ValidationError(detail="User already exist with phone")
+    except NotFound:
         pass
     keys = system_config_gateway.list_system_config(
         keys=[EMAIL_VERIFICATION_REQUIRED, PHONE_VERIFICATION_REQUIRED]
@@ -113,8 +105,9 @@ def signup(client_id=None, **kwargs):
 
 def verify_otp(pk, client_id, email_otp=None, phone_otp=None):
     if not (email_otp or phone_otp):
-        pass
-        # TODO Raise error
+        raise ValidationError(detail="Email OTP or Phone OTP required")
+    if not client_id:
+        raise ValidationError(detail="Client id is required")
     user = user_gateway.get_user(id=pk)
     if email_otp:
         if (
@@ -122,8 +115,7 @@ def verify_otp(pk, client_id, email_otp=None, phone_otp=None):
             or parser.parse(user.get("email_expiry")).replace(tzinfo=None)
             > datetime.datetime.now()
         ):
-            # TODO Raise error
-            return {}
+            raise ValidationError(detail="Email OTP Expired")
         user["is_email_verified"] = True
         user["email_expiry"] = None
         user["email_otp"] = None
@@ -134,12 +126,11 @@ def verify_otp(pk, client_id, email_otp=None, phone_otp=None):
             or parser.parse(user.get("phone_expiry")).replace(tzinfo=None)
             > datetime.datetime.now()
         ):
-            # TODO Raise error
-            return {}
+            raise ValidationError(detail="Phone OTP Expired")
         user["is_phone_verified"] = True
         user["phone_expiry"] = None
         user["phone_otp"] = None
-    data = user_gateway.update_user(user.get("id"), user)
+    user_gateway.update_user(user.get("id"), user)
     access_token = oauth.generate_access_token(
         user_id=user.get("id"), client_id=client_id
     )
@@ -148,14 +139,11 @@ def verify_otp(pk, client_id, email_otp=None, phone_otp=None):
 
 def login(email, phone, password, client_id):
     if not (email or phone):
-        pass
-        # TODO: Raise error
+        raise ValidationError(detail="Email or Phone required")
     if not client_id:
-        pass
-        # TODO: Raise error
+        raise ValidationError(detail="Client id is required")
     if not password:
-        pass
-        # TODO: Raise error
+        raise ValidationError(detail="Password is required")
     user = user_gateway.get_user(email=email, phone=phone)
     keys = system_config_gateway.list_system_config(
         keys=[EMAIL_VERIFICATION_REQUIRED, PHONE_VERIFICATION_REQUIRED]
@@ -179,8 +167,7 @@ def login(email, phone, password, client_id):
                 services.send_sms()
                 return user
     if not user_gateway.verify_password(password=password, id=user.get("id")):
-        # TODO: Raise error
-        pass
+        raise ValidationError(detail="Password verification failed")
     access_token = oauth.generate_access_token(
         user_id=user.get("id"), client_id=client_id
     )

@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.exceptions import ValidationError
 from ..models.state import State
 from ..serializers.state import StateSerializers
 from oauth2_provider.decorators import protected_resource
@@ -25,11 +26,7 @@ def update_state(pk, data):
             serializers.save()
             return serializers.data
     except State.DoesNotExist:
-        # TODO:
-        # Raise error
-        return {
-            "id": ["state with this id does not exist"]
-        }, status.HTTP_404_NOT_FOUND
+        raise ValidationError(detail="State with this id does not exist")
 
 
 def get_state(pk):
@@ -38,11 +35,7 @@ def get_state(pk):
         serializers = StateSerializers(state)
         return serializers.data
     except State.DoesNotExist:
-        # TODO:
-        # Raise error
-        return {
-            "id": ["state with this id does not exist"]
-        }, status.HTTP_404_NOT_FOUND
+        raise ValidationError(detail="State with this id does not exist")
 
 
 def delete_state(pk):
@@ -50,8 +43,4 @@ def delete_state(pk):
         state = State.objects.filter(is_deleted=False).get(pk=pk)
         return state.delete()
     except State.DoesNotExist:
-        # TODO:
-        # Raise error
-        return {
-            "id": ["state with this id does not exist"]
-        }, status.HTTP_404_NOT_FOUND
+        raise ValidationError(detail="State with this id does not exist")

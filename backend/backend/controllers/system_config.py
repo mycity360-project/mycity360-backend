@@ -14,12 +14,9 @@ def create_system_config(data):
     if "id" in data:
         data.pop("id")
     serializers = SystemConfigSerializers(data=data)
-    if serializers.is_valid():
+    if serializers.is_valid(raise_exception=True):
         system_config = system_config_gateway.create_system_config(data)
         return system_config
-    # TODO:
-    # Raise error in this case
-    return serializers.errors
 
 
 def get_system_config(pk):

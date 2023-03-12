@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.exceptions import ValidationError
 from ..models.system_config import SystemConfig
 from ..serializers.system_config import SystemConfigSerializers
 from oauth2_provider.decorators import protected_resource
@@ -29,11 +30,8 @@ def update_system_config(pk, data):
             serializers.save()
             return serializers.data
     except SystemConfig.DoesNotExist:
-        # TODO:
-        # Raise error
-        return {
-            "id": ["system_config with this id does not exist"]
-        }, status.HTTP_404_NOT_FOUND
+        raise ValidationError(
+            detail="System Config with this id does not exist")
 
 
 def get_system_config(pk=None, key=None):
@@ -49,11 +47,8 @@ def get_system_config(pk=None, key=None):
         serializers = SystemConfigSerializers(system_config)
         return serializers.data
     except SystemConfig.DoesNotExist:
-        # TODO:
-        # Raise error
-        return {
-            "id": ["system_config with this id does not exist"]
-        }, status.HTTP_404_NOT_FOUND
+        raise ValidationError(
+            detail="System Config with this id does not exist")
 
 
 def delete_system_config(pk):
@@ -63,8 +58,5 @@ def delete_system_config(pk):
         )
         return system_config.delete()
     except SystemConfig.DoesNotExist:
-        # TODO:
-        # Raise error
-        return {
-            "id": ["system_config with this id does not exist"]
-        }, status.HTTP_404_NOT_FOUND
+        raise ValidationError(
+            detail="System Config with this id does not exist")

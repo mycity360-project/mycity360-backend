@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.exceptions import ValidationError
 from ..models.area import Area
 from ..serializers.area import AreaSerializers
 from oauth2_provider.decorators import protected_resource
@@ -25,11 +26,7 @@ def update_area(pk, data):
             serializers.save(location_id=data.get("location").get("id"))
             return serializers.data
     except Area.DoesNotExist:
-        # TODO:
-        # Raise error
-        return {
-            "id": ["area with this id does not exist"]
-        }, status.HTTP_404_NOT_FOUND
+        raise ValidationError(detail="Area with this id does not exist")
 
 
 def get_area(pk):
@@ -38,11 +35,7 @@ def get_area(pk):
         serializers = AreaSerializers(area)
         return serializers.data
     except Area.DoesNotExist:
-        # TODO:
-        # Raise error
-        return {
-            "id": ["area with this id does not exist"]
-        }, status.HTTP_404_NOT_FOUND
+        raise ValidationError(detail="Area with this id does not exist")
 
 
 def delete_area(pk):
@@ -50,8 +43,4 @@ def delete_area(pk):
         area = Area.objects.filter(is_deleted=False).get(pk=pk)
         return area.delete()
     except Area.DoesNotExist:
-        # TODO:
-        # Raise error
-        return {
-            "id": ["area with this id does not exist"]
-        }, status.HTTP_404_NOT_FOUND
+        raise ValidationError(detail="Area with this id does not exist")

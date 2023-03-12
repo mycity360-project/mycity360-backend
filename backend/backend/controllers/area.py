@@ -15,14 +15,11 @@ def create_area(data):
     if "id" in data:
         data.pop("id")
     serializers = AreaSerializers(data=data)
-    if serializers.is_valid():
+    if serializers.is_valid(raise_exception=True):
         location = data.pop("location")
         data["location_id"] = location.get("id")
         area = area_gateway.create_area(data)
         return area
-    # TODO:
-    # Raise error in this case
-    return serializers.errors
 
 
 def get_area(pk):

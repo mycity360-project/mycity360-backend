@@ -1,5 +1,5 @@
 import datetime
-
+from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from rest_framework import status
 from ..models.user import User
@@ -31,11 +31,7 @@ def update_user(id, data):
             return serializers.data
         return serializers.errors
     except User.DoesNotExist:
-        # TODO:
-        # Raise error
-        return {
-            "id": ["user with this id does not exist"]
-        }, status.HTTP_404_NOT_FOUND
+        raise NotFound(detail="User does not exist")
 
 
 def get_user(id=None, email=None, phone=None):
@@ -51,11 +47,7 @@ def get_user(id=None, email=None, phone=None):
         serializers = UserSerializers(user)
         return serializers.data
     except User.DoesNotExist:
-        # TODO:
-        # Raise error
-        return {
-            "id": ["user with this id does not exist"]
-        }, status.HTTP_404_NOT_FOUND
+        raise NotFound(detail="User does not exist")
 
 
 def delete_user(id):
@@ -63,11 +55,7 @@ def delete_user(id):
         user = User.objects.filter(is_deleted=False).get(id=id)
         return user.delete()
     except User.DoesNotExist:
-        # TODO:
-        # Raise error
-        return {
-            "id": ["user with this id does not exist"]
-        }, status.HTTP_404_NOT_FOUND
+        raise NotFound(detail="User does not exist")
 
 
 def verify_password(password, id=None, email=None, phone=None):
@@ -82,8 +70,4 @@ def verify_password(password, id=None, email=None, phone=None):
         user = User.objects.filter(is_deleted=False).get(**kwargs)
         return user.check_password(password)
     except User.DoesNotExist:
-        # TODO:
-        # Raise error
-        return {
-            "id": ["user with this id does not exist"]
-        }, status.HTTP_404_NOT_FOUND
+        raise NotFound(detail="User does not exist")

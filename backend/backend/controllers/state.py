@@ -15,12 +15,9 @@ def create_state(data):
     if "id" in data:
         data.pop("id")
     serializers = StateSerializers(data=data)
-    if serializers.is_valid():
+    if serializers.is_valid(raise_exception=True):
         state = state_gateway.create_state(data)
         return state
-    # TODO:
-    # Raise error in this case
-    return serializers.errors
 
 
 def get_state(pk):
