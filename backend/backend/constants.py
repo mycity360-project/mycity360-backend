@@ -8,3 +8,6 @@ FROM_EMAIL = ""
 CREDENTIALS_FILE_PATH = f"{Path.cwd()}/backend/credentials/credentials.json"
 # TOKEN_FILE_PATH="/Users/t2bdev/Downloads/Heena/projects/mycity360-backend/backend/backend/credentials/token.json"
 TOKEN_FILE_PATH = f"{Path.cwd()}/backend/credentials/token.json"
+
+ADMIN_ROLE = "Admin"
+USER_ROLE = "User"

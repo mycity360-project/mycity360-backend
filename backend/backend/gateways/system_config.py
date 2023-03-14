@@ -31,7 +31,8 @@ def update_system_config(pk, data):
             return serializers.data
     except SystemConfig.DoesNotExist:
         raise ValidationError(
-            detail="System Config with this id does not exist")
+            detail="System Config with this id does not exist"
+        )
 
 
 def get_system_config(pk=None, key=None):
@@ -48,7 +49,8 @@ def get_system_config(pk=None, key=None):
         return serializers.data
     except SystemConfig.DoesNotExist:
         raise ValidationError(
-            detail="System Config with this id does not exist")
+            detail="System Config with this id does not exist"
+        )
 
 
 def delete_system_config(pk):
@@ -59,4 +61,5 @@ def delete_system_config(pk):
         return system_config.delete()
     except SystemConfig.DoesNotExist:
         raise ValidationError(
-            detail="System Config with this id does not exist")
+            detail="System Config with this id does not exist"
+        )

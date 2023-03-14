@@ -1,18 +1,14 @@
 from rest_framework import status
 from rest_framework.decorators import (
     api_view,
-    authentication_classes,
-    permission_classes,
 )
-from oauth2_provider.decorators import protected_resource
 from ..controllers import system_config as system_config_controller
 from ..utils.views import response_handler
+from ..constants import ADMIN_ROLE
 
 
 @api_view(["GET", "POST"])
-@authentication_classes([])
-@permission_classes([])
-@response_handler()
+@response_handler(ADMIN_ROLE)
 def system_config_list(request):
     if request.method == "GET":
         response = system_config_controller.list_system_config()
@@ -24,9 +20,7 @@ def system_config_list(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
-@authentication_classes([])
-@permission_classes([])
-@response_handler()
+@response_handler(ADMIN_ROLE)
 def system_config_details(request, pk):
     if request.method == "GET":
         response = system_config_controller.get_system_config(pk)

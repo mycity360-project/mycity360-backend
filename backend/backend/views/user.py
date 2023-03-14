@@ -4,15 +4,13 @@ from rest_framework.decorators import (
     authentication_classes,
     permission_classes,
 )
-from oauth2_provider.decorators import protected_resource
 from ..controllers import user as user_controller
 from ..utils.views import response_handler
+from ..constants import ADMIN_ROLE
 
 
 @api_view(["GET", "POST"])
-@authentication_classes([])
-@permission_classes([])
-@response_handler()
+@response_handler(ADMIN_ROLE)
 def user_list(request):
     if request.method == "GET":
         response = user_controller.list_user()
@@ -24,8 +22,6 @@ def user_list(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
-@authentication_classes([])
-@permission_classes([])
 @response_handler()
 def user_details(request, pk):
     if request.method == "GET":
@@ -58,11 +54,12 @@ def signup(request):
 def login(request):
     if request.method == "POST":
         data = request.data
+        headers = request.headers
         response = user_controller.login(
             email=data.get("email"),
             phone=data.get("phone"),
             password=data.get("password"),
-            client_id=data.get("client_id"),
+            client_id=headers.get("Clientid"),
         )
         return response, status.HTTP_201_CREATED
 
@@ -74,10 +71,11 @@ def login(request):
 def verify_otp(request, pk):
     if request.method == "POST":
         data = request.data
+        headers = request.headers
         response = user_controller.verify_otp(
             pk=pk,
             email_otp=data.get("email_otp"),
             phone_otp=data.get("phone_otp"),
-            client_id=data.get("client_id"),
+            client_id=headers.get("Clientid"),
         )
         return response, status.HTTP_201_CREATED

@@ -78,13 +78,23 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "mycity",
+        "USER": "root",
+        "PASSWORD": "Pass@1234",
+        "HOST": "localhost",
+        "PORT": "3306",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -135,13 +145,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 AUTH_USER_MODEL = "backend.User"
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.TokenAuthentication",
-    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "oauth2_provider.contrib.rest_framework.OAuth2Authentication"
+    ],
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
     ),
-    'EXCEPTION_HANDLER': 'backend.utils.exception.custom_exception_handler'
+    "EXCEPTION_HANDLER": "backend.utils.exception.custom_exception_handler",
 }
 
 OAUTH2_PROVIDER = {

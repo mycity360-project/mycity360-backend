@@ -25,6 +25,7 @@ def create_user(data):
         data.pop("id")
     if not data.get("username"):
         data["username"] = data.get("phone")
+    data["role"] = "User"
     serializers = UserSerializers(data=data)
     if serializers.is_valid(raise_exception=True):
         if data.get("area").get("id"):
@@ -59,7 +60,6 @@ def signup(client_id=None, **kwargs):
         raise ValidationError(detail="Email or Phone is required")
     try:
         user = user_gateway.get_user(email=kwargs.get("email"))
-        print(user)
         raise ValidationError(detail="User already exist with email")
     except NotFound:
         pass

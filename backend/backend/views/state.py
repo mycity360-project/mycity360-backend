@@ -1,18 +1,14 @@
 from rest_framework import status
 from rest_framework.decorators import (
     api_view,
-    authentication_classes,
-    permission_classes,
 )
-from oauth2_provider.decorators import protected_resource
 from ..controllers import state as state_controller
 from ..utils.views import response_handler
+from ..constants import ADMIN_ROLE
 
 
 @api_view(["GET", "POST"])
-@authentication_classes([])
-@permission_classes([])
-@response_handler()
+@response_handler(ADMIN_ROLE)
 def state_list(request):
     if request.method == "GET":
         response = state_controller.list_state()
@@ -24,9 +20,7 @@ def state_list(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
-@authentication_classes([])
-@permission_classes([])
-@response_handler()
+@response_handler(ADMIN_ROLE)
 def state_details(request, pk):
     if request.method == "GET":
         response = state_controller.get_state(pk)
