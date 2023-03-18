@@ -6,7 +6,7 @@ from .. import constants
 def response_handler(role=constants.USER_ROLE):
     def decorator(func):
         def inner(request, *args, **kwargs):
-            if request.user.role != role:
+            if request.user and request.user.role != role:
                 raise PermissionDenied(
                     detail="This user role does not have access to the API"
                 )
