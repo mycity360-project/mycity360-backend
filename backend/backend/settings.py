@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "backend",
+    "rest_framework",
+    "oauth2_provider",
 ]
 
 MIDDLEWARE = [
@@ -75,13 +78,23 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "mycity",
+        "USER": "root",
+        "PASSWORD": "Pass@1234",
+        "HOST": "localhost",
+        "PORT": "3306",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -128,3 +141,34 @@ STATICFILES_DIRS = [
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+AUTH_USER_MODEL = "backend.User"
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "oauth2_provider.contrib.rest_framework.OAuth2Authentication"
+    ],
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+    ),
+    "EXCEPTION_HANDLER": "backend.utils.exception.custom_exception_handler",
+}
+
+OAUTH2_PROVIDER = {
+    # this is the list of available scopes
+    "SCOPES": {
+        "read": "Read scope",
+        "write": "Write scope",
+        "groups": "Access to your groups",
+    }
+}
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "wramwork@gmail.com"
+EMAIL_HOST_PASSWORD = "Mridul12#"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+
+GOOGLE_APPLICATION_CREDENTIALS = "token.json"
