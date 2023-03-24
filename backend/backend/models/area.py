@@ -17,14 +17,13 @@ class Area(Core):
     """
 
     name = models.CharField(
-        _("name"),
+        _("Name"),
         max_length=128,
         unique=True,
     )
     pincode = models.CharField(
-        _("pincode"),
+        _("Pincode"),
         max_length=128,
-        unique=True,
     )
     location = models.ForeignKey(
         verbose_name=_("Location"),
@@ -37,8 +36,8 @@ class Area(Core):
 
     class Meta:
         app_label = "backend"
-        verbose_name = _("area")
-        verbose_name_plural = _("area")
+        verbose_name = _("Area")
+        verbose_name_plural = _("Area")
 
     def __str__(self):
         return self.name

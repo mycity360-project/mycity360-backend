@@ -1,19 +1,18 @@
-from rest_framework.response import Response
-from rest_framework import status
-from ..serializers.system_config import SystemConfigSerializers
-from oauth2_provider.decorators import protected_resource
+from ..serializers.system_config import SystemConfigSerializer
 from ..gateways import system_config as system_config_gateway
 
 
-def list_system_config():
-    system_config = system_config_gateway.list_system_config()
+def list_system_config(is_active):
+    system_config = system_config_gateway.list_system_config(
+        is_active=is_active
+    )
     return system_config
 
 
 def create_system_config(data):
     if "id" in data:
         data.pop("id")
-    serializers = SystemConfigSerializers(data=data)
+    serializers = SystemConfigSerializer(data=data)
     if serializers.is_valid(raise_exception=True):
         system_config = system_config_gateway.create_system_config(data)
         return system_config

@@ -11,7 +11,9 @@ from ..constants import ADMIN_ROLE
 @response_handler(ADMIN_ROLE)
 def state_list(request):
     if request.method == "GET":
-        response = state_controller.list_state()
+        response = state_controller.list_state(
+            is_active=request.query_params.get("is_active")
+        )
         return response, status.HTTP_200_OK
 
     elif request.method == "POST":

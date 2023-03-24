@@ -1,10 +1,7 @@
 import datetime
 
-from rest_framework.response import Response
-from rest_framework import status
 from rest_framework.exceptions import ValidationError, NotFound
-from ..serializers.user import UserSerializers
-from oauth2_provider.decorators import protected_resource
+from ..serializers.user import UserSerializer
 from ..gateways import user as user_gateway
 from ..gateways import system_config as system_config_gateway
 from ..constants import (
@@ -15,9 +12,10 @@ from ..utils import services, oauth
 from dateutil import parser
 
 
-def list_user():
-    user = user_gateway.list_user()
-    return user
+def list_user(is_active):
+    users = user_gateway.list_user(is_active)
+    users = [UserSerializer.serialize_data(user) for user in users]
+    return users
 
 
 def create_user(data):
@@ -26,26 +24,26 @@ def create_user(data):
     if not data.get("username"):
         data["username"] = data.get("phone")
     data["role"] = "User"
-    serializers = UserSerializers(data=data)
+    serializers = UserSerializer(data=data)
     if serializers.is_valid(raise_exception=True):
         if data.get("area").get("id"):
             area = data.pop("area")
             data["area_id"] = area.get("id")
         password = data.pop("password")
         user = user_gateway.create_user(data, password)
-        return user
+        return UserSerializer.serialize_data(user)
 
 
 def get_user(id):
     user = user_gateway.get_user(id)
-    return user
+    return UserSerializer.serialize_data(user)
 
 
 def update_user(id, data):
     if "id" in data:
         data.pop("id")
     user = user_gateway.update_user(id, data)
-    return user
+    return UserSerializer.serialize_data(user)
 
 
 def delete_user(id):
@@ -100,7 +98,7 @@ def signup(client_id=None, **kwargs):
         )
     if phone_required:
         services.send_sms()
-    return user
+    return UserSerializer.serialize_data(user)
 
 
 def verify_otp(pk, client_id, email_otp=None, phone_otp=None):

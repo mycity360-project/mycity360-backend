@@ -16,7 +16,7 @@ class State(Core):
     """
 
     name = models.CharField(
-        _("name"),
+        _("Name"),
         max_length=128,
         unique=True,
     )
@@ -25,8 +25,8 @@ class State(Core):
 
     class Meta:
         app_label = "backend"
-        verbose_name = _("state")
-        verbose_name_plural = _("states")
+        verbose_name = _("State")
+        verbose_name_plural = _("States")
 
     def __str__(self):
         return self.name

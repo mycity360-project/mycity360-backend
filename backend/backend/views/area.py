@@ -4,7 +4,6 @@ from rest_framework.decorators import (
     authentication_classes,
     permission_classes,
 )
-from oauth2_provider.decorators import protected_resource
 from ..controllers import area as area_controller
 from ..utils.views import response_handler
 from ..constants import ADMIN_ROLE
@@ -14,7 +13,9 @@ from ..constants import ADMIN_ROLE
 @response_handler(ADMIN_ROLE)
 def area_list(request):
     if request.method == "GET":
-        response = area_controller.list_area()
+        response = area_controller.list_area(
+            is_active=request.query_params.get("is_active")
+        )
         return response, status.HTTP_200_OK
 
     elif request.method == "POST":
@@ -38,7 +39,7 @@ def area_details(request, pk):
         return response, status.HTTP_204_NO_CONTENT
 
 
-@api_view(["GET", "POST"])
+@api_view(["GET"])
 @authentication_classes([])
 @permission_classes([])
 @response_handler()
