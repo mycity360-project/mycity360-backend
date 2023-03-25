@@ -6,7 +6,7 @@
       "args": "runserver",
       "script": "manage.py",
       "exec_mode": "fork",
-      "exec_interpreter": "python"
+      "exec_interpreter": "../../venv/bin/python"
     }
   ]
 }
