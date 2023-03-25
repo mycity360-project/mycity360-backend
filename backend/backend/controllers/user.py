@@ -4,10 +4,7 @@ from rest_framework.exceptions import ValidationError, NotFound
 from ..serializers.user import UserSerializer
 from ..gateways import user as user_gateway
 from ..gateways import system_config as system_config_gateway
-from ..constants import (
-    EMAIL_VERIFICATION_REQUIRED,
-    PHONE_VERIFICATION_REQUIRED,
-)
+from ..constants import *
 from ..utils import services, oauth
 from dateutil import parser
 
@@ -53,17 +50,17 @@ def delete_user(id):
 
 def signup(client_id=None, **kwargs):
     if not client_id:
-        raise ValidationError(detail="Client id is required")
+        raise ValidationError(detail=CLIENT_ID_REQUIRED)
     if not (kwargs.get("email") or kwargs.get("phone")):
-        raise ValidationError(detail="Email or Phone is required")
+        raise ValidationError(detail=EMAIL_OR_PHONE_REQUIRED)
     try:
         user = user_gateway.get_user(email=kwargs.get("email"))
-        raise ValidationError(detail="User already exist with email")
+        raise ValidationError(detail=EMAIL_USER_EXIST)
     except NotFound:
         pass
     try:
         user = user_gateway.get_user(phone=kwargs.get("phone"))
-        raise ValidationError(detail="User already exist with phone")
+        raise ValidationError(detail=PHONE_USER_EXIST)
     except NotFound:
         pass
     keys = system_config_gateway.list_system_config(
@@ -92,8 +89,8 @@ def signup(client_id=None, **kwargs):
     user = create_user(kwargs)
     if email_required:
         services.send_email(
-            subject="MyCity360 Email Verification",
-            body=f"Hi {user.get('first_name')} \n This is your OTP for email verification. \n {user.get('email_otp')} \n Regards\nMyCity360 Team",
+            subject=EMAIL_SUBJECT,
+            body=EMAIL_BODY.format(user.get('first_name'), user.get('email_otp')),
             to_email=user.get("email"),
         )
     if phone_required:
@@ -103,9 +100,9 @@ def signup(client_id=None, **kwargs):
 
 def verify_otp(pk, client_id, email_otp=None, phone_otp=None):
     if not (email_otp or phone_otp):
-        raise ValidationError(detail="Email OTP or Phone OTP required")
+        raise ValidationError(detail=OTP_REQUIRED)
     if not client_id:
-        raise ValidationError(detail="Client id is required")
+        raise ValidationError(detail=CLIENT_ID_REQUIRED)
     user = user_gateway.get_user(id=pk)
     if email_otp:
         if (
@@ -113,7 +110,7 @@ def verify_otp(pk, client_id, email_otp=None, phone_otp=None):
             or parser.parse(user.get("email_expiry")).replace(tzinfo=None)
             > datetime.datetime.now()
         ):
-            raise ValidationError(detail="Email OTP Expired")
+            raise ValidationError(detail=EMAIL_OTP_EXPIRED)
         user["is_email_verified"] = True
         user["email_expiry"] = None
         user["email_otp"] = None
@@ -124,7 +121,7 @@ def verify_otp(pk, client_id, email_otp=None, phone_otp=None):
             or parser.parse(user.get("phone_expiry")).replace(tzinfo=None)
             > datetime.datetime.now()
         ):
-            raise ValidationError(detail="Phone OTP Expired")
+            raise ValidationError(detail=PHONE_OTP_EXPIRED)
         user["is_phone_verified"] = True
         user["phone_expiry"] = None
         user["phone_otp"] = None
@@ -137,11 +134,11 @@ def verify_otp(pk, client_id, email_otp=None, phone_otp=None):
 
 def login(email, phone, password, client_id):
     if not (email or phone):
-        raise ValidationError(detail="Email or Phone required")
+        raise ValidationError(detail=EMAIL_OR_PHONE_REQUIRED)
     if not client_id:
-        raise ValidationError(detail="Client id is required")
+        raise ValidationError(detail=CLIENT_ID_REQUIRED)
     if not password:
-        raise ValidationError(detail="Password is required")
+        raise ValidationError(detail=PASSWORD_REQUIRED)
     user = user_gateway.get_user(email=email, phone=phone)
     keys = system_config_gateway.list_system_config(
         keys=[EMAIL_VERIFICATION_REQUIRED, PHONE_VERIFICATION_REQUIRED]
@@ -152,8 +149,9 @@ def login(email, phone, password, client_id):
                 "is_email_verified"
             ):
                 services.send_email(
-                    subject="MyCity360 Email Verification",
-                    body=f"Hi {user.get('first_name')} \n This is your OTP for email verification. \n {user.get('email_otp')} \n Regards\nMyCity360 Team",
+                    subject=EMAIL_SUBJECT,
+                    body=EMAIL_BODY.format(user.get('first_name'),
+                                           user.get('email_otp')),
                     to_email=user.get("email"),
                 )
                 return user
@@ -165,7 +163,7 @@ def login(email, phone, password, client_id):
                 services.send_sms()
                 return user
     if not user_gateway.verify_password(password=password, id=user.get("id")):
-        raise ValidationError(detail="Password verification failed")
+        raise ValidationError(detail=PASSWORD_VERIFICATION_FAILED)
     access_token = oauth.generate_access_token(
         user_id=user.get("id"), client_id=client_id
     )

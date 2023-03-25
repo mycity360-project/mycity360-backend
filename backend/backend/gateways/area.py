@@ -1,7 +1,7 @@
 from rest_framework.exceptions import ValidationError
 from ..models.area import Area
 from ..serializers.area import AreaSerializer
-
+from ..constants import AREA_DOES_NOT_EXIST
 
 def list_area(is_active=None):
     area = Area.objects.all().filter(is_deleted=False)
@@ -25,7 +25,7 @@ def update_area(pk, data):
             serializers.save(location_id=data.get("location").get("id"))
             return serializers.data
     except Area.DoesNotExist:
-        raise ValidationError(detail="Area with this id does not exist")
+        raise ValidationError(detail=AREA_DOES_NOT_EXIST)
 
 
 def get_area(pk):
@@ -34,7 +34,7 @@ def get_area(pk):
         serializers = AreaSerializer(area)
         return serializers.data
     except Area.DoesNotExist:
-        raise ValidationError(detail="Area with this id does not exist")
+        raise ValidationError(detail=AREA_DOES_NOT_EXIST)
 
 
 def delete_area(pk):
@@ -42,4 +42,4 @@ def delete_area(pk):
         area = Area.objects.filter(is_deleted=False).get(pk=pk)
         return area.delete()
     except Area.DoesNotExist:
-        raise ValidationError(detail="Area with this id does not exist")
+        raise ValidationError(detail=AREA_DOES_NOT_EXIST)

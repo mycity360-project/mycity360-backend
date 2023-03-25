@@ -1,6 +1,7 @@
 from rest_framework.exceptions import ValidationError
 from ..models.category import Category
 from ..serializers.category import CategorySerializer
+from ..constants import CATEGORY_DOES_NOT_EXIST
 
 
 def list_category(is_active=None):
@@ -22,10 +23,13 @@ def update_category(pk, data):
         category = Category.objects.filter(is_deleted=False).get(id=pk)
         serializers = CategorySerializer(category, data)
         if serializers.is_valid(raise_exception=True):
-            serializers.save()
+            kwargs = {}
+            if data.get("category", {}):
+                kwargs["category_id"] = data.get("category").get("id")
+            serializers.save(**kwargs)
             return serializers.data
     except Category.DoesNotExist:
-        raise ValidationError(detail="Category with this id does not exist")
+        raise ValidationError(detail=CATEGORY_DOES_NOT_EXIST)
 
 
 def get_category(pk):
@@ -34,7 +38,7 @@ def get_category(pk):
         serializers = CategorySerializer(category)
         return serializers.data
     except Category.DoesNotExist:
-        raise ValidationError(detail="Category with this id does not exist")
+        raise ValidationError(detail=CATEGORY_DOES_NOT_EXIST)
 
 
 def delete_category(pk):
@@ -42,4 +46,4 @@ def delete_category(pk):
         category = Category.objects.filter(is_deleted=False).get(pk=pk)
         return category.delete()
     except Category.DoesNotExist:
-        raise ValidationError(detail="Category with this id does not exist")
+        raise ValidationError(detail=CATEGORY_DOES_NOT_EXIST)

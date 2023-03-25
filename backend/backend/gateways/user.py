@@ -2,6 +2,7 @@ import datetime
 from rest_framework.exceptions import NotFound
 from ..models.user import User
 from ..serializers.user import UserSerializer
+from ..constants import USER_DOES_NOT_EXIST
 
 
 def list_user(is_active=None):
@@ -30,7 +31,7 @@ def update_user(id, data):
             return serializers.data
         return serializers.errors
     except User.DoesNotExist:
-        raise NotFound(detail="User does not exist")
+        raise NotFound(detail=USER_DOES_NOT_EXIST)
 
 
 def get_user(id=None, email=None, phone=None):
@@ -46,7 +47,7 @@ def get_user(id=None, email=None, phone=None):
         serializers = UserSerializer(user)
         return serializers.data
     except User.DoesNotExist:
-        raise NotFound(detail="User does not exist")
+        raise NotFound(detail=USER_DOES_NOT_EXIST)
 
 
 def delete_user(id):
@@ -54,7 +55,7 @@ def delete_user(id):
         user = User.objects.filter(is_deleted=False).get(id=id)
         return user.delete()
     except User.DoesNotExist:
-        raise NotFound(detail="User does not exist")
+        raise NotFound(detail=USER_DOES_NOT_EXIST)
 
 
 def verify_password(password, id=None, email=None, phone=None):
@@ -69,4 +70,4 @@ def verify_password(password, id=None, email=None, phone=None):
         user = User.objects.filter(is_deleted=False).get(**kwargs)
         return user.check_password(password)
     except User.DoesNotExist:
-        raise NotFound(detail="User does not exist")
+        raise NotFound(detail=USER_DOES_NOT_EXIST)

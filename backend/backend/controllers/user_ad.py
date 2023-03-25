@@ -2,8 +2,22 @@ from ..serializers.user_ad import UserAdSerializer
 from ..gateways import user_ad as user_ad_gateway
 
 
-def list_user_ad(is_active):
-    user_ads = user_ad_gateway.list_user_ad(is_active=is_active)
+def list_user_ad(
+    is_active=None,
+    is_featured=None,
+    category_id=None,
+    user_id=None,
+    area_id=None,
+    location_id=None,
+):
+    user_ads = user_ad_gateway.list_user_ad(
+        is_active=is_active,
+        is_featured=is_featured,
+        category_id=category_id,
+        user_id=user_id,
+        area_id=area_id,
+        location_id=location_id
+    )
     user_ads = [
         UserAdSerializer.serialize_data(user_ad) for user_ad in user_ads
     ]

@@ -12,6 +12,7 @@ class UserAdSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     category = CategorySerializer(read_only=True)
     area = AreaSerializer(read_only=True)
+    tags = serializers.ListField()
 
     @classmethod
     def serialize_data(cls, data):
