@@ -1,6 +1,7 @@
 from rest_framework.exceptions import ValidationError
 from ..models.state import State
 from ..serializers.state import StateSerializer
+from ..constants import STATE_DOES_NOT_EXIST
 
 
 def list_state(is_active=None):
@@ -25,7 +26,7 @@ def update_state(pk, data):
             serializers.save()
             return serializers.data
     except State.DoesNotExist:
-        raise ValidationError(detail="State with this id does not exist")
+        raise ValidationError(detail=STATE_DOES_NOT_EXIST)
 
 
 def get_state(pk):
@@ -34,7 +35,7 @@ def get_state(pk):
         serializers = StateSerializer(state)
         return serializers.data
     except State.DoesNotExist:
-        raise ValidationError(detail="State with this id does not exist")
+        raise ValidationError(detail=STATE_DOES_NOT_EXIST)
 
 
 def delete_state(pk):
@@ -42,4 +43,4 @@ def delete_state(pk):
         state = State.objects.filter(is_deleted=False).get(pk=pk)
         return state.delete()
     except State.DoesNotExist:
-        raise ValidationError(detail="State with this id does not exist")
+        raise ValidationError(detail=STATE_DOES_NOT_EXIST)

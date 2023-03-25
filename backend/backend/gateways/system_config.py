@@ -1,6 +1,7 @@
 from rest_framework.exceptions import ValidationError
 from ..models.system_config import SystemConfig
 from ..serializers.system_config import SystemConfigSerializer
+from ..constants import SYSTEM_CONFIG_DOES_NOT_EXIST
 
 
 def list_system_config(keys=None, is_active=None):
@@ -30,7 +31,7 @@ def update_system_config(pk, data):
             return serializers.data
     except SystemConfig.DoesNotExist:
         raise ValidationError(
-            detail="System Config with this id does not exist"
+            detail=SYSTEM_CONFIG_DOES_NOT_EXIST
         )
 
 
@@ -48,7 +49,7 @@ def get_system_config(pk=None, key=None):
         return serializers.data
     except SystemConfig.DoesNotExist:
         raise ValidationError(
-            detail="System Config with this id does not exist"
+            detail=SYSTEM_CONFIG_DOES_NOT_EXIST
         )
 
 
@@ -60,5 +61,5 @@ def delete_system_config(pk):
         return system_config.delete()
     except SystemConfig.DoesNotExist:
         raise ValidationError(
-            detail="System Config with this id does not exist"
+            detail=SYSTEM_CONFIG_DOES_NOT_EXIST
         )

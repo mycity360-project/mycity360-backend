@@ -1,6 +1,7 @@
 from rest_framework.exceptions import ValidationError
 from ..models.service import Service
 from ..serializers.service import ServiceSerializer
+from ..constants import SERVICE_DOES_NOT_EXIST
 
 
 def list_service(is_active=None):
@@ -31,7 +32,7 @@ def update_service(pk, data):
             serializers.save()
             return serializers.data
     except Service.DoesNotExist:
-        raise ValidationError(detail="Service with this id does not exist")
+        raise ValidationError(detail=SERVICE_DOES_NOT_EXIST)
 
 
 def get_service(pk):
@@ -40,7 +41,7 @@ def get_service(pk):
         serializers = ServiceSerializer(service)
         return serializers.data
     except Service.DoesNotExist:
-        raise ValidationError(detail="Service with this id does not exist")
+        raise ValidationError(detail=SERVICE_DOES_NOT_EXIST)
 
 
 def delete_service(pk):
@@ -48,4 +49,4 @@ def delete_service(pk):
         service = Service.objects.filter(is_deleted=False).get(pk=pk)
         return service.delete()
     except Service.DoesNotExist:
-        raise ValidationError(detail="Service with this id does not exist")
+        raise ValidationError(detail=SERVICE_DOES_NOT_EXIST)

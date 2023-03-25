@@ -11,7 +11,12 @@ from ..utils.views import response_handler
 def user_ad_list(request):
     if request.method == "GET":
         response = user_ad_controller.list_user_ad(
-            is_active=request.query_params.get("is_active")
+            is_active=request.query_params.get("is_active"),
+            is_featured=request.query_params.get("is_featured"),
+            category_id=request.query_params.get("category_id"),
+            user_id=request.query_params.get("user_id"),
+            area_id=request.query_params.get("area_id"),
+            location_id=request.query_params.get("location_id"),
         )
         return response, status.HTTP_200_OK
 

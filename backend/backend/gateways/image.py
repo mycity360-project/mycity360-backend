@@ -1,6 +1,7 @@
 from rest_framework.exceptions import ValidationError
 from ..models.image import Image
 from ..serializers.image import ImageSerializer
+from ..constants import IMAGE_DOES_NOT_EXIST
 
 
 def list_image(is_active=None):
@@ -25,7 +26,7 @@ def update_image(pk, data):
             serializers.save()
             return serializers.data
     except Image.DoesNotExist:
-        raise ValidationError(detail="Image with this id does not exist")
+        raise ValidationError(detail=IMAGE_DOES_NOT_EXIST)
 
 
 def get_image(pk):
@@ -34,7 +35,7 @@ def get_image(pk):
         serializers = ImageSerializer(image)
         return serializers.data
     except Image.DoesNotExist:
-        raise ValidationError(detail="Image with this id does not exist")
+        raise ValidationError(detail=IMAGE_DOES_NOT_EXIST)
 
 
 def delete_image(pk):
@@ -42,4 +43,4 @@ def delete_image(pk):
         image = Image.objects.filter(is_deleted=False).get(pk=pk)
         return image.delete()
     except Image.DoesNotExist:
-        raise ValidationError(detail="Image with this id does not exist")
+        raise ValidationError(detail=IMAGE_DOES_NOT_EXIST)

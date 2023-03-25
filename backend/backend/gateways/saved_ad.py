@@ -1,6 +1,7 @@
 from rest_framework.exceptions import ValidationError
 from ..models.saved_ad import SavedAd
 from ..serializers.saved_ad import SavedAdSerializer
+from ..constants import SAVED_AD_DOES_NOT_EXIST
 
 
 def list_saved_ad(is_active=None):
@@ -25,7 +26,7 @@ def update_saved_ad(pk, data):
             serializers.save()
             return serializers.data
     except SavedAd.DoesNotExist:
-        raise ValidationError(detail="SavedAd with this id does not exist")
+        raise ValidationError(detail=SAVED_AD_DOES_NOT_EXIST)
 
 
 def get_saved_ad(pk):
@@ -34,7 +35,7 @@ def get_saved_ad(pk):
         serializers = SavedAdSerializer(saved_ad)
         return serializers.data
     except SavedAd.DoesNotExist:
-        raise ValidationError(detail="SavedAd with this id does not exist")
+        raise ValidationError(detail=SAVED_AD_DOES_NOT_EXIST)
 
 
 def delete_saved_ad(pk):
@@ -42,4 +43,4 @@ def delete_saved_ad(pk):
         saved_ad = SavedAd.objects.filter(is_deleted=False).get(pk=pk)
         return saved_ad.delete()
     except SavedAd.DoesNotExist:
-        raise ValidationError(detail="SavedAd with this id does not exist")
+        raise ValidationError(detail=SAVED_AD_DOES_NOT_EXIST)

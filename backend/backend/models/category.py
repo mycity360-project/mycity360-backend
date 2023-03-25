@@ -50,6 +50,10 @@ class Category(Core):
         null=True,
         validators=[phone_regex],
     )
+    sequence = models.PositiveIntegerField(
+        _("Sequence"),
+        default=0
+    )
     objects = CategoryManager.from_queryset(CategoryQueryset)()
 
     class Meta:
