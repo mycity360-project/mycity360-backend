@@ -1,22 +1,21 @@
-from rest_framework.response import Response
-from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from ..models.system_config import SystemConfig
-from ..serializers.system_config import SystemConfigSerializers
-from oauth2_provider.decorators import protected_resource
+from ..serializers.system_config import SystemConfigSerializer
 
 
-def list_system_config(keys=None):
+def list_system_config(keys=None, is_active=None):
     system_config = SystemConfig.objects.all().filter(is_deleted=False)
     if keys:
         system_config = system_config.filter(key__in=keys)
-    serializers = SystemConfigSerializers(system_config, many=True)
+    if is_active is not None:
+        system_config = system_config.filter(is_active=is_active)
+    serializers = SystemConfigSerializer(system_config, many=True)
     return serializers.data
 
 
 def create_system_config(data):
     system_config = SystemConfig.objects.create(**data)
-    serializers = SystemConfigSerializers(system_config)
+    serializers = SystemConfigSerializer(system_config)
     return serializers.data
 
 
@@ -25,8 +24,8 @@ def update_system_config(pk, data):
         system_config = SystemConfig.objects.filter(is_deleted=False).get(
             id=pk
         )
-        serializers = SystemConfigSerializers(system_config, data)
-        if serializers.is_valid():
+        serializers = SystemConfigSerializer(system_config, data)
+        if serializers.is_valid(raise_exception=True):
             serializers.save()
             return serializers.data
     except SystemConfig.DoesNotExist:
@@ -45,7 +44,7 @@ def get_system_config(pk=None, key=None):
         system_config = SystemConfig.objects.filter(is_deleted=False).get(
             **kwargs
         )
-        serializers = SystemConfigSerializers(system_config)
+        serializers = SystemConfigSerializer(system_config)
         return serializers.data
     except SystemConfig.DoesNotExist:
         raise ValidationError(

@@ -1,20 +1,16 @@
-from rest_framework.response import Response
-from rest_framework import status
-from ..models.state import State
-from ..serializers.state import StateSerializers
-from oauth2_provider.decorators import protected_resource
+from ..serializers.state import StateSerializer
 from ..gateways import state as state_gateway
 
 
-def list_state():
-    state = state_gateway.list_state()
+def list_state(is_active):
+    state = state_gateway.list_state(is_active=is_active)
     return state
 
 
 def create_state(data):
     if "id" in data:
         data.pop("id")
-    serializers = StateSerializers(data=data)
+    serializers = StateSerializer(data=data)
     if serializers.is_valid(raise_exception=True):
         state = state_gateway.create_state(data)
         return state

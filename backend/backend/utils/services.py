@@ -1,6 +1,5 @@
 import random
 
-# from django.core.mail import send_mail
 from ..constants import FROM_EMAIL
 from ..utils.google_api import send_mail
 

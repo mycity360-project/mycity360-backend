@@ -1,7 +1,15 @@
-from django.contrib import admin
-from django.urls import path, re_path, include
-from django.shortcuts import render
-from ..views import state, system_config, location, user, area
+from django.urls import path
+from ..views import (
+    state,
+    system_config,
+    location,
+    user,
+    area,
+    category,
+    user_ad,
+    saved_ad,
+    service,
+)
 
 
 urlpatterns = [
@@ -20,4 +28,14 @@ urlpatterns = [
     path("user/signup/", user.signup),
     path("user/login/", user.login),
     path("user/<int:pk>/verify-otp/", user.verify_otp),
+    path("category/", category.category_list),
+    path("category/user/", category.category_list_user),
+    path("category/<int:pk>/", category.category_details),
+    path("user-ad/", user_ad.user_ad_list),
+    path("user-ad/<int:pk>/", user_ad.user_ad_details),
+    path("saved-ad/", saved_ad.saved_ad_list),
+    path("saved-ad/<int:pk>/", saved_ad.saved_ad_details),
+    path("service/", service.service_list),
+    path("service/user/", service.service_list_user),
+    path("service/<int:pk>/", service.service_details),
 ]

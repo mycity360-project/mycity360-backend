@@ -1,28 +1,27 @@
-from rest_framework.response import Response
-from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from ..models.area import Area
-from ..serializers.area import AreaSerializers
-from oauth2_provider.decorators import protected_resource
+from ..serializers.area import AreaSerializer
 
 
-def list_area():
+def list_area(is_active=None):
     area = Area.objects.all().filter(is_deleted=False)
-    serializers = AreaSerializers(area, many=True)
+    if is_active is not None:
+        area = area.filter(is_active=is_active)
+    serializers = AreaSerializer(area, many=True)
     return serializers.data
 
 
 def create_area(data):
     area = Area.objects.create(**data)
-    serializers = AreaSerializers(area)
+    serializers = AreaSerializer(area)
     return serializers.data
 
 
 def update_area(pk, data):
     try:
         area = Area.objects.filter(is_deleted=False).get(id=pk)
-        serializers = AreaSerializers(area, data)
-        if serializers.is_valid():
+        serializers = AreaSerializer(area, data)
+        if serializers.is_valid(raise_exception=True):
             serializers.save(location_id=data.get("location").get("id"))
             return serializers.data
     except Area.DoesNotExist:
@@ -32,7 +31,7 @@ def update_area(pk, data):
 def get_area(pk):
     try:
         area = Area.objects.filter(is_deleted=False).get(id=pk)
-        serializers = AreaSerializers(area)
+        serializers = AreaSerializer(area)
         return serializers.data
     except Area.DoesNotExist:
         raise ValidationError(detail="Area with this id does not exist")

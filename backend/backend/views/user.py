@@ -13,7 +13,9 @@ from ..constants import ADMIN_ROLE
 @response_handler(ADMIN_ROLE)
 def user_list(request):
     if request.method == "GET":
-        response = user_controller.list_user()
+        response = user_controller.list_user(
+            is_active=request.query_params.get("is_active")
+        )
         return response, status.HTTP_200_OK
 
     elif request.method == "POST":
@@ -22,7 +24,7 @@ def user_list(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
-@response_handler()
+@response_handler(ADMIN_ROLE)
 def user_details(request, pk):
     if request.method == "GET":
         response = user_controller.get_user(pk)

@@ -12,6 +12,7 @@ from typing import Optional
 from django.utils import timezone
 from oauth2_provider.models import AccessToken, Application, RefreshToken
 from oauthlib import common
+from rest_framework.exceptions import ValidationError
 
 
 def generate_access_token(user_id, client_id=None, expires_in=None):
@@ -32,8 +33,8 @@ def generate_access_token(user_id, client_id=None, expires_in=None):
     application = None
     with suppress(Application.DoesNotExist):
         application = Application.objects.get(client_id=client_id)
-    # if not application:
-    #     raise InvalidParameter(messages.CLIENT_NOT_REGISTER)
+    if not application:
+        raise ValidationError(detail="Application not found")
     expires_in = (
         expires_in
         if expires_in is not None
