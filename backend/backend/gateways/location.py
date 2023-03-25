@@ -1,27 +1,27 @@
-from rest_framework.response import Response
-from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from ..models.location import Location
-from ..serializers.location import LocationSerializers
+from ..serializers.location import LocationSerializer
 
 
-def list_location():
+def list_location(is_active=None):
     location = Location.objects.all().filter(is_deleted=False)
-    serializers = LocationSerializers(location, many=True)
+    if is_active is not None:
+        location = location.filter(is_active=is_active)
+    serializers = LocationSerializer(location, many=True)
     return serializers.data
 
 
 def create_location(data):
     location = Location.objects.create(**data)
-    serializers = LocationSerializers(location)
+    serializers = LocationSerializer(location)
     return serializers.data
 
 
 def update_location(pk, data):
     try:
         location = Location.objects.filter(is_deleted=False).get(id=pk)
-        serializers = LocationSerializers(location, data)
-        if serializers.is_valid():
+        serializers = LocationSerializer(location, data)
+        if serializers.is_valid(raise_exception=True):
             serializers.save(state_id=data.get("state").get("id"))
             return serializers.data
     except Location.DoesNotExist:
@@ -31,7 +31,7 @@ def update_location(pk, data):
 def get_location(pk):
     try:
         location = Location.objects.filter(is_deleted=False).get(id=pk)
-        serializers = LocationSerializers(location)
+        serializers = LocationSerializer(location)
         return serializers.data
     except Location.DoesNotExist:
         raise ValidationError(detail="Location with this id does not exist")

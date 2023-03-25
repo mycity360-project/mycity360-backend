@@ -13,7 +13,9 @@ from ..constants import ADMIN_ROLE
 @response_handler(ADMIN_ROLE)
 def location_list(request):
     if request.method == "GET":
-        response = location_controller.list_location()
+        response = location_controller.list_location(
+            is_active=request.query_params.get("is_active")
+        )
         return response, status.HTTP_200_OK
 
     elif request.method == "POST":
@@ -37,7 +39,7 @@ def location_details(request, pk):
         return response, status.HTTP_204_NO_CONTENT
 
 
-@api_view(["GET", "POST"])
+@api_view(["GET"])
 @authentication_classes([])
 @permission_classes([])
 @response_handler()

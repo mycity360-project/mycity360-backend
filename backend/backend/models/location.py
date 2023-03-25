@@ -17,7 +17,7 @@ class Location(Core):
     """
 
     name = models.CharField(
-        _("name"),
+        _("Name"),
         max_length=128,
         unique=True,
     )
@@ -33,8 +33,8 @@ class Location(Core):
 
     class Meta:
         app_label = "backend"
-        verbose_name = _("location")
-        verbose_name_plural = _("locations")
+        verbose_name = _("Location")
+        verbose_name_plural = _("Locations")
 
     def __str__(self):
         return self.name

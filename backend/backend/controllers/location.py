@@ -1,21 +1,16 @@
-from rest_framework.response import Response
-from rest_framework import status
-from ..models.location import Location
-from ..serializers.location import LocationSerializers
-from oauth2_provider.decorators import protected_resource
+from ..serializers.location import LocationSerializer
 from ..gateways import location as location_gateway
-from ..gateways import state as state_gateway
 
 
-def list_location():
-    location = location_gateway.list_location()
+def list_location(is_active=None):
+    location = location_gateway.list_location(is_active=is_active)
     return location
 
 
 def create_location(data):
     if "id" in data:
         data.pop("id")
-    serializers = LocationSerializers(data=data)
+    serializers = LocationSerializer(data=data)
     if serializers.is_valid(raise_exception=True):
         if data.get("state").get("id"):
             state = data.pop("state")

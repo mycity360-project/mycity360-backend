@@ -12,16 +12,16 @@ from ..managers.system_config import SystemConfigManager, SystemConfigQueryset
 
 class SystemConfig(Core):
     """
-    Description of State Model
+    Description of System Config Model
     """
 
     key = models.CharField(
-        _("name"),
+        _("Name"),
         max_length=1024,
         unique=True,
     )
     value = models.CharField(
-        _("value"),
+        _("Value"),
         max_length=1024,
     )
 

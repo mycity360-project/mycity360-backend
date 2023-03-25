@@ -1,20 +1,16 @@
-from rest_framework.response import Response
-from rest_framework import status
-from ..models.area import Area
-from ..serializers.area import AreaSerializers
-from oauth2_provider.decorators import protected_resource
+from ..serializers.area import AreaSerializer
 from ..gateways import area as area_gateway
 
 
-def list_area():
-    area = area_gateway.list_area()
+def list_area(is_active=None):
+    area = area_gateway.list_area(is_active=is_active)
     return area
 
 
 def create_area(data):
     if "id" in data:
         data.pop("id")
-    serializers = AreaSerializers(data=data)
+    serializers = AreaSerializer(data=data)
     if serializers.is_valid(raise_exception=True):
         location = data.pop("location")
         data["location_id"] = location.get("id")

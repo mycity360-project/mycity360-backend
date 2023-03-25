@@ -1,15 +1,14 @@
 import datetime
 from rest_framework.exceptions import NotFound
-from rest_framework.response import Response
-from rest_framework import status
 from ..models.user import User
-from ..serializers.user import UserSerializers
-from oauth2_provider.decorators import protected_resource
+from ..serializers.user import UserSerializer
 
 
-def list_user():
+def list_user(is_active=None):
     user = User.objects.all().filter(is_deleted=False)
-    serializers = UserSerializers(user, many=True)
+    if is_active is not None:
+        user = user.filter(is_active=is_active)
+    serializers = UserSerializer(user, many=True)
     return serializers.data
 
 
@@ -18,15 +17,15 @@ def create_user(data, password=None):
     user.set_password(password)
     user.password_created_on = datetime.datetime.now()
     user.save()
-    serializers = UserSerializers(user)
+    serializers = UserSerializer(user)
     return serializers.data
 
 
 def update_user(id, data):
     try:
         user = User.objects.filter(is_deleted=False).get(id=id)
-        serializers = UserSerializers(user, data)
-        if serializers.is_valid():
+        serializers = UserSerializer(user, data)
+        if serializers.is_valid(raise_exception=True):
             serializers.save(area_id=data.get("area").get("id"))
             return serializers.data
         return serializers.errors
@@ -44,7 +43,7 @@ def get_user(id=None, email=None, phone=None):
         if phone:
             kwargs["phone"] = phone
         user = User.objects.filter(is_deleted=False).get(**kwargs)
-        serializers = UserSerializers(user)
+        serializers = UserSerializer(user)
         return serializers.data
     except User.DoesNotExist:
         raise NotFound(detail="User does not exist")
