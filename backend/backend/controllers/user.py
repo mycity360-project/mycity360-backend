@@ -49,10 +49,12 @@ def delete_user(id):
 
 
 def signup(client_id=None, **kwargs):
-    if not client_id:
-        raise ValidationError(detail=CLIENT_ID_REQUIRED)
+    # if not client_id:
+    #     raise ValidationError(detail=CLIENT_ID_REQUIRED)
     if not (kwargs.get("email") or kwargs.get("phone")):
         raise ValidationError(detail=EMAIL_OR_PHONE_REQUIRED)
+    if not kwargs.get("area"):
+        raise ValidationError(detail="Area required")
     try:
         user = user_gateway.get_user(email=kwargs.get("email"))
         raise ValidationError(detail=EMAIL_USER_EXIST)
@@ -106,9 +108,9 @@ def verify_otp(pk, client_id, email_otp=None, phone_otp=None):
     user = user_gateway.get_user(id=pk)
     if email_otp:
         if (
-            email_otp != user.get("email_otp")
+            str(email_otp) != str(user.get("email_otp"))
             or parser.parse(user.get("email_expiry")).replace(tzinfo=None)
-            > datetime.datetime.now()
+            < datetime.datetime.now()
         ):
             raise ValidationError(detail=EMAIL_OTP_EXPIRED)
         user["is_email_verified"] = True
@@ -117,9 +119,9 @@ def verify_otp(pk, client_id, email_otp=None, phone_otp=None):
 
     if phone_otp:
         if (
-            phone_otp != user.get("phone_otp")
-            or parser.parse(user.get("phone_expiry")).replace(tzinfo=None)
-            > datetime.datetime.now()
+            str(phone_otp) != str(user.get("phone_otp"))
+            or (parser.parse(user.get("phone_expiry")).replace(tzinfo=None)
+            < datetime.datetime.now())
         ):
             raise ValidationError(detail=PHONE_OTP_EXPIRED)
         user["is_phone_verified"] = True
@@ -154,14 +156,13 @@ def login(email, phone, password, client_id):
                                            user.get('email_otp')),
                     to_email=user.get("email"),
                 )
-                return user
             continue
         if key.get("key") == PHONE_VERIFICATION_REQUIRED:
             if key.get("value") == "true" and not user.get(
                 "is_phone_verified"
             ):
                 services.send_sms()
-                return user
+        return UserSerializer.serialize_data(user)
     if not user_gateway.verify_password(password=password, id=user.get("id")):
         raise ValidationError(detail=PASSWORD_VERIFICATION_FAILED)
     access_token = oauth.generate_access_token(
