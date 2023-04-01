@@ -9,6 +9,10 @@ from django.core.validators import RegexValidator
 from ..utils.core import Core
 from ..managers.service import ServiceManager, ServiceQueryset
 from ..models.image import Image
+from gdstorage.storage import GoogleDriveStorage
+
+# Define Google Drive Storage
+gd_storage = GoogleDriveStorage()
 
 phone_regex = RegexValidator(
     regex=r"^\+?1?\d{9,15}$",
@@ -44,6 +48,8 @@ class Service(Core):
         max_length=1024,
         null=True,
         blank=True,
+        upload_to="service",
+        storage=gd_storage,
     )
     images = models.ManyToManyField(
         verbose_name=_("Images"),

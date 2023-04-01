@@ -30,9 +30,7 @@ def update_system_config(pk, data):
             serializers.save()
             return serializers.data
     except SystemConfig.DoesNotExist:
-        raise ValidationError(
-            detail=SYSTEM_CONFIG_DOES_NOT_EXIST
-        )
+        raise ValidationError(detail=SYSTEM_CONFIG_DOES_NOT_EXIST)
 
 
 def get_system_config(pk=None, key=None):
@@ -48,9 +46,7 @@ def get_system_config(pk=None, key=None):
         serializers = SystemConfigSerializer(system_config)
         return serializers.data
     except SystemConfig.DoesNotExist:
-        raise ValidationError(
-            detail=SYSTEM_CONFIG_DOES_NOT_EXIST
-        )
+        raise ValidationError(detail=SYSTEM_CONFIG_DOES_NOT_EXIST)
 
 
 def delete_system_config(pk):
@@ -60,6 +56,4 @@ def delete_system_config(pk):
         )
         return system_config.delete()
     except SystemConfig.DoesNotExist:
-        raise ValidationError(
-            detail=SYSTEM_CONFIG_DOES_NOT_EXIST
-        )
+        raise ValidationError(detail=SYSTEM_CONFIG_DOES_NOT_EXIST)

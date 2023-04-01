@@ -92,7 +92,9 @@ def signup(client_id=None, **kwargs):
     if email_required:
         services.send_email(
             subject=EMAIL_SUBJECT,
-            body=EMAIL_BODY.format(user.get('first_name'), user.get('email_otp')),
+            body=EMAIL_BODY.format(
+                user.get("first_name"), user.get("email_otp")
+            ),
             to_email=user.get("email"),
         )
     if phone_required:
@@ -118,10 +120,9 @@ def verify_otp(pk, client_id, email_otp=None, phone_otp=None):
         user["email_otp"] = None
 
     if phone_otp:
-        if (
-            str(phone_otp) != str(user.get("phone_otp"))
-            or (parser.parse(user.get("phone_expiry")).replace(tzinfo=None)
-            < datetime.datetime.now())
+        if str(phone_otp) != str(user.get("phone_otp")) or (
+            parser.parse(user.get("phone_expiry")).replace(tzinfo=None)
+            < datetime.datetime.now()
         ):
             raise ValidationError(detail=PHONE_OTP_EXPIRED)
         user["is_phone_verified"] = True
@@ -154,13 +155,13 @@ def login(email, phone, password, client_id):
                 updated_user = True
                 user["email_otp"] = services.generate_otp()
                 user[
-                    "email_expiry"] = datetime.datetime.now() + datetime.timedelta(
-                    minutes=1
-                )
+                    "email_expiry"
+                ] = datetime.datetime.now() + datetime.timedelta(minutes=1)
                 services.send_email(
                     subject=EMAIL_SUBJECT,
-                    body=EMAIL_BODY.format(user.get('first_name'),
-                                           user.get('email_otp')),
+                    body=EMAIL_BODY.format(
+                        user.get("first_name"), user.get("email_otp")
+                    ),
                     to_email=user.get("email"),
                 )
         if key.get("key") == PHONE_VERIFICATION_REQUIRED:
@@ -170,9 +171,8 @@ def login(email, phone, password, client_id):
                 updated_user = True
                 user["phone_otp"] = services.generate_otp()
                 user[
-                    "phone_expiry"] = datetime.datetime.now() + datetime.timedelta(
-                    minutes=1
-                )
+                    "phone_expiry"
+                ] = datetime.datetime.now() + datetime.timedelta(minutes=1)
                 services.send_sms()
     if updated_user:
         user = user_gateway.update_user(user.get("id"), user)

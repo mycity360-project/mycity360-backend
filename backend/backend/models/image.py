@@ -9,13 +9,20 @@ from django.utils.translation import gettext_lazy as _
 from ..utils.core import Core
 from ..managers.image import ImageManager, ImageQueryset
 
+from gdstorage.storage import GoogleDriveStorage
+
+# Define Google Drive Storage
+gd_storage = GoogleDriveStorage()
+
 
 class Image(Core):
     """
     Description of Image Model
     """
 
-    image = models.ImageField(_("Image"), max_length=128)
+    image = models.ImageField(
+        _("Image"), upload_to="image", storage=gd_storage, max_length=1024
+    )
 
     objects = ImageManager.from_queryset(ImageQueryset)()
 

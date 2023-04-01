@@ -1,6 +1,7 @@
 import random
 
 from ..constants import FROM_EMAIL
+
 # from ..utils.google_api import send_mail
 
 

@@ -22,6 +22,7 @@ def user_list(request):
         response = user_controller.create_user(request.data)
         return response, status.HTTP_201_CREATED
 
+
 @api_view(["GET", "PUT"])
 @response_handler()
 def user_details(request, pk):

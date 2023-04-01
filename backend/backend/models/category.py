@@ -10,6 +10,11 @@ from django.utils.translation import gettext_lazy as _
 from ..utils.core import Core
 from ..managers.category import CategoryManager, CategoryQueryset
 
+from gdstorage.storage import GoogleDriveStorage
+
+# Define Google Drive Storage
+gd_storage = GoogleDriveStorage()
+
 phone_regex = RegexValidator(
     regex=r"^\+?1?\d{9,15}$",
     message="Phone number must be entered in the format:"
@@ -42,6 +47,8 @@ class Category(Core):
         max_length=1024,
         null=True,
         blank=True,
+        upload_to="category",
+        storage=gd_storage,
     )
     phone = models.CharField(
         _("Phone Number"),
@@ -50,10 +57,7 @@ class Category(Core):
         null=True,
         validators=[phone_regex],
     )
-    sequence = models.PositiveIntegerField(
-        _("Sequence"),
-        default=0
-    )
+    sequence = models.PositiveIntegerField(_("Sequence"), default=0)
     objects = CategoryManager.from_queryset(CategoryQueryset)()
 
     class Meta:

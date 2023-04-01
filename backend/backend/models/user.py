@@ -16,7 +16,10 @@ from django.utils.translation import gettext_lazy as _
 from ..utils.core import Core
 from .area import Area
 from ..managers.user import UserManager, UserQueryset
+from gdstorage.storage import GoogleDriveStorage
 
+# Define Google Drive Storage
+gd_storage = GoogleDriveStorage()
 
 phone_regex = RegexValidator(
     regex=r"^\+?1?\d{9,15}$",
@@ -111,14 +114,12 @@ class User(AbstractBaseUser, PermissionsMixin, Core):
     )
     email_otp = models.PositiveIntegerField(
         verbose_name=_("Email OTP"),
-        default=0,
         validators=[MinValueValidator(111111), MaxValueValidator(999999)],
         null=True,
         blank=True,
     )
     phone_otp = models.PositiveIntegerField(
         verbose_name=_("Phone OTP"),
-        default=0,
         validators=[MinValueValidator(111111), MaxValueValidator(999999)],
         null=True,
         blank=True,

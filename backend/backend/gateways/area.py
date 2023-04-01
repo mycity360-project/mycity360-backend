@@ -3,6 +3,7 @@ from ..models.area import Area
 from ..serializers.area import AreaSerializer
 from ..constants import AREA_DOES_NOT_EXIST
 
+
 def list_area(is_active=None):
     area = Area.objects.all().filter(is_deleted=False)
     if is_active is not None:

@@ -26,7 +26,7 @@ SECRET_KEY = "zwpfpbr@@ezm3k0d%zz*eq77u$6(he9$f7gtvh-(rzq__90-^%"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['68.178.167.183', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ["68.178.167.183", "127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "backend",
     "rest_framework",
     "oauth2_provider",
+    "gdstorage",
 ]
 
 MIDDLEWARE = [
@@ -171,4 +172,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
-GOOGLE_APPLICATION_CREDENTIALS = "token.json"
+GOOGLE_APPLICATION_CREDENTIALS = "key.json"
+
+GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = "backend/credentials/key.json"
+GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = "mycity_images"

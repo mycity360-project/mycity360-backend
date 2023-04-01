@@ -16,7 +16,7 @@ def list_user_ad(
         category_id=category_id,
         user_id=user_id,
         area_id=area_id,
-        location_id=location_id
+        location_id=location_id,
     )
     user_ads = [
         UserAdSerializer.serialize_data(user_ad) for user_ad in user_ads
