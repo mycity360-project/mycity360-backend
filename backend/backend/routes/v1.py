@@ -25,6 +25,7 @@ urlpatterns = [
     path("area/<int:pk>/", area.area_details),
     path("user/", user.user_list),
     path("user/<int:pk>/", user.user_details),
+    path("admin/user/<int:pk>/", user.user_details_admin),
     path("user/signup/", user.signup),
     path("user/login/", user.login),
     path("user/<int:pk>/verify-otp/", user.verify_otp),

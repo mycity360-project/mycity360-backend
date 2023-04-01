@@ -22,10 +22,21 @@ def user_list(request):
         response = user_controller.create_user(request.data)
         return response, status.HTTP_201_CREATED
 
+@api_view(["GET", "PUT"])
+@response_handler()
+def user_details(request, pk):
+    if request.method == "GET":
+        response = user_controller.get_user(pk)
+        return response, status.HTTP_200_OK
+
+    elif request.method == "PUT":
+        response = user_controller.update_user(pk, request.data)
+        return response, status.HTTP_200_OK
+
 
 @api_view(["GET", "PUT", "DELETE"])
 @response_handler(ADMIN_ROLE)
-def user_details(request, pk):
+def user_details_admin(request, pk):
     if request.method == "GET":
         response = user_controller.get_user(pk)
         return response, status.HTTP_200_OK
