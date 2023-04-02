@@ -16,6 +16,11 @@ class UserAdSerializer(serializers.ModelSerializer):
 
     @classmethod
     def serialize_data(cls, data):
+        if data.get("images"):
+            data["images"] = [
+                ImageSerializer.serialize_data(image)
+                for image in data.get("images")
+            ]
         return dict(
             images=data.get("images"),
             user=dict(id=data.get("user").get("id")),

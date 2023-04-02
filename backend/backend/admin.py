@@ -9,6 +9,7 @@ from .models.category import Category
 from .models.user_ad import UserAd
 from .models.saved_ad import SavedAd
 from .models.service import Service
+from .models.image import Image
 
 admin.site.register(User)
 admin.site.register(Area)
@@ -19,3 +20,4 @@ admin.site.register(Category)
 admin.site.register(UserAd)
 admin.site.register(SavedAd)
 admin.site.register(Service)
+admin.site.register(Image)

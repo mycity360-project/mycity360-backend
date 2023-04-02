@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from ..models.user import User
 from ..serializers.area import AreaSerializer
+from ..utils.serializer import serialize_image
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -24,7 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
             first_name=data.get("first_name"),
             last_name=data.get("last_name"),
             country_code=data.get("country_code"),
-            profile_image=data.get("profile_image"),
+            profile_image=serialize_image(data.get("profile_image")),
             date_joined=data.get("date_joined"),
             is_phone_verified=data.get("is_phone_verified"),
             is_email_verified=data.get("is_email_verified"),
@@ -37,6 +38,7 @@ class UserSerializer(serializers.ModelSerializer):
             area=dict(
                 id=data.get("area").get("id"),
                 name=data.get("area").get("name"),
+                location=dict(id=data.get("area").get("location").get("id")),
             ),
         )
 

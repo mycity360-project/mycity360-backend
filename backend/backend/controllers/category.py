@@ -12,6 +12,10 @@ def list_category(
         page_size=page_size,
         ordering=ordering,
     )
+    category["results"] = [
+        CategorySerializer.serialize_data(data)
+        for data in category.get("results")
+    ]
     return category
 
 
@@ -21,19 +25,19 @@ def create_category(data):
     serializers = CategorySerializer(data=data)
     if serializers.is_valid(raise_exception=True):
         category = category_gateway.create_category(data)
-        return category
+        return CategorySerializer.serialize_data(category)
 
 
 def get_category(pk):
     category = category_gateway.get_category(pk)
-    return category
+    return CategorySerializer.serialize_data(category)
 
 
 def update_category(pk, data):
     if "id" in data:
         data.pop("id")
     category = category_gateway.update_category(pk, data)
-    return category
+    return CategorySerializer.serialize_data(category)
 
 
 def delete_category(pk):
