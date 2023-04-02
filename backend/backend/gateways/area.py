@@ -4,12 +4,15 @@ from ..serializers.area import AreaSerializer
 from ..constants import AREA_DOES_NOT_EXIST
 
 
-def list_area(is_active=None, location_id=None):
+def list_area(is_active=None, location_id=None, ordering=None):
     area = Area.objects.all().filter(is_deleted=False)
     if is_active is not None:
         area = area.filter(is_active=is_active)
     if location_id is not None:
         area = area.filter(location_id=location_id)
+    if not ordering:
+        ordering = "-pk"
+    area = area.order_by(ordering)
     serializers = AreaSerializer(area, many=True)
     return serializers.data
 

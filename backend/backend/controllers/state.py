@@ -2,8 +2,8 @@ from ..serializers.state import StateSerializer
 from ..gateways import state as state_gateway
 
 
-def list_state(is_active):
-    state = state_gateway.list_state(is_active=is_active)
+def list_state(is_active=None, ordering=None):
+    state = state_gateway.list_state(is_active=is_active, ordering=ordering)
     return state
 
 

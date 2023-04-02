@@ -1,6 +1,7 @@
 from rest_framework.exceptions import ValidationError
 from ..models.user_ad import UserAd
 from ..serializers.user_ad import UserAdSerializer
+from ..utils.paginate import paginate_queryset
 
 
 def list_user_ad(
@@ -10,6 +11,9 @@ def list_user_ad(
     user_id=None,
     area_id=None,
     location_id=None,
+    page=1,
+    page_size=10,
+    ordering=None,
 ):
     user_ad = UserAd.objects.all().filter(is_deleted=False)
     if is_active is not None:
@@ -24,8 +28,13 @@ def list_user_ad(
         user_ad = user_ad.filter(area__location_id=area_id)
     if location_id:
         user_ad = user_ad.filter(location_id=location_id)
-    serializers = UserAdSerializer(user_ad, many=True)
-    return serializers.data
+    if not ordering:
+        ordering = "-pk"
+    user_ad = user_ad.order_by(ordering)
+    data = paginate_queryset(queryset=user_ad, page=page, page_size=page_size)
+    serializers = UserAdSerializer(data.get("results"), many=True)
+    data["results"] = serializers.data
+    return data
 
 
 def create_user_ad(data):

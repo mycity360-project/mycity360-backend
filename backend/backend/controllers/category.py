@@ -2,8 +2,16 @@ from ..serializers.category import CategorySerializer
 from ..gateways import category as category_gateway
 
 
-def list_category(is_active=None, category_id=None):
-    category = category_gateway.list_category(is_active=is_active, category_id=category_id)
+def list_category(
+    is_active=None, category_id=None, page=1, page_size=10, ordering=None
+):
+    category = category_gateway.list_category(
+        is_active=is_active,
+        category_id=category_id,
+        page=page,
+        page_size=page_size,
+        ordering=ordering,
+    )
     return category
 
 

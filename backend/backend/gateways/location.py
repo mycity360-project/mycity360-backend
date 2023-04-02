@@ -4,12 +4,15 @@ from ..serializers.location import LocationSerializer
 from ..constants import LOCATION_DOES_NOT_EXIST
 
 
-def list_location(is_active=None, state_id=None):
+def list_location(is_active=None, state_id=None, ordering=None):
     location = Location.objects.all().filter(is_deleted=False)
     if is_active is not None:
         location = location.filter(is_active=is_active)
     if state_id is not None:
         location = location.filter(state_id=state_id)
+    if not ordering:
+        ordering = "-pk"
+    location = location.order_by(ordering)
     serializers = LocationSerializer(location, many=True)
     return serializers.data
 

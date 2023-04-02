@@ -4,10 +4,13 @@ from ..serializers.state import StateSerializer
 from ..constants import STATE_DOES_NOT_EXIST
 
 
-def list_state(is_active=None):
+def list_state(is_active=None, ordering=None):
     state = State.objects.all().filter(is_deleted=False)
     if is_active is not None:
         state = state.filter(is_active=is_active)
+    if not ordering:
+        ordering = "-pk"
+    state = state.order_by(ordering)
     serializers = StateSerializer(state, many=True)
     return serializers.data
 

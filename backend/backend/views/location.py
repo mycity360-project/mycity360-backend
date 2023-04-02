@@ -16,6 +16,7 @@ def location_list(request):
         response = location_controller.list_location(
             is_active=request.query_params.get("is_active"),
             state_id=request.query_params.get("state_id"),
+            ordering=request.query_params.get("ordering"),
         )
         return response, status.HTTP_200_OK
 
@@ -46,6 +47,9 @@ def location_details(request, pk):
 @response_handler()
 def public_location_list(request):
     if request.method == "GET":
-        response = location_controller.list_location(is_active=request.query_params.get("is_active"),
-            state_id=request.query_params.get("state_id"),)
+        response = location_controller.list_location(
+            is_active=request.query_params.get("is_active"),
+            state_id=request.query_params.get("state_id"),
+            ordering=request.query_params.get("ordering"),
+        )
         return response, status.HTTP_200_OK

@@ -2,8 +2,10 @@ from ..serializers.service import ServiceSerializer
 from ..gateways import service as service_gateway
 
 
-def list_service(is_active):
-    service = service_gateway.list_service(is_active=is_active)
+def list_service(is_active=None, ordering=None):
+    service = service_gateway.list_service(
+        is_active=is_active, ordering=ordering
+    )
     return service
 
 

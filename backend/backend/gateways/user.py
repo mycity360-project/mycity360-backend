@@ -3,14 +3,20 @@ from rest_framework.exceptions import NotFound
 from ..models.user import User
 from ..serializers.user import UserSerializer
 from ..constants import USER_DOES_NOT_EXIST
+from ..utils.paginate import paginate_queryset
 
 
-def list_user(is_active=None):
+def list_user(is_active=None, page=1, page_size=10, ordering=None):
     user = User.objects.all().filter(is_deleted=False)
     if is_active is not None:
         user = user.filter(is_active=is_active)
-    serializers = UserSerializer(user, many=True)
-    return serializers.data
+    if not ordering:
+        ordering = "-pk"
+    user = user.order_by(ordering)
+    data = paginate_queryset(queryset=user, page=page, page_size=page_size)
+    serializers = UserSerializer(data.get("results"), many=True)
+    data["results"] = serializers.data
+    return data
 
 
 def create_user(data, password=None):

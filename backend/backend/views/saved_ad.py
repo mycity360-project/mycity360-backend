@@ -14,6 +14,9 @@ def saved_ad_list(request):
             is_active=request.query_params.get("is_active"),
             user_id=request.query_params.get("user_id"),
             user_ad_id=request.query_params.get("user_ad_id"),
+            ordering=request.query_params.get("ordering"),
+            page=request.query_params.get("page"),
+            page_size=request.query_params.get("page_size"),
         )
         return response, status.HTTP_200_OK
 

@@ -4,10 +4,13 @@ from ..serializers.image import ImageSerializer
 from ..constants import IMAGE_DOES_NOT_EXIST
 
 
-def list_image(is_active=None):
+def list_image(is_active=None, ordering=None):
     image = Image.objects.all().filter(is_deleted=False)
     if is_active is not None:
         image = image.filter(is_active=is_active)
+    if not ordering:
+        ordering = "-pk"
+    image = image.order_by(ordering)
     serializers = ImageSerializer(image, many=True)
     return serializers.data
 

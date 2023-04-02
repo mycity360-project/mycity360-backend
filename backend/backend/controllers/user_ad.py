@@ -9,6 +9,9 @@ def list_user_ad(
     user_id=None,
     area_id=None,
     location_id=None,
+    page=1,
+    page_size=10,
+    ordering=None,
 ):
     user_ads = user_ad_gateway.list_user_ad(
         is_active=is_active,
@@ -17,9 +20,13 @@ def list_user_ad(
         user_id=user_id,
         area_id=area_id,
         location_id=location_id,
+        page=page,
+        page_size=page_size,
+        ordering=ordering,
     )
-    user_ads = [
-        UserAdSerializer.serialize_data(user_ad) for user_ad in user_ads
+    user_ads["results"] = [
+        UserAdSerializer.serialize_data(user_ad)
+        for user_ad in user_ads.get("results")
     ]
     return user_ads
 

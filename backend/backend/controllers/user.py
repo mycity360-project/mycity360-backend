@@ -9,9 +9,13 @@ from ..utils import services, oauth
 from dateutil import parser
 
 
-def list_user(is_active):
-    users = user_gateway.list_user(is_active)
-    users = [UserSerializer.serialize_data(user) for user in users]
+def list_user(is_active=None, page=1, page_size=10, ordering=None):
+    users = user_gateway.list_user(
+        is_active=is_active, page=page, page_size=page_size, ordering=ordering
+    )
+    users["results"] = [
+        UserSerializer.serialize_data(user) for user in users.get("results")
+    ]
     return users
 
 
@@ -51,7 +55,9 @@ def delete_user(id):
 def signup(**kwargs):
     if not (kwargs.get("email") or kwargs.get("phone")):
         raise ValidationError(detail=EMAIL_OR_PHONE_REQUIRED)
-    if not kwargs.get("area") or (kwargs.get("area") and not kwargs.get("area").get("id")):
+    if not kwargs.get("area") or (
+        kwargs.get("area") and not kwargs.get("area").get("id")
+    ):
         raise ValidationError(detail=AREA_REQUIRED)
     try:
         user = user_gateway.get_user(email=kwargs.get("email"))

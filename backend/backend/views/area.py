@@ -16,6 +16,7 @@ def area_list(request):
         response = area_controller.list_area(
             is_active=request.query_params.get("is_active"),
             location_id=request.query_params.get("location_id"),
+            ordering=request.query_params.get("ordering"),
         )
         return response, status.HTTP_200_OK
 
@@ -46,6 +47,9 @@ def area_details(request, pk):
 @response_handler()
 def public_area_list(request):
     if request.method == "GET":
-        response = area_controller.list_area(is_active=request.query_params.get("is_active"),
-            location_id=request.query_params.get("location_id"),)
+        response = area_controller.list_area(
+            is_active=request.query_params.get("is_active"),
+            location_id=request.query_params.get("location_id"),
+            ordering=request.query_params.get("ordering"),
+        )
         return response, status.HTTP_200_OK

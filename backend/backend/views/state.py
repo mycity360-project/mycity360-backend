@@ -12,7 +12,8 @@ from ..constants import ADMIN_ROLE
 def state_list(request):
     if request.method == "GET":
         response = state_controller.list_state(
-            is_active=request.query_params.get("is_active")
+            is_active=request.query_params.get("is_active"),
+            ordering=request.query_params.get("ordering"),
         )
         return response, status.HTTP_200_OK
 

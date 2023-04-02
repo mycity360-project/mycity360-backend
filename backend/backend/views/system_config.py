@@ -14,6 +14,7 @@ def system_config_list(request):
         response = system_config_controller.list_system_config(
             is_active=request.query_params.get("is_active"),
             key=request.query_params.get("key"),
+            ordering=request.query_params.get("ordering"),
         )
         return response, status.HTTP_200_OK
 

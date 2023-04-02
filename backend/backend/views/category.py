@@ -13,7 +13,10 @@ def category_list(request):
     if request.method == "GET":
         response = category_controller.list_category(
             is_active=request.query_params.get("is_active"),
-        category_id = request.query_params.get("category_id")
+            category_id=request.query_params.get("category_id"),
+            ordering=request.query_params.get("ordering"),
+            page=request.query_params.get("page"),
+            page_size=request.query_params.get("page_size"),
         )
         return response, status.HTTP_200_OK
 
@@ -44,6 +47,9 @@ def category_list_user(request):
     if request.method == "GET":
         response = category_controller.list_category(
             is_active=request.query_params.get("is_active"),
-            category_id=request.query_params.get("category_id")
+            category_id=request.query_params.get("category_id"),
+            ordering=request.query_params.get("ordering"),
+            page=request.query_params.get("page"),
+            page_size=request.query_params.get("page_size"),
         )
         return response, status.HTTP_200_OK

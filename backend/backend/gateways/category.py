@@ -2,16 +2,24 @@ from rest_framework.exceptions import ValidationError
 from ..models.category import Category
 from ..serializers.category import CategorySerializer
 from ..constants import CATEGORY_DOES_NOT_EXIST
+from ..utils.paginate import paginate_queryset
 
 
-def list_category(is_active=None, category_id=None):
+def list_category(
+    is_active=None, category_id=None, page=1, page_size=10, ordering=None
+):
     category = Category.objects.all().filter(is_deleted=False)
     if is_active is not None:
         category = category.filter(is_active=is_active)
     if category_id is not None:
         category = category.filter(category_id=category_id)
-    serializers = CategorySerializer(category, many=True)
-    return serializers.data
+    if not ordering:
+        ordering = "-pk"
+    category = category.order_by(ordering)
+    data = paginate_queryset(queryset=category, page=page, page_size=page_size)
+    serializers = CategorySerializer(data.get("results"), many=True)
+    data["results"] = serializers.data
+    return data
 
 
 def create_category(data):

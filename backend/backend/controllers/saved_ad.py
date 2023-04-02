@@ -2,10 +2,25 @@ from ..serializers.saved_ad import SavedAdSerializer
 from ..gateways import saved_ad as saved_ad_gateway
 
 
-def list_saved_ad(is_active=None, user_id=None, user_ad_id=None):
-    saved_ads = saved_ad_gateway.list_saved_ad(is_active=is_active, user_id=user_id, user_ad_id=user_ad_id)
-    saved_ads = [
-        SavedAdSerializer.serialize_data(saved_ad) for saved_ad in saved_ads
+def list_saved_ad(
+    is_active=None,
+    user_id=None,
+    user_ad_id=None,
+    page=1,
+    page_size=10,
+    ordering=None,
+):
+    saved_ads = saved_ad_gateway.list_saved_ad(
+        is_active=is_active,
+        user_id=user_id,
+        user_ad_id=user_ad_id,
+        page=page,
+        page_size=page_size,
+        ordering=ordering,
+    )
+    saved_ads["results"] = [
+        SavedAdSerializer.serialize_data(saved_ad)
+        for saved_ad in saved_ads.get("results")
     ]
     return saved_ads
 
