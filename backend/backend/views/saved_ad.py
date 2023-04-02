@@ -11,7 +11,9 @@ from ..utils.views import response_handler
 def saved_ad_list(request):
     if request.method == "GET":
         response = saved_ad_controller.list_saved_ad(
-            is_active=request.query_params.get("is_active")
+            is_active=request.query_params.get("is_active"),
+            user_id=request.query_params.get("user_id"),
+            user_ad_id=request.query_params.get("user_ad_id"),
         )
         return response, status.HTTP_200_OK
 

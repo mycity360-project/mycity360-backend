@@ -15,6 +15,7 @@ USER_ROLE = "User"
 # Messages
 CLIENT_ID_REQUIRED = "Client id is required"
 EMAIL_OR_PHONE_REQUIRED = "Email or Phone is required"
+AREA_REQUIRED = "Area required"
 EMAIL_USER_EXIST = "User already exist with email"
 PHONE_USER_EXIST = "User already exist with phone"
 OTP_REQUIRED = "Email OTP or Phone OTP required"

@@ -48,13 +48,11 @@ def delete_user(id):
     return user
 
 
-def signup(client_id=None, **kwargs):
-    # if not client_id:
-    #     raise ValidationError(detail=CLIENT_ID_REQUIRED)
+def signup(**kwargs):
     if not (kwargs.get("email") or kwargs.get("phone")):
         raise ValidationError(detail=EMAIL_OR_PHONE_REQUIRED)
-    if not kwargs.get("area"):
-        raise ValidationError(detail="Area required")
+    if not kwargs.get("area") or (kwargs.get("area") and not kwargs.get("area").get("id")):
+        raise ValidationError(detail=AREA_REQUIRED)
     try:
         user = user_gateway.get_user(email=kwargs.get("email"))
         raise ValidationError(detail=EMAIL_USER_EXIST)

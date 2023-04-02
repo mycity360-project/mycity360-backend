@@ -4,10 +4,12 @@ from ..serializers.category import CategorySerializer
 from ..constants import CATEGORY_DOES_NOT_EXIST
 
 
-def list_category(is_active=None):
+def list_category(is_active=None, category_id=None):
     category = Category.objects.all().filter(is_deleted=False)
     if is_active is not None:
         category = category.filter(is_active=is_active)
+    if category_id is not None:
+        category = category.filter(category_id=category_id)
     serializers = CategorySerializer(category, many=True)
     return serializers.data
 

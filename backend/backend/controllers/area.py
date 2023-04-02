@@ -2,8 +2,8 @@ from ..serializers.area import AreaSerializer
 from ..gateways import area as area_gateway
 
 
-def list_area(is_active=None):
-    area = area_gateway.list_area(is_active=is_active)
+def list_area(is_active=None, location_id=None):
+    area = area_gateway.list_area(is_active=is_active, location_id=location_id)
     return area
 
 

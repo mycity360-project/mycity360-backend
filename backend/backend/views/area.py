@@ -14,7 +14,8 @@ from ..constants import ADMIN_ROLE
 def area_list(request):
     if request.method == "GET":
         response = area_controller.list_area(
-            is_active=request.query_params.get("is_active")
+            is_active=request.query_params.get("is_active"),
+            location_id=request.query_params.get("location_id"),
         )
         return response, status.HTTP_200_OK
 
@@ -45,5 +46,6 @@ def area_details(request, pk):
 @response_handler()
 def public_area_list(request):
     if request.method == "GET":
-        response = area_controller.list_area()
+        response = area_controller.list_area(is_active=request.query_params.get("is_active"),
+            location_id=request.query_params.get("location_id"),)
         return response, status.HTTP_200_OK

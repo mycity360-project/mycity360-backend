@@ -4,10 +4,14 @@ from ..serializers.saved_ad import SavedAdSerializer
 from ..constants import SAVED_AD_DOES_NOT_EXIST
 
 
-def list_saved_ad(is_active=None):
+def list_saved_ad(is_active=None, user_id=None, user_ad_id=None):
     saved_ad = SavedAd.objects.all().filter(is_deleted=False)
     if is_active is not None:
         saved_ad = saved_ad.filter(is_active=is_active)
+    if user_id is not None:
+        saved_ad = saved_ad.filter(user_id=user_id)
+    if user_ad_id is not None:
+        saved_ad = saved_ad.filter(user_ad_id=user_ad_id)
     serializers = SavedAdSerializer(saved_ad, many=True)
     return serializers.data
 

@@ -2,8 +2,8 @@ from ..serializers.location import LocationSerializer
 from ..gateways import location as location_gateway
 
 
-def list_location(is_active=None):
-    location = location_gateway.list_location(is_active=is_active)
+def list_location(is_active=None, state_id=None):
+    location = location_gateway.list_location(is_active=is_active, state_id=state_id)
     return location
 
 

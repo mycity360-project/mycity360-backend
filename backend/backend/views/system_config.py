@@ -12,7 +12,8 @@ from ..constants import ADMIN_ROLE
 def system_config_list(request):
     if request.method == "GET":
         response = system_config_controller.list_system_config(
-            is_active=request.query_params.get("is_active")
+            is_active=request.query_params.get("is_active"),
+            key=request.query_params.get("key"),
         )
         return response, status.HTTP_200_OK
 

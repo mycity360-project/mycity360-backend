@@ -2,8 +2,8 @@ from ..serializers.saved_ad import SavedAdSerializer
 from ..gateways import saved_ad as saved_ad_gateway
 
 
-def list_saved_ad(is_active):
-    saved_ads = saved_ad_gateway.list_saved_ad(is_active=is_active)
+def list_saved_ad(is_active=None, user_id=None, user_ad_id=None):
+    saved_ads = saved_ad_gateway.list_saved_ad(is_active=is_active, user_id=user_id, user_ad_id=user_ad_id)
     saved_ads = [
         SavedAdSerializer.serialize_data(saved_ad) for saved_ad in saved_ads
     ]
