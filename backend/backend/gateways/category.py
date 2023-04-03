@@ -13,6 +13,8 @@ def list_category(
         category = category.filter(is_active=is_active)
     if category_id is not None:
         category = category.filter(category_id=category_id)
+    if not category_id:
+        category = category.filter(category_id__isnull=True)
     if not ordering:
         ordering = "-pk"
     category = category.order_by(ordering)
