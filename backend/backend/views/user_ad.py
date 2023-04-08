@@ -18,8 +18,8 @@ def user_ad_list(request):
             area_id=request.query_params.get("area_id"),
             location_id=request.query_params.get("location_id"),
             ordering=request.query_params.get("ordering"),
-            page=request.query_params.get("page"),
-            page_size=request.query_params.get("page_size"),
+            page=request.query_params.get("page", 1),
+            page_size=request.query_params.get("page_size", 10),
         )
         return response, status.HTTP_200_OK
 

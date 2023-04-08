@@ -16,8 +16,8 @@ def user_list(request):
         response = user_controller.list_user(
             is_active=request.query_params.get("is_active"),
             ordering=request.query_params.get("ordering"),
-            page=request.query_params.get("page"),
-            page_size=request.query_params.get("page_size"),
+            page=request.query_params.get("page", 1),
+            page_size=request.query_params.get("page_size", 10),
         )
         return response, status.HTTP_200_OK
 

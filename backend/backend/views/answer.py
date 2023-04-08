@@ -2,16 +2,17 @@ from rest_framework import status
 from rest_framework.decorators import (
     api_view,
 )
-from ..controllers import saved_ad as saved_ad_controller
+from ..controllers import answer as answer_controller
 from ..utils.views import response_handler
 
 
 @api_view(["GET", "POST"])
 @response_handler()
-def saved_ad_list(request):
+def answer_list(request):
     if request.method == "GET":
-        response = saved_ad_controller.list_saved_ad(
+        response = answer_controller.list_answer(
             is_active=request.query_params.get("is_active"),
+            question_id=request.query_params.get("question_id"),
             user_id=request.query_params.get("user_id"),
             user_ad_id=request.query_params.get("user_ad_id"),
             ordering=request.query_params.get("ordering"),
@@ -21,21 +22,21 @@ def saved_ad_list(request):
         return response, status.HTTP_200_OK
 
     elif request.method == "POST":
-        response = saved_ad_controller.create_saved_ad(request.data)
+        response = answer_controller.create_answer(request.data)
         return response, status.HTTP_201_CREATED
 
 
 @api_view(["GET", "PUT", "DELETE"])
 @response_handler()
-def saved_ad_details(request, pk):
+def answer_details(request, pk):
     if request.method == "GET":
-        response = saved_ad_controller.get_saved_ad(pk)
+        response = answer_controller.get_answer(pk)
         return response, status.HTTP_200_OK
 
     elif request.method == "PUT":
-        response = saved_ad_controller.update_saved_ad(pk, request.data)
+        response = answer_controller.update_answer(pk, request.data)
         return response, status.HTTP_200_OK
 
     elif request.method == "DELETE":
-        response = saved_ad_controller.delete_saved_ad(pk)
+        response = answer_controller.delete_answer(pk)
         return response, status.HTTP_204_NO_CONTENT

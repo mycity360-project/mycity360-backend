@@ -9,6 +9,8 @@ from ..views import (
     user_ad,
     saved_ad,
     service,
+    question,
+    answer,
 )
 
 
@@ -39,4 +41,9 @@ urlpatterns = [
     path("service/", service.service_list),
     path("service/user/", service.service_list_user),
     path("service/<int:pk>/", service.service_details),
+    path("question/", question.question_list),
+    path("question/<int:pk>/", question.question_details),
+    path("question/user/", question.question_list_user),
+    path("answer/", answer.answer_list),
+    path("answer/<int:pk>/", answer.answer_details),
 ]

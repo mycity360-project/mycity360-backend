@@ -10,6 +10,9 @@ from .models.user_ad import UserAd
 from .models.saved_ad import SavedAd
 from .models.service import Service
 from .models.image import Image
+from .models.question import Question
+from .models.answer import Answer
+
 
 admin.site.register(User)
 admin.site.register(Area)
@@ -21,3 +24,5 @@ admin.site.register(UserAd)
 admin.site.register(SavedAd)
 admin.site.register(Service)
 admin.site.register(Image)
+admin.site.register(Question)
+admin.site.register(Answer)
