@@ -25,11 +25,15 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "created_date",
-                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Created At"
+                    ),
                 ),
                 (
                     "updated_date",
-                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="Updated At"
+                    ),
                 ),
                 (
                     "is_deleted",
@@ -46,13 +50,18 @@ class Migration(migrations.Migration):
                 (
                     "extra_data",
                     models.JSONField(
-                        blank=True, default=dict, null=True, verbose_name="Extra Data"
+                        blank=True,
+                        default=dict,
+                        null=True,
+                        verbose_name="Extra Data",
                     ),
                 ),
                 ("question", models.TextField(verbose_name="Question")),
                 (
                     "sequence",
-                    models.PositiveIntegerField(default=0, verbose_name="Sequence"),
+                    models.PositiveIntegerField(
+                        default=0, verbose_name="Sequence"
+                    ),
                 ),
                 (
                     "category",
@@ -83,11 +92,15 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "created_date",
-                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Created At"
+                    ),
                 ),
                 (
                     "updated_date",
-                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="Updated At"
+                    ),
                 ),
                 (
                     "is_deleted",
@@ -104,7 +117,10 @@ class Migration(migrations.Migration):
                 (
                     "extra_data",
                     models.JSONField(
-                        blank=True, default=dict, null=True, verbose_name="Extra Data"
+                        blank=True,
+                        default=dict,
+                        null=True,
+                        verbose_name="Extra Data",
                     ),
                 ),
                 ("answer", models.TextField(verbose_name="Answer")),

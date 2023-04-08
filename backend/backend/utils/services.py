@@ -36,8 +36,8 @@ def send_sms():
 
 
 def get_file_path(instance, filename):
-    file_name = filename.split('.')
+    file_name = filename.split(".")
     ext = file_name[-1]
     file_name = file_name[0]
     filename = "%s-%s.%s" % (file_name, uuid.uuid4(), ext)
-    return os.path.join('uploads/logos', filename)
+    return os.path.join("uploads/logos", filename)

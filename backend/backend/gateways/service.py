@@ -28,6 +28,7 @@ def create_service(data):
 def update_service(pk, data):
     try:
         service = Service.objects.filter(is_deleted=False).get(id=pk)
+        data.pop("icon")
         serializers = ServiceSerializer(service, data)
         service.images.clear()
         for image in data.get("images"):

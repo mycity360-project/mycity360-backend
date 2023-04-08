@@ -22,7 +22,10 @@ class Image(Core):
     """
 
     image = models.ImageField(
-        _("Image"), upload_to=get_file_path, storage=gd_storage, max_length=1024
+        _("Image"),
+        upload_to=get_file_path,
+        storage=gd_storage,
+        max_length=1024,
     )
 
     objects = ImageManager.from_queryset(ImageQueryset)()

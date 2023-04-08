@@ -102,6 +102,17 @@ def verify_otp(request, pk):
 @response_handler()
 def user_image_upload(request, pk):
     response = user_controller.upload_profile_image(
-        pk, request.FILES.get('file')
+        pk, request.FILES.get("file")
+    )
+    return response, status.HTTP_200_OK
+
+
+@api_view(["POST"])
+@response_handler()
+def change_password(request, pk):
+    response = user_controller.change_password(
+        pk,
+        new_password=request.data.get("new_password"),
+        current_password=request.data.get("current_password"),
     )
     return response, status.HTTP_200_OK

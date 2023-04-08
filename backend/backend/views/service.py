@@ -52,7 +52,5 @@ def service_list_user(request):
 @api_view(["POST"])
 @response_handler(ADMIN_ROLE)
 def service_icon_upload(request, pk):
-    response = service_controller.upload_icon(
-        pk, request.FILES.get('file')
-    )
+    response = service_controller.upload_icon(pk, request.FILES.get("file"))
     return response, status.HTTP_200_OK

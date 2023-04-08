@@ -38,7 +38,10 @@ class UserSerializer(serializers.ModelSerializer):
             area=dict(
                 id=data.get("area").get("id"),
                 name=data.get("area").get("name"),
-                location=dict(id=data.get("area").get("location").get("id")),
+                location=dict(
+                    id=data.get("area").get("location").get("id"),
+                    name=data.get("area").get("location").get("name"),
+                ),
             ),
         )
 

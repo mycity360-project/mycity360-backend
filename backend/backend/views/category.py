@@ -58,7 +58,5 @@ def category_list_user(request):
 @api_view(["POST"])
 @response_handler(ADMIN_ROLE)
 def category_icon_upload(request, pk):
-    response = category_controller.upload_icon(
-        pk, request.FILES.get('file')
-    )
+    response = category_controller.upload_icon(pk, request.FILES.get("file"))
     return response, status.HTTP_200_OK

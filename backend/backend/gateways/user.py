@@ -31,6 +31,7 @@ def create_user(data, password=None):
 def update_user(id, data):
     try:
         user = User.objects.filter(is_deleted=False).get(id=id)
+        data.pop("profile_image")
         serializers = UserSerializer(user, data)
         if serializers.is_valid(raise_exception=True):
             serializers.save(area_id=data.get("area").get("id"))
@@ -83,6 +84,18 @@ def upload_profile_image(pk, image):
     try:
         user = User.objects.filter(is_deleted=False).get(id=pk)
         user.profile_image = image
+        user.save()
+        serializers = UserSerializer(user)
+        return serializers.data
+    except User.DoesNotExist:
+        raise NotFound(detail=USER_DOES_NOT_EXIST)
+
+
+def update_password(id, password):
+    try:
+        user = User.objects.filter(is_deleted=False).get(id=id)
+        user.set_password(password)
+        user.password_created_on = datetime.datetime.now()
         user.save()
         serializers = UserSerializer(user)
         return serializers.data

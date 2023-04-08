@@ -151,48 +151,47 @@ def login(email, phone, password, client_id):
     if not password:
         raise ValidationError(detail=PASSWORD_REQUIRED)
     user = user_gateway.get_user(email=email, phone=phone)
+    if not user_gateway.verify_password(password=password, id=user.get("id")):
+        raise ValidationError(detail=PASSWORD_VERIFICATION_FAILED)
     keys = system_config_gateway.list_system_config(
         keys=[EMAIL_VERIFICATION_REQUIRED, PHONE_VERIFICATION_REQUIRED]
     )
     updated_user = False
     for key in keys:
         if key.get("key") == EMAIL_VERIFICATION_REQUIRED:
-            if key.get("value") == "true" and not user.get(
-                "is_email_verified"
-            ):
+            if not user.get("is_email_verified"):
                 updated_user = True
-                user["email_otp"] = services.generate_otp()
-                user[
-                    "email_expiry"
-                ] = datetime.datetime.now() + datetime.timedelta(minutes=1)
-                services.send_email(
-                    subject=EMAIL_SUBJECT,
-                    body=EMAIL_BODY.format(
-                        user.get("first_name"), user.get("email_otp")
-                    ),
-                    to_email=user.get("email"),
-                )
-            else:
-                updated_user = True
-                user["is_email_verified"] = True
+                if key.get("value") == "true":
+
+                    user["email_otp"] = services.generate_otp()
+                    user[
+                        "email_expiry"
+                    ] = datetime.datetime.now() + datetime.timedelta(minutes=1)
+                    services.send_email(
+                        subject=EMAIL_SUBJECT,
+                        body=EMAIL_BODY.format(
+                            user.get("first_name"), user.get("email_otp")
+                        ),
+                        to_email=user.get("email"),
+                    )
+                else:
+                    user["is_email_verified"] = True
         if key.get("key") == PHONE_VERIFICATION_REQUIRED:
-            if key.get("value") == "true" and not user.get(
-                "is_phone_verified"
-            ):
+            if not user.get("is_phone_verified"):
                 updated_user = True
-                user["phone_otp"] = services.generate_otp()
-                user[
-                    "phone_expiry"
-                ] = datetime.datetime.now() + datetime.timedelta(minutes=1)
-                services.send_sms()
-            else:
-                updated_user = True
-                user["is_phone_verified"] = True
+                if key.get("value") == "true":
+
+                    user["phone_otp"] = services.generate_otp()
+                    user[
+                        "phone_expiry"
+                    ] = datetime.datetime.now() + datetime.timedelta(minutes=1)
+                    services.send_sms()
+                else:
+                    user["is_phone_verified"] = True
     if updated_user:
         user = user_gateway.update_user(user.get("id"), user)
+    if not user.get("is_phone_verified") or not user.get("is_email_verified"):
         return UserSerializer.serialize_data(user)
-    if not user_gateway.verify_password(password=password, id=user.get("id")):
-        raise ValidationError(detail=PASSWORD_VERIFICATION_FAILED)
     access_token = oauth.generate_access_token(
         user_id=user.get("id"), client_id=client_id
     )
@@ -201,4 +200,13 @@ def login(email, phone, password, client_id):
 
 def upload_profile_image(pk, image):
     user = user_gateway.upload_profile_image(pk, image)
+    return UserSerializer.serialize_data(user)
+
+
+def change_password(id, current_password, new_password):
+    if current_password == new_password:
+        raise ValidationError(detail=NEW_PASSWORD_IS_SAME)
+    if not user_gateway.verify_password(password=current_password, id=id):
+        raise ValidationError(detail=PASSWORD_VERIFICATION_FAILED)
+    user = user_gateway.update_password(id, new_password)
     return UserSerializer.serialize_data(user)

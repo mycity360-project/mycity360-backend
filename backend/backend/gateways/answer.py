@@ -6,7 +6,13 @@ from ..utils.paginate import paginate_queryset
 
 
 def list_answer(
-    is_active=None, question_id=None, user_id=None, user_ad_id=None, page=1, page_size=10, ordering=None
+    is_active=None,
+    question_id=None,
+    user_id=None,
+    user_ad_id=None,
+    page=1,
+    page_size=10,
+    ordering=None,
 ):
     answer = Answer.objects.all().filter(is_deleted=False)
     if is_active is not None:

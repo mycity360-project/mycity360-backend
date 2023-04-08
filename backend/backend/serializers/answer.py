@@ -3,7 +3,6 @@ from ..models.answer import Answer
 
 
 class AnswerSerializer(serializers.ModelSerializer):
-
     @classmethod
     def serialize_data(cls, data):
         return dict(
@@ -15,7 +14,7 @@ class AnswerSerializer(serializers.ModelSerializer):
             extra_data=data.get("extra_data"),
             is_active=data.get("is_active"),
             id=data.get("id"),
-            answer=data.get("answer")
+            answer=data.get("answer"),
         )
 
     class Meta:
