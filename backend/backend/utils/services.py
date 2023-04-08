@@ -1,4 +1,6 @@
 import random
+import uuid
+import os
 
 from ..constants import FROM_EMAIL
 
@@ -31,3 +33,11 @@ def send_email(subject, body, from_email=FROM_EMAIL, to_email=()):
 
 def send_sms():
     return
+
+
+def get_file_path(instance, filename):
+    file_name = filename.split('.')
+    ext = file_name[-1]
+    file_name = file_name[0]
+    filename = "%s-%s.%s" % (file_name, uuid.uuid4(), ext)
+    return os.path.join('uploads/logos', filename)

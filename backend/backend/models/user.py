@@ -17,6 +17,7 @@ from ..utils.core import Core
 from .area import Area
 from ..managers.user import UserManager, UserQueryset
 from gdstorage.storage import GoogleDriveStorage
+from ..utils.services import get_file_path
 
 # Define Google Drive Storage
 gd_storage = GoogleDriveStorage()
@@ -60,7 +61,7 @@ class User(AbstractBaseUser, PermissionsMixin, Core):
         max_length=1024,
         null=True,
         blank=True,
-        upload_to="user",
+        upload_to=get_file_path,
         storage=gd_storage,
     )
     is_staff = models.BooleanField(

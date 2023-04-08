@@ -9,7 +9,7 @@ from django.utils.translation import gettext_lazy as _
 
 from ..utils.core import Core
 from ..managers.category import CategoryManager, CategoryQueryset
-
+from ..utils.services import get_file_path
 from gdstorage.storage import GoogleDriveStorage
 
 # Define Google Drive Storage
@@ -47,7 +47,7 @@ class Category(Core):
         max_length=1024,
         null=True,
         blank=True,
-        upload_to="category",
+        upload_to=get_file_path,
         storage=gd_storage,
     )
     phone = models.CharField(

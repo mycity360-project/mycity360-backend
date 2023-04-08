@@ -10,6 +10,7 @@ from ..utils.core import Core
 from ..managers.service import ServiceManager, ServiceQueryset
 from ..models.image import Image
 from gdstorage.storage import GoogleDriveStorage
+from ..utils.services import get_file_path
 
 # Define Google Drive Storage
 gd_storage = GoogleDriveStorage()
@@ -48,7 +49,7 @@ class Service(Core):
         max_length=1024,
         null=True,
         blank=True,
-        upload_to="service",
+        upload_to=get_file_path,
         storage=gd_storage,
     )
     images = models.ManyToManyField(
