@@ -19,7 +19,7 @@ def create_service(data):
     images = data.pop("images")
     service = Service.objects.create(**data)
     for image in images:
-        service.images.add(image)
+        service.images.add(image.get("id"))
     service.save()
     serializers = ServiceSerializer(service)
     return serializers.data
@@ -29,8 +29,9 @@ def update_service(pk, data):
     try:
         service = Service.objects.filter(is_deleted=False).get(id=pk)
         serializers = ServiceSerializer(service, data)
+        service.images.clear()
         for image in data.get("images"):
-            service.images.add(image)
+            service.images.add(image.get("id"))
         if serializers.is_valid(raise_exception=True):
             serializers.save()
             return serializers.data
@@ -51,5 +52,16 @@ def delete_service(pk):
     try:
         service = Service.objects.filter(is_deleted=False).get(pk=pk)
         return service.delete()
+    except Service.DoesNotExist:
+        raise ValidationError(detail=SERVICE_DOES_NOT_EXIST)
+
+
+def upload_icon(pk, icon):
+    try:
+        category = Service.objects.filter(is_deleted=False).get(id=pk)
+        category.icon = icon
+        category.save()
+        serializers = ServiceSerializer(category)
+        return serializers.data
     except Service.DoesNotExist:
         raise ValidationError(detail=SERVICE_DOES_NOT_EXIST)

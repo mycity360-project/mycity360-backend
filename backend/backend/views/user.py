@@ -96,3 +96,12 @@ def verify_otp(request, pk):
             client_id=headers.get("Clientid"),
         )
         return response, status.HTTP_201_CREATED
+
+
+@api_view(["POST"])
+@response_handler()
+def user_image_upload(request, pk):
+    response = user_controller.upload_profile_image(
+        pk, request.FILES.get('file')
+    )
+    return response, status.HTTP_200_OK

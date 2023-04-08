@@ -77,3 +77,14 @@ def verify_password(password, id=None, email=None, phone=None):
         return user.check_password(password)
     except User.DoesNotExist:
         raise NotFound(detail=USER_DOES_NOT_EXIST)
+
+
+def upload_profile_image(pk, image):
+    try:
+        user = User.objects.filter(is_deleted=False).get(id=pk)
+        user.profile_image = image
+        user.save()
+        serializers = UserSerializer(user)
+        return serializers.data
+    except User.DoesNotExist:
+        raise NotFound(detail=USER_DOES_NOT_EXIST)

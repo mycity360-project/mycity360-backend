@@ -53,3 +53,12 @@ def category_list_user(request):
             page_size=request.query_params.get("page_size", 10),
         )
         return response, status.HTTP_200_OK
+
+
+@api_view(["POST"])
+@response_handler(ADMIN_ROLE)
+def category_icon_upload(request, pk):
+    response = category_controller.upload_icon(
+        pk, request.FILES.get('file')
+    )
+    return response, status.HTTP_200_OK

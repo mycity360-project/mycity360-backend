@@ -197,3 +197,8 @@ def login(email, phone, password, client_id):
         user_id=user.get("id"), client_id=client_id
     )
     return oauth.get_token_json(access_token)
+
+
+def upload_profile_image(pk, image):
+    user = user_gateway.upload_profile_image(pk, image)
+    return UserSerializer.serialize_data(user)

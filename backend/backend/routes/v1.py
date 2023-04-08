@@ -11,6 +11,7 @@ from ..views import (
     service,
     question,
     answer,
+    image
 )
 
 
@@ -27,6 +28,7 @@ urlpatterns = [
     path("area/<int:pk>/", area.area_details),
     path("user/", user.user_list),
     path("user/<int:pk>/", user.user_details),
+    path("user/image/<int:pk>/", user.user_image_upload),
     path("admin/user/<int:pk>/", user.user_details_admin),
     path("user/signup/", user.signup),
     path("user/login/", user.login),
@@ -34,6 +36,7 @@ urlpatterns = [
     path("category/", category.category_list),
     path("category/user/", category.category_list_user),
     path("category/<int:pk>/", category.category_details),
+    path("category/icon/<int:pk>/", category.category_icon_upload),
     path("user-ad/", user_ad.user_ad_list),
     path("user-ad/<int:pk>/", user_ad.user_ad_details),
     path("saved-ad/", saved_ad.saved_ad_list),
@@ -41,9 +44,11 @@ urlpatterns = [
     path("service/", service.service_list),
     path("service/user/", service.service_list_user),
     path("service/<int:pk>/", service.service_details),
+    path("service/icon/<int:pk>/", service.service_icon_upload),
     path("question/", question.question_list),
     path("question/<int:pk>/", question.question_details),
     path("question/user/", question.question_list_user),
     path("answer/", answer.answer_list),
     path("answer/<int:pk>/", answer.answer_details),
+    path("image/", image.image_upload),
 ]

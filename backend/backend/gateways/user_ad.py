@@ -41,7 +41,7 @@ def create_user_ad(data):
     images = data.pop("images")
     user_ad = UserAd.objects.create(**data)
     for image in images:
-        user_ad.images.add(image)
+        user_ad.images.add(image.get("id"))
     user_ad.save()
     serializers = UserAdSerializer(user_ad)
     return serializers.data
@@ -51,8 +51,9 @@ def update_user_ad(pk, data):
     try:
         user_ad = UserAd.objects.filter(is_deleted=False).get(id=pk)
         serializers = UserAdSerializer(user_ad, data)
+        user_ad.images.clear()
         for image in data.get("images"):
-            user_ad.images.add(image)
+            user_ad.images.add(image.get("id"))
         if serializers.is_valid(raise_exception=True):
             kwargs = {}
             if data.get("category", {}):

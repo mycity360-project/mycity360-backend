@@ -60,6 +60,8 @@ class User(AbstractBaseUser, PermissionsMixin, Core):
         max_length=1024,
         null=True,
         blank=True,
+        upload_to="user",
+        storage=gd_storage,
     )
     is_staff = models.BooleanField(
         _("staff status"),

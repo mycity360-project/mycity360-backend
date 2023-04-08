@@ -43,3 +43,8 @@ def update_category(pk, data):
 def delete_category(pk):
     category = category_gateway.delete_category(pk)
     return category
+
+
+def upload_icon(pk, icon):
+    category = category_gateway.upload_icon(pk, icon)
+    return CategorySerializer.serialize_data(category)

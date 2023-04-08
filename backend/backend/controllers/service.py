@@ -34,3 +34,8 @@ def update_service(pk, data):
 def delete_service(pk):
     service = service_gateway.delete_service(pk)
     return service
+
+
+def upload_icon(pk, icon):
+    service = service_gateway.upload_icon(pk, icon)
+    return ServiceSerializer.serialize_data(service)
