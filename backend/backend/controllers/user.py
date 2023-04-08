@@ -87,11 +87,15 @@ def signup(**kwargs):
         kwargs["email_expiry"] = datetime.datetime.now() + datetime.timedelta(
             minutes=1
         )
+    else:
+        kwargs["is_email_verified"] = True
     if phone_required:
         kwargs["phone_otp"] = services.generate_otp()
         kwargs["phone_expiry"] = datetime.datetime.now() + datetime.timedelta(
             minutes=1
         )
+    else:
+        kwargs["is_phone_verified"] = True
     user = create_user(kwargs)
     if email_required:
         services.send_email(
@@ -168,6 +172,9 @@ def login(email, phone, password, client_id):
                     ),
                     to_email=user.get("email"),
                 )
+            else:
+                updated_user = True
+                user["is_email_verified"] = True
         if key.get("key") == PHONE_VERIFICATION_REQUIRED:
             if key.get("value") == "true" and not user.get(
                 "is_phone_verified"
@@ -178,6 +185,9 @@ def login(email, phone, password, client_id):
                     "phone_expiry"
                 ] = datetime.datetime.now() + datetime.timedelta(minutes=1)
                 services.send_sms()
+            else:
+                updated_user = True
+                user["is_phone_verified"] = True
     if updated_user:
         user = user_gateway.update_user(user.get("id"), user)
         return UserSerializer.serialize_data(user)
