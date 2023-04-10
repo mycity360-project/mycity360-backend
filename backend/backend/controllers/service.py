@@ -1,3 +1,5 @@
+from rest_framework.exceptions import ValidationError
+from ..constants import FILE_REQUIRED
 from ..serializers.service import ServiceSerializer
 from ..gateways import service as service_gateway
 
@@ -37,5 +39,7 @@ def delete_service(pk):
 
 
 def upload_icon(pk, icon):
+    if not icon:
+        raise ValidationError(detail=FILE_REQUIRED)
     service = service_gateway.upload_icon(pk, icon)
     return ServiceSerializer.serialize_data(service)

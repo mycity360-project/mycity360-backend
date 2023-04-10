@@ -1,3 +1,5 @@
+from rest_framework.exceptions import ValidationError
+from ..constants import FILE_REQUIRED
 from ..serializers.category import CategorySerializer
 from ..gateways import category as category_gateway
 
@@ -46,5 +48,7 @@ def delete_category(pk):
 
 
 def upload_icon(pk, icon):
+    if not icon:
+        raise ValidationError(detail=FILE_REQUIRED)
     category = category_gateway.upload_icon(pk, icon)
     return CategorySerializer.serialize_data(category)

@@ -1,5 +1,6 @@
 import datetime
-
+from rest_framework.exceptions import ValidationError
+from ..constants import FILE_REQUIRED
 from rest_framework.exceptions import ValidationError, NotFound
 from ..serializers.user import UserSerializer
 from ..gateways import user as user_gateway
@@ -199,6 +200,8 @@ def login(email, phone, password, client_id):
 
 
 def upload_profile_image(pk, image):
+    if not image:
+        raise ValidationError(detail=FILE_REQUIRED)
     user = user_gateway.upload_profile_image(pk, image)
     return UserSerializer.serialize_data(user)
 

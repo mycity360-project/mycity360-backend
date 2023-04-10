@@ -10,3 +10,4 @@ from .question import Question
 from .saved_ad import SavedAd
 from .service import Service
 from .user_ad import UserAd
+from .banner import Banner

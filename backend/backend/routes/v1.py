@@ -12,6 +12,7 @@ from ..views import (
     question,
     answer,
     image,
+    banner,
 )
 
 
@@ -52,4 +53,8 @@ urlpatterns = [
     path("answer/", answer.answer_list),
     path("answer/<int:pk>/", answer.answer_details),
     path("image/", image.image_upload),
+    path("banner/", banner.banner_list),
+    path("banner/user/", banner.banner_list_user),
+    path("banner/<int:pk>/", banner.banner_details),
+    path("banner/image/<int:pk>/", banner.banner_image_upload),
 ]

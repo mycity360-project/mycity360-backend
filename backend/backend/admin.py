@@ -12,6 +12,7 @@ from .models.service import Service
 from .models.image import Image
 from .models.question import Question
 from .models.answer import Answer
+from .models.banner import Banner
 
 
 admin.site.register(User)
@@ -26,3 +27,4 @@ admin.site.register(Service)
 admin.site.register(Image)
 admin.site.register(Question)
 admin.site.register(Answer)
+admin.site.register(Banner)
