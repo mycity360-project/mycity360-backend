@@ -1,4 +1,5 @@
 from rest_framework.exceptions import ValidationError
+from django.db.models import Q
 from ..models.user_ad import UserAd
 from ..serializers.user_ad import UserAdSerializer
 from ..utils.paginate import paginate_queryset
@@ -14,6 +15,7 @@ def list_user_ad(
     page=1,
     page_size=10,
     ordering=None,
+    search=None,
 ):
     user_ad = UserAd.objects.all().filter(is_deleted=False)
     if is_active is not None:
@@ -25,9 +27,17 @@ def list_user_ad(
     if user_id:
         user_ad = user_ad.filter(user_id=user_id)
     if area_id:
-        user_ad = user_ad.filter(area__location_id=area_id)
+        user_ad = user_ad.filter(area_id=area_id)
     if location_id:
-        user_ad = user_ad.filter(location_id=location_id)
+        user_ad = user_ad.filter(area__location_id=location_id)
+    if search:
+        user_ad = user_ad.filter(
+            Q(name=search)
+            | Q(code=search)
+            | Q(description=search)
+            | Q(category__name=search)
+            | Q(tags__contains=search)
+        )
     if not ordering:
         ordering = "-pk"
     user_ad = user_ad.order_by(ordering)
