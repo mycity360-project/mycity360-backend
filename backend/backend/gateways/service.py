@@ -11,9 +11,9 @@ def list_service(is_active=None, ordering=None):
     if not ordering:
         ordering = "-pk"
     service = service.order_by(ordering)
-    serializers = ServiceSerializer(service, many=True)
-    return serializers.data
-
+    # serializers = ServiceSerializer(service, many=True)
+    # return serializers.data
+    return service
 
 def create_service(data):
     images = data.pop("images")
@@ -21,9 +21,9 @@ def create_service(data):
     for image in images:
         service.images.add(image.get("id"))
     service.save()
-    serializers = ServiceSerializer(service)
-    return serializers.data
-
+    # serializers = ServiceSerializer(service)
+    # return serializers.data
+    return service
 
 def update_service(pk, data):
     try:
@@ -35,7 +35,8 @@ def update_service(pk, data):
             service.images.add(image.get("id"))
         if serializers.is_valid(raise_exception=True):
             serializers.save()
-            return serializers.data
+            # return serializers.data
+            return service
     except Service.DoesNotExist:
         raise ValidationError(detail=SERVICE_DOES_NOT_EXIST)
 
@@ -43,8 +44,9 @@ def update_service(pk, data):
 def get_service(pk):
     try:
         service = Service.objects.filter(is_deleted=False).get(id=pk)
-        serializers = ServiceSerializer(service)
-        return serializers.data
+        # serializers = ServiceSerializer(service)
+        # return serializers.data
+        return service
     except Service.DoesNotExist:
         raise ValidationError(detail=SERVICE_DOES_NOT_EXIST)
 
@@ -59,10 +61,11 @@ def delete_service(pk):
 
 def upload_icon(pk, icon):
     try:
-        category = Service.objects.filter(is_deleted=False).get(id=pk)
-        category.icon = icon
-        category.save()
-        serializers = ServiceSerializer(category)
-        return serializers.data
+        service = Service.objects.filter(is_deleted=False).get(id=pk)
+        service.icon = icon
+        service.save()
+        # serializers = ServiceSerializer(service)
+        # return serializers.data
+        return service
     except Service.DoesNotExist:
         raise ValidationError(detail=SERVICE_DOES_NOT_EXIST)

@@ -9,13 +9,25 @@ class ServiceSerializer(serializers.ModelSerializer):
 
     @classmethod
     def serialize_data(cls, data):
-        data["icon"] = serialize_image(data.get("icon"))
-        if data.get("images"):
-            data["images"] = [
+        images = []
+        if data.images:
+            images = [
                 ImageSerializer.serialize_data(image)
-                for image in data.get("images")
+                for image in data.images.all()
             ]
-        return data
+        return dict(
+            images=images,
+            name=data.name,
+            code=data.code,
+            description=data.description,
+            phone=data.phone,
+            created_date=data.created_date,
+            updated_date=data.updated_date,
+            extra_data=data.extra_data,
+            is_active=data.is_active,
+            id=data.id,
+            icon=serialize_image(data.icon.url) if data.icon else None
+        )
 
     class Meta:
         model = Service

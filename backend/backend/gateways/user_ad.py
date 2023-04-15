@@ -38,12 +38,14 @@ def list_user_ad(
             | Q(category__name=search)
             | Q(tags__contains=search)
         )
+    user_ad = user_ad.select_related("user", "category", "area", "area__location")
+    user_ad = user_ad.prefetch_related("images")
     if not ordering:
         ordering = "-pk"
     user_ad = user_ad.order_by(ordering)
     data = paginate_queryset(queryset=user_ad, page=page, page_size=page_size)
-    serializers = UserAdSerializer(data.get("results"), many=True)
-    data["results"] = serializers.data
+    # serializers = UserAdSerializer(data.get("results"), many=True)
+    # data["results"] = serializers.data
     return data
 
 
@@ -53,8 +55,9 @@ def create_user_ad(data):
     for image in images:
         user_ad.images.add(image.get("id"))
     user_ad.save()
-    serializers = UserAdSerializer(user_ad)
-    return serializers.data
+    # serializers = UserAdSerializer(user_ad)
+    # return serializers.data
+    return user_ad
 
 
 def update_user_ad(pk, data):
@@ -71,7 +74,8 @@ def update_user_ad(pk, data):
             if data.get("area", {}):
                 kwargs["area_id"] = data.get("area").get("id")
             serializers.save(**kwargs)
-            return serializers.data
+            return user_ad
+            # return serializers.data
     except UserAd.DoesNotExist:
         raise ValidationError(detail="UserAd with this id does not exist")
 
@@ -79,8 +83,9 @@ def update_user_ad(pk, data):
 def get_user_ad(pk):
     try:
         user_ad = UserAd.objects.filter(is_deleted=False).get(id=pk)
-        serializers = UserAdSerializer(user_ad)
-        return serializers.data
+        # serializers = UserAdSerializer(user_ad)
+        # return serializers.data
+        return user_ad
     except UserAd.DoesNotExist:
         raise ValidationError(detail="UserAd with this id does not exist")
 
