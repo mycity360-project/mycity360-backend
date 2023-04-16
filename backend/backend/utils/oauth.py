@@ -35,13 +35,13 @@ def generate_access_token(user_id, client_id=None, expires_in=None):
         application = Application.objects.get(client_id=client_id)
     if not application:
         raise ValidationError(detail="Application not found")
-    expires_in = (
-        expires_in
-        if expires_in is not None
-        else 86400
-        # else constants.ACCESS_TOKEN_EXPIRE_SECONDS
-    )
-    expires = timezone.now() + timedelta(seconds=expires_in)
+    # expires_in = (
+    #     expires_in
+    #     if expires_in is not None
+    #     else 86400
+    #     # else constants.ACCESS_TOKEN_EXPIRE_SECONDS
+    # )
+    expires = timezone.now() + timedelta(days=365)
     access_token = AccessToken(
         user_id=user_id,
         scope="",
