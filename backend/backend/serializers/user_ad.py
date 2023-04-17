@@ -38,7 +38,7 @@ class UserAdSerializer(serializers.ModelSerializer):
         #     is_active=data.get("is_active"),
         #     id=data.get("id"),
         # )
-        images=[]
+        images = []
         if data.images:
             images = [
                 ImageSerializer.serialize_data(image)

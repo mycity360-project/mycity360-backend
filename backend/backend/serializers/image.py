@@ -8,8 +8,8 @@ class ImageSerializer(serializers.ModelSerializer):
     def serialize_data(cls, data):
         return dict(
             # id=data.get("id"), image=serialize_image(data.get("image"))
-            id=data.id, image=serialize_image(data.image.url)
-
+            id=data.id,
+            image=serialize_image(data.image.url),
         )
 
     class Meta:

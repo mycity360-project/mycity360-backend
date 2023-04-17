@@ -16,7 +16,7 @@ def list_category(
     if not category_id:
         category = category.filter(category_id__isnull=True)
     if not ordering:
-        ordering = "-pk"
+        ordering = "sequence"
     category = category.order_by(ordering)
     data = paginate_queryset(queryset=category, page=page, page_size=page_size)
     serializers = CategorySerializer(data.get("results"), many=True)

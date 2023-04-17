@@ -38,7 +38,9 @@ def list_user_ad(
             | Q(category__name=search)
             | Q(tags__contains=search)
         )
-    user_ad = user_ad.select_related("user", "category", "area", "area__location")
+    user_ad = user_ad.select_related(
+        "user", "category", "area", "area__location"
+    )
     user_ad = user_ad.prefetch_related("images")
     if not ordering:
         ordering = "-pk"
