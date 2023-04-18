@@ -9,7 +9,7 @@ def list_service(is_active=None, ordering=None):
     if is_active is not None:
         service = service.filter(is_active=is_active)
     if not ordering:
-        ordering = "sequence"
+        ordering = "-id"
     service = service.order_by(ordering)
     # serializers = ServiceSerializer(service, many=True)
     # return serializers.data
