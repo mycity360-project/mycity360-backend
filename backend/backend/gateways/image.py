@@ -17,8 +17,7 @@ def list_image(is_active=None, ordering=None):
 
 def create_image(data):
     image = Image.objects.create(**data)
-    serializers = ImageSerializer(image)
-    return serializers.data
+    return image
 
 
 def update_image(pk, data):
