@@ -26,6 +26,7 @@ class ServiceSerializer(serializers.ModelSerializer):
             extra_data=data.extra_data,
             is_active=data.is_active,
             id=data.id,
+            sequence=data.sequence,
             icon=serialize_image(data.icon.url) if data.icon else None,
         )
 

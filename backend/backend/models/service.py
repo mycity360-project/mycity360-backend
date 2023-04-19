@@ -58,6 +58,7 @@ class Service(Core):
         null=True,
         blank=True,
     )
+    sequence = models.PositiveIntegerField(_("Sequence"), default=0)
     objects = ServiceManager.from_queryset(ServiceQueryset)()
 
     class Meta:
