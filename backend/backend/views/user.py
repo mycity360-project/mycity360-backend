@@ -74,7 +74,6 @@ def login(request):
         headers = request.headers
         response = user_controller.login(
             email=data.get("email"),
-            phone=data.get("phone"),
             password=data.get("password"),
             client_id=headers.get("Clientid"),
         )

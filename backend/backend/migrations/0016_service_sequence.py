@@ -12,6 +12,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="service",
             name="sequence",
-            field=models.PositiveIntegerField(default=0, verbose_name="Sequence"),
+            field=models.PositiveIntegerField(
+                default=0, verbose_name="Sequence"
+            ),
         ),
     ]

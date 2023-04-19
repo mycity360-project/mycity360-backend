@@ -144,14 +144,24 @@ def verify_otp(pk, client_id, email_otp=None, phone_otp=None):
     return oauth.get_token_json(access_token)
 
 
-def login(email, phone, password, client_id):
-    if not (email or phone):
+def login(email, password, client_id):
+    if not email:
         raise ValidationError(detail=EMAIL_OR_PHONE_REQUIRED)
     if not client_id:
         raise ValidationError(detail=CLIENT_ID_REQUIRED)
     if not password:
         raise ValidationError(detail=PASSWORD_REQUIRED)
-    user = user_gateway.get_user(email=email, phone=phone)
+    user = None
+    try:
+        user = user_gateway.get_user(email=email)
+    except:
+        pass
+    try:
+        user = user_gateway.get_user(phone=email)
+    except:
+        pass
+    if not user:
+        ValidationError(detail=USER_DOES_NOT_EXIST)
     if not user_gateway.verify_password(password=password, id=user.get("id")):
         raise ValidationError(detail=PASSWORD_VERIFICATION_FAILED)
     keys = system_config_gateway.list_system_config(
