@@ -1,16 +1,28 @@
 import React from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import Login from './components/Login'
+import Home from './components/Home'
+import PrivateRoute from './components/PrivateRoute'
+import { useSelector } from 'react-redux'
 
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import { HomePage } from './pages/Home'
-import { PageTwo } from './pages/Page2'
+const App = () => {
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
 
-const App = () => (
-    <BrowserRouter>
-        <Switch>
-            <Route path="/" exact component={HomePage} />
-            <Route path="/page2" exact component={PageTwo} />
-        </Switch>
-    </BrowserRouter>
-)
+    return (
+        <Router>
+            <div className="container">
+                <Switch>
+                    <PrivateRoute
+                        exact
+                        path="/"
+                        component={Home}
+                        isAuthenticated={isAuthenticated}
+                    />
+                    <Route exact path="/login" component={Login} />
+                </Switch>
+            </div>
+        </Router>
+    )
+}
 
 export default App
