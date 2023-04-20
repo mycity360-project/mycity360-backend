@@ -50,7 +50,11 @@ class UserAdSerializer(serializers.ModelSerializer):
             category=dict(id=data.category.id),
             area=dict(
                 id=data.area.id,
-                location=dict(id=data.area.location.id),
+                name=data.area.name,
+                location=dict(
+                    id=data.area.location.id,
+                    name=data.area.location.name,
+                ),
             ),
             name=data.name,
             code=data.code,
