@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import ValidationError, NotFound
 
 
 def response_handler(role=None):
@@ -14,7 +15,16 @@ def response_handler(role=None):
                 raise PermissionDenied(
                     detail="This user role does not have access to the API"
                 )
-            response, status = func(request, *args, **kwargs)
+            try:
+                response, status = func(request, *args, **kwargs)
+            except ValidationError as e:
+                raise e
+            except NotFound as e:
+                raise e
+            except Exception as e:
+                print(e)
+                response = {"detail": str(e), "status_code": 500}
+                status = 500
             return Response(response, status)
 
         return inner

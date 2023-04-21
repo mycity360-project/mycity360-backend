@@ -161,7 +161,7 @@ def login(email, password, client_id):
     except:
         pass
     if not user:
-        ValidationError(detail=USER_DOES_NOT_EXIST)
+        raise ValidationError(detail=USER_DOES_NOT_EXIST)
     if not user_gateway.verify_password(password=password, id=user.get("id")):
         raise ValidationError(detail=PASSWORD_VERIFICATION_FAILED)
     keys = system_config_gateway.list_system_config(
