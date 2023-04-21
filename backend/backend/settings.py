@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "oauth2_provider",
     "gdstorage",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "backend.urls"
@@ -176,3 +178,8 @@ GOOGLE_APPLICATION_CREDENTIALS = "key.json"
 
 GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = "backend/credentials/key.json"
 GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = "mycity_images"
+CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = False
+# CORS_ORIGIN_WHITELIST = (
+#   'http://localhost:8000',
+# )
