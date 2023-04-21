@@ -29,7 +29,10 @@ class UserAd(Core):
     )
     code = models.CharField(_("Code"), max_length=128, unique=True)
     tags = ListCharField(
-        base_field=models.CharField(max_length=10), max_length=256
+        base_field=models.CharField(max_length=10),
+        max_length=256,
+        null=True,
+        blank=True,
     )
 
     images = models.ManyToManyField(

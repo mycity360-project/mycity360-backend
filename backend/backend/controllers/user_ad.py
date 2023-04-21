@@ -1,3 +1,5 @@
+import string
+import random
 from ..serializers.user_ad import UserAdSerializer
 from ..gateways import user_ad as user_ad_gateway
 
@@ -36,6 +38,9 @@ def list_user_ad(
 def create_user_ad(data):
     if "id" in data:
         data.pop("id")
+    data["code"] = "".join(
+        random.choices(string.ascii_uppercase + string.digits, k=10)
+    )
     serializers = UserAdSerializer(data=data)
     if serializers.is_valid(raise_exception=True):
         category = data.pop("category")

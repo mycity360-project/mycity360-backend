@@ -23,7 +23,9 @@ def list_user_ad(
     if is_featured is not None:
         user_ad = user_ad.filter(is_featured=is_featured)
     if category_id:
-        user_ad = user_ad.filter(Q(category_id=category_id) | Q(category__category_id=category_id))
+        user_ad = user_ad.filter(
+            Q(category_id=category_id) | Q(category__category_id=category_id)
+        )
     if user_id:
         user_ad = user_ad.filter(user_id=user_id)
     if area_id:
