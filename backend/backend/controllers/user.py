@@ -8,6 +8,8 @@ from ..gateways import system_config as system_config_gateway
 from ..constants import *
 from ..utils import services, oauth
 from dateutil import parser
+from ..serializers.system_config import SystemConfigSerializer
+
 
 
 def list_user(is_active=None, page=1, page_size=10, ordering=None):
@@ -73,6 +75,9 @@ def signup(**kwargs):
     keys = system_config_gateway.list_system_config(
         keys=[EMAIL_VERIFICATION_REQUIRED, PHONE_VERIFICATION_REQUIRED]
     )
+    keys = [
+        SystemConfigSerializer.serialize_data(data) for data in keys
+    ]
     email_required = False
     phone_required = False
     for key in keys:
@@ -170,6 +175,9 @@ def login(email, password, client_id):
     keys = system_config_gateway.list_system_config(
         keys=[EMAIL_VERIFICATION_REQUIRED, PHONE_VERIFICATION_REQUIRED]
     )
+    keys = [
+        SystemConfigSerializer.serialize_data(data) for data in keys
+    ]
     updated_user = False
     for key in keys:
         if key.get("key") == EMAIL_VERIFICATION_REQUIRED:
