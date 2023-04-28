@@ -164,6 +164,7 @@ def login(email, password, client_id):
         pass
     if not user:
         raise ValidationError(detail=USER_DOES_NOT_EXIST)
+    user = UserSerializer.serialize_data(user)
     if not user_gateway.verify_password(password=password, id=user.get("id")):
         raise ValidationError(detail=PASSWORD_VERIFICATION_FAILED)
     keys = system_config_gateway.list_system_config(
