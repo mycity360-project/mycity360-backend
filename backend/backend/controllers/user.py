@@ -98,6 +98,7 @@ def signup(**kwargs):
     else:
         kwargs["is_phone_verified"] = True
     user = create_user(kwargs)
+    user = UserSerializer.serialize_data(user)
     if email_required:
         services.send_email(
             subject=EMAIL_SUBJECT,
@@ -108,7 +109,7 @@ def signup(**kwargs):
         )
     if phone_required:
         services.send_sms()
-    return UserSerializer.serialize_data(user)
+    return user
 
 
 def verify_otp(pk, client_id, email_otp=None, phone_otp=None):
@@ -117,6 +118,7 @@ def verify_otp(pk, client_id, email_otp=None, phone_otp=None):
     if not client_id:
         raise ValidationError(detail=CLIENT_ID_REQUIRED)
     user = user_gateway.get_user(id=pk)
+    user = UserSerializer.serialize_data(user)
     if email_otp:
         if (
             str(email_otp) != str(user.get("email_otp"))
