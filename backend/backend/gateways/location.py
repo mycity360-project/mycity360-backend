@@ -13,14 +13,16 @@ def list_location(is_active=None, state_id=None, ordering=None):
     if not ordering:
         ordering = "-pk"
     location = location.order_by(ordering)
-    serializers = LocationSerializer(location, many=True)
-    return serializers.data
+    # serializers = LocationSerializer(location, many=True)
+    # return serializers.data
+    return location
 
 
 def create_location(data):
     location = Location.objects.create(**data)
-    serializers = LocationSerializer(location)
-    return serializers.data
+    # serializers = LocationSerializer(location)
+    # return serializers.data
+    return location
 
 
 def update_location(pk, data):
@@ -29,7 +31,8 @@ def update_location(pk, data):
         serializers = LocationSerializer(location, data)
         if serializers.is_valid(raise_exception=True):
             serializers.save(state_id=data.get("state").get("id"))
-            return serializers.data
+            # return serializers.data
+            return location
     except Location.DoesNotExist:
         raise ValidationError(detail=LOCATION_DOES_NOT_EXIST)
 
@@ -37,8 +40,9 @@ def update_location(pk, data):
 def get_location(pk):
     try:
         location = Location.objects.filter(is_deleted=False).get(id=pk)
-        serializers = LocationSerializer(location)
-        return serializers.data
+        # serializers = LocationSerializer(location)
+        # return serializers.data
+        return location
     except Location.DoesNotExist:
         raise ValidationError(detail=LOCATION_DOES_NOT_EXIST)
 

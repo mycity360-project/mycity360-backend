@@ -11,13 +11,13 @@ class SavedAdSerializer(serializers.ModelSerializer):
     @classmethod
     def serialize_data(cls, data):
         return dict(
-            user=dict(id=data.get("user").get("id")),
-            user_ad=dict(id=data.get("user_ad").get("id")),
-            created_date=data.get("created_date"),
-            updated_date=data.get("updated_date"),
-            extra_data=data.get("extra_data"),
-            is_active=data.get("is_active"),
-            id=data.get("id"),
+            user=dict(id=data.user_id),
+            user_ad=dict(id=data.user_ad_id),
+            created_date=data.created_date,
+            updated_date=data.updated_date,
+            extra_data=data.extra_data,
+            is_active=data.is_active,
+            id=data.id,
         )
 
     class Meta:

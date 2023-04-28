@@ -67,10 +67,10 @@ def create_user_ad(data):
 def update_user_ad(pk, data):
     try:
         user_ad = UserAd.objects.filter(is_deleted=False).get(id=pk)
-        serializers = UserAdSerializer(user_ad, data)
         user_ad.images.clear()
         for image in data.get("images"):
             user_ad.images.add(image.get("id"))
+        serializers = UserAdSerializer(user_ad, data)
         if serializers.is_valid(raise_exception=True):
             kwargs = {}
             if data.get("category", {}):

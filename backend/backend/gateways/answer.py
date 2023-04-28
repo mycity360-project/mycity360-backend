@@ -27,15 +27,15 @@ def list_answer(
         ordering = "-pk"
     answer = answer.order_by(ordering)
     data = paginate_queryset(queryset=answer, page=page, page_size=page_size)
-    serializers = AnswerSerializer(data.get("results"), many=True)
-    data["results"] = serializers.data
+    # serializers = AnswerSerializer(data.get("results"), many=True)
+    # data["results"] = serializers.data
     return data
 
 
 def create_answer(data):
     answer = Answer.objects.create(**data)
-    serializers = AnswerSerializer(answer)
-    return serializers.data
+    # serializers = AnswerSerializer(answer)
+    return answer
 
 
 def update_answer(pk, data):
@@ -51,7 +51,8 @@ def update_answer(pk, data):
             if data.get("question", {}):
                 kwargs["question_id"] = data.get("question").get("id")
             serializers.save(**kwargs)
-            return serializers.data
+            # return serializers.data
+            return answer
     except Answer.DoesNotExist:
         raise ValidationError(detail=ANSWER_DOES_NOT_EXIST)
 
@@ -59,8 +60,9 @@ def update_answer(pk, data):
 def get_answer(pk):
     try:
         answer = Answer.objects.filter(is_deleted=False).get(id=pk)
-        serializers = AnswerSerializer(answer)
-        return serializers.data
+        # serializers = AnswerSerializer(answer)
+        # return serializers.data
+        return answer
     except Answer.DoesNotExist:
         raise ValidationError(detail=ANSWER_DOES_NOT_EXIST)
 

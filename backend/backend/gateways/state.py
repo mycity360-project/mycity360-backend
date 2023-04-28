@@ -11,14 +11,16 @@ def list_state(is_active=None, ordering=None):
     if not ordering:
         ordering = "-pk"
     state = state.order_by(ordering)
-    serializers = StateSerializer(state, many=True)
-    return serializers.data
+    # serializers = StateSerializer(state, many=True)
+    # return serializers.data
+    return state
 
 
 def create_state(data):
     state = State.objects.create(**data)
-    serializers = StateSerializer(state)
-    return serializers.data
+    # serializers = StateSerializer(state)
+    # return serializers.data
+    return state
 
 
 def update_state(pk, data):
@@ -27,7 +29,8 @@ def update_state(pk, data):
         serializers = StateSerializer(state, data)
         if serializers.is_valid(raise_exception=True):
             serializers.save()
-            return serializers.data
+            # return serializers.data
+            return state
     except State.DoesNotExist:
         raise ValidationError(detail=STATE_DOES_NOT_EXIST)
 
@@ -35,8 +38,9 @@ def update_state(pk, data):
 def get_state(pk):
     try:
         state = State.objects.filter(is_deleted=False).get(id=pk)
-        serializers = StateSerializer(state)
-        return serializers.data
+        # serializers = StateSerializer(state)
+        # return serializers.data
+        return state
     except State.DoesNotExist:
         raise ValidationError(detail=STATE_DOES_NOT_EXIST)
 

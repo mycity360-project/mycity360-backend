@@ -11,8 +11,9 @@ def list_image(is_active=None, ordering=None):
     if not ordering:
         ordering = "-pk"
     image = image.order_by(ordering)
-    serializers = ImageSerializer(image, many=True)
-    return serializers.data
+    # serializers = ImageSerializer(image, many=True)
+    # return serializers.data
+    return image
 
 
 def create_image(data):
@@ -26,7 +27,8 @@ def update_image(pk, data):
         serializers = ImageSerializer(image, data)
         if serializers.is_valid(raise_exception=True):
             serializers.save()
-            return serializers.data
+            # return serializers.data
+            return image
     except Image.DoesNotExist:
         raise ValidationError(detail=IMAGE_DOES_NOT_EXIST)
 
@@ -34,8 +36,9 @@ def update_image(pk, data):
 def get_image(pk):
     try:
         image = Image.objects.filter(is_deleted=False).get(id=pk)
-        serializers = ImageSerializer(image)
-        return serializers.data
+        # serializers = ImageSerializer(image)
+        # return serializers.data
+        return image
     except Image.DoesNotExist:
         raise ValidationError(detail=IMAGE_DOES_NOT_EXIST)
 

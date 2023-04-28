@@ -14,8 +14,8 @@ def list_user(is_active=None, page=1, page_size=10, ordering=None):
         ordering = "-pk"
     user = user.order_by(ordering)
     data = paginate_queryset(queryset=user, page=page, page_size=page_size)
-    serializers = UserSerializer(data.get("results"), many=True)
-    data["results"] = serializers.data
+    # serializers = UserSerializer(data.get("results"), many=True)
+    # data["results"] = serializers.data
     return data
 
 
@@ -24,8 +24,9 @@ def create_user(data, password=None):
     user.set_password(password)
     user.password_created_on = datetime.datetime.now()
     user.save()
-    serializers = UserSerializer(user)
-    return serializers.data
+    # serializers = UserSerializer(user)
+    # return serializers.data
+    return user
 
 
 def update_user(id, data):
@@ -35,7 +36,8 @@ def update_user(id, data):
         serializers = UserSerializer(user, data)
         if serializers.is_valid(raise_exception=True):
             serializers.save(area_id=data.get("area").get("id"))
-            return serializers.data
+            # return serializers.data
+            return user
         return serializers.errors
     except User.DoesNotExist:
         raise NotFound(detail=USER_DOES_NOT_EXIST)
@@ -51,8 +53,9 @@ def get_user(id=None, email=None, phone=None):
         if phone:
             kwargs["phone"] = phone
         user = User.objects.filter(is_deleted=False).get(**kwargs)
-        serializers = UserSerializer(user)
-        return serializers.data
+        # serializers = UserSerializer(user)
+        # return serializers.data
+        return user
     except User.DoesNotExist:
         raise NotFound(detail=USER_DOES_NOT_EXIST)
 
@@ -85,8 +88,9 @@ def upload_profile_image(pk, image):
         user = User.objects.filter(is_deleted=False).get(id=pk)
         user.profile_image = image
         user.save()
-        serializers = UserSerializer(user)
-        return serializers.data
+        # serializers = UserSerializer(user)
+        # return serializers.data
+        return user
     except User.DoesNotExist:
         raise NotFound(detail=USER_DOES_NOT_EXIST)
 
@@ -97,7 +101,8 @@ def update_password(id, password):
         user.set_password(password)
         user.password_created_on = datetime.datetime.now()
         user.save()
-        serializers = UserSerializer(user)
-        return serializers.data
+        # serializers = UserSerializer(user)
+        # return serializers.data
+        return user
     except User.DoesNotExist:
         raise NotFound(detail=USER_DOES_NOT_EXIST)

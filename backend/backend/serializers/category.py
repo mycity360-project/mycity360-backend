@@ -15,12 +15,22 @@ class CategorySerializer(serializers.ModelSerializer):
 
     @classmethod
     def serialize_data(cls, data):
-        data["icon"] = serialize_image(data.get("icon"))
-        if data.get("category"):
-            data["category"] = CategorySerializer.serialize_data(
-                data["category"]
-            )
-        return data
+
+        return dict(
+            category=dict(
+                id=data.category_id,
+                name=data.category.name,
+            ) if data.category else None,
+            created_date=data.created_date,
+            updated_date=data.updated_date,
+            extra_data=data.extra_data,
+            is_active=data.is_active,
+            id=data.id,
+            name=data.name,
+            phone=data.phone,
+            sequence=data.sequence,
+            icon=serialize_image(data.icon.url) if data.icon else None,
+        )
 
     class Meta:
         model = Category

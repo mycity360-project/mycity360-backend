@@ -46,13 +46,13 @@ class UserAdSerializer(serializers.ModelSerializer):
             ]
         return dict(
             images=images,
-            user=dict(id=data.user.id),
-            category=dict(id=data.category.id),
+            user=dict(id=data.user_id),
+            category=dict(id=data.category_id),
             area=dict(
-                id=data.area.id,
+                id=data.area_id,
                 name=data.area.name,
                 location=dict(
-                    id=data.area.location.id,
+                    id=data.area.location_id,
                     name=data.area.location.name,
                 ),
             ),

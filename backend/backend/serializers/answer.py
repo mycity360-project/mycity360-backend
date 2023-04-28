@@ -6,18 +6,20 @@ class AnswerSerializer(serializers.ModelSerializer):
     @classmethod
     def serialize_data(cls, data):
         return dict(
-            user=dict(id=data.get("user").get("id")),
-            user_ad=dict(id=data.get("user_ad").get("id")),
-            question=dict(
-                id=data.get("question").get("id"),
-                question=data.get("question").get("question"),
+            user=dict(
+                id=data.user_id,
             ),
-            created_date=data.get("created_date"),
-            updated_date=data.get("updated_date"),
-            extra_data=data.get("extra_data"),
-            is_active=data.get("is_active"),
-            id=data.get("id"),
-            answer=data.get("answer"),
+            user_ad=dict(id=data.user_ad_id),
+            question=dict(
+                id=data.question_id,
+                question=data.question.question,
+            ),
+            created_date=data.created_date,
+            updated_date=data.updated_date,
+            extra_data=data.extra_data,
+            is_active=data.is_active,
+            id=data.id,
+            answer=data.answer,
         )
 
     class Meta:

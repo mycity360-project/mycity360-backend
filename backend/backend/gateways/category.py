@@ -19,15 +19,16 @@ def list_category(
         ordering = "sequence"
     category = category.order_by(ordering)
     data = paginate_queryset(queryset=category, page=page, page_size=page_size)
-    serializers = CategorySerializer(data.get("results"), many=True)
-    data["results"] = serializers.data
+    # serializers = CategorySerializer(data.get("results"), many=True)
+    # data["results"] = serializers.data
     return data
 
 
 def create_category(data):
     category = Category.objects.create(**data)
-    serializers = CategorySerializer(category)
-    return serializers.data
+    # serializers = CategorySerializer(category)
+    # return serializers.data
+    return category
 
 
 def update_category(pk, data):
@@ -40,7 +41,8 @@ def update_category(pk, data):
             if data.get("category", {}):
                 kwargs["category_id"] = data.get("category").get("id")
             serializers.save(**kwargs)
-            return serializers.data
+            # return serializers.data
+            return category
     except Category.DoesNotExist:
         raise ValidationError(detail=CATEGORY_DOES_NOT_EXIST)
 
@@ -48,8 +50,9 @@ def update_category(pk, data):
 def get_category(pk):
     try:
         category = Category.objects.filter(is_deleted=False).get(id=pk)
-        serializers = CategorySerializer(category)
-        return serializers.data
+        # serializers = CategorySerializer(category)
+        # return serializers.data
+        return category
     except Category.DoesNotExist:
         raise ValidationError(detail=CATEGORY_DOES_NOT_EXIST)
 
@@ -67,7 +70,8 @@ def upload_icon(pk, icon):
         category = Category.objects.filter(is_deleted=False).get(id=pk)
         category.icon = icon
         category.save()
-        serializers = CategorySerializer(category)
-        return serializers.data
+        # serializers = CategorySerializer(category)
+        # return serializers.data
+        return category
     except Category.DoesNotExist:
         raise ValidationError(detail=CATEGORY_DOES_NOT_EXIST)

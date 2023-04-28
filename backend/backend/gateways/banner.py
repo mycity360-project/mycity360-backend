@@ -21,15 +21,16 @@ def list_banner(
         ordering = "-pk"
     banner = banner.order_by(ordering)
     data = paginate_queryset(queryset=banner, page=page, page_size=page_size)
-    serializers = BannerSerializer(data.get("results"), many=True)
-    data["results"] = serializers.data
+    # serializers = BannerSerializer(data.get("results"), many=True)
+    # data["results"] = serializers.data
     return data
 
 
 def create_banner(data):
     banner = Banner.objects.create(**data)
-    serializers = BannerSerializer(banner)
-    return serializers.data
+    # serializers = BannerSerializer(banner)
+    # return serializers.data
+    return banner
 
 
 def update_banner(pk, data):
@@ -42,7 +43,8 @@ def update_banner(pk, data):
             if data.get("area", {}):
                 kwargs["area_id"] = data.get("area").get("id")
             serializers.save(**kwargs)
-            return serializers.data
+            # return serializers.data
+            return banner
     except Banner.DoesNotExist:
         raise ValidationError(detail=BANNER_DOES_NOT_EXIST)
 
@@ -50,8 +52,9 @@ def update_banner(pk, data):
 def get_banner(pk):
     try:
         banner = Banner.objects.filter(is_deleted=False).get(id=pk)
-        serializers = BannerSerializer(banner)
-        return serializers.data
+        # serializers = BannerSerializer(banner)
+        # return serializers.data
+        return banner
     except Banner.DoesNotExist:
         raise ValidationError(detail=BANNER_DOES_NOT_EXIST)
 
@@ -69,7 +72,8 @@ def upload_image(pk, image):
         banner = Banner.objects.filter(is_deleted=False).get(id=pk)
         banner.image = image
         banner.save()
-        serializers = BannerSerializer(banner)
-        return serializers.data
+        # serializers = BannerSerializer(banner)
+        # return serializers.data
+        return banner
     except Banner.DoesNotExist:
         raise ValidationError(detail=BANNER_DOES_NOT_EXIST)

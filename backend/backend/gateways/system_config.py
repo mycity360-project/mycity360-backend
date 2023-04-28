@@ -15,14 +15,16 @@ def list_system_config(keys=None, is_active=None, key=None, ordering=None):
     if not ordering:
         ordering = "-pk"
     system_config = system_config.order_by(ordering)
-    serializers = SystemConfigSerializer(system_config, many=True)
-    return serializers.data
+    # serializers = SystemConfigSerializer(system_config, many=True)
+    # return serializers.data
+    return system_config
 
 
 def create_system_config(data):
     system_config = SystemConfig.objects.create(**data)
-    serializers = SystemConfigSerializer(system_config)
-    return serializers.data
+    # serializers = SystemConfigSerializer(system_config)
+    # return serializers.data
+    return system_config
 
 
 def update_system_config(pk, data):
@@ -33,7 +35,8 @@ def update_system_config(pk, data):
         serializers = SystemConfigSerializer(system_config, data)
         if serializers.is_valid(raise_exception=True):
             serializers.save()
-            return serializers.data
+            # return serializers.data
+            return system_config
     except SystemConfig.DoesNotExist:
         raise ValidationError(detail=SYSTEM_CONFIG_DOES_NOT_EXIST)
 
@@ -48,8 +51,9 @@ def get_system_config(pk=None, key=None):
         system_config = SystemConfig.objects.filter(is_deleted=False).get(
             **kwargs
         )
-        serializers = SystemConfigSerializer(system_config)
-        return serializers.data
+        # serializers = SystemConfigSerializer(system_config)
+        # return serializers.data
+        return system_config
     except SystemConfig.DoesNotExist:
         raise ValidationError(detail=SYSTEM_CONFIG_DOES_NOT_EXIST)
 

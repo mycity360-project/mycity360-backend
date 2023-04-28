@@ -24,15 +24,16 @@ def list_saved_ad(
         ordering = "-pk"
     saved_ad = saved_ad.order_by(ordering)
     data = paginate_queryset(queryset=saved_ad, page=page, page_size=page_size)
-    serializers = SavedAdSerializer(data.get("results"), many=True)
-    data["results"] = serializers.data
+    # serializers = SavedAdSerializer(data.get("results"), many=True)
+    # data["results"] = serializers.data
     return data
 
 
 def create_saved_ad(data):
     saved_ad = SavedAd.objects.create(**data)
-    serializers = SavedAdSerializer(saved_ad)
-    return serializers.data
+    # serializers = SavedAdSerializer(saved_ad)
+    # return serializers.data
+    return saved_ad
 
 
 def update_saved_ad(pk, data):
@@ -41,7 +42,8 @@ def update_saved_ad(pk, data):
         serializers = SavedAdSerializer(saved_ad, data)
         if serializers.is_valid(raise_exception=True):
             serializers.save()
-            return serializers.data
+            # return serializers.data
+            return saved_ad
     except SavedAd.DoesNotExist:
         raise ValidationError(detail=SAVED_AD_DOES_NOT_EXIST)
 
@@ -49,8 +51,9 @@ def update_saved_ad(pk, data):
 def get_saved_ad(pk):
     try:
         saved_ad = SavedAd.objects.filter(is_deleted=False).get(id=pk)
-        serializers = SavedAdSerializer(saved_ad)
-        return serializers.data
+        # serializers = SavedAdSerializer(saved_ad)
+        # return serializers.data
+        return saved_ad
     except SavedAd.DoesNotExist:
         raise ValidationError(detail=SAVED_AD_DOES_NOT_EXIST)
 

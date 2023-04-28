@@ -13,14 +13,16 @@ def list_area(is_active=None, location_id=None, ordering=None):
     if not ordering:
         ordering = "-pk"
     area = area.order_by(ordering)
-    serializers = AreaSerializer(area, many=True)
-    return serializers.data
+    # serializers = AreaSerializer(area, many=True)
+    # return serializers.data
+    return area
 
 
 def create_area(data):
     area = Area.objects.create(**data)
-    serializers = AreaSerializer(area)
-    return serializers.data
+    # serializers = AreaSerializer(area)
+    # return serializers.data
+    return area
 
 
 def update_area(pk, data):
@@ -29,7 +31,8 @@ def update_area(pk, data):
         serializers = AreaSerializer(area, data)
         if serializers.is_valid(raise_exception=True):
             serializers.save(location_id=data.get("location").get("id"))
-            return serializers.data
+            # return serializers.data
+            return area
     except Area.DoesNotExist:
         raise ValidationError(detail=AREA_DOES_NOT_EXIST)
 
@@ -37,8 +40,9 @@ def update_area(pk, data):
 def get_area(pk):
     try:
         area = Area.objects.filter(is_deleted=False).get(id=pk)
-        serializers = AreaSerializer(area)
-        return serializers.data
+        # serializers = AreaSerializer(area)
+        # return serializers.data
+        return area
     except Area.DoesNotExist:
         raise ValidationError(detail=AREA_DOES_NOT_EXIST)
 
