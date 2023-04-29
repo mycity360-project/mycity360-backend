@@ -14,7 +14,7 @@ def list_question(
     if category_id is not None:
         question = question.filter(category_id=category_id)
     if not ordering:
-        ordering = "-pk"
+        ordering = "sequence"
     question = question.order_by(ordering)
     data = paginate_queryset(queryset=question, page=page, page_size=page_size)
     # serializers = QuestionSerializer(data.get("results"), many=True)
