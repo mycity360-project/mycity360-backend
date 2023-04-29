@@ -3,7 +3,7 @@ from ..models.question import Question
 
 
 class QuestionSerializer(serializers.ModelSerializer):
-    tags = serializers.ListField(required=False)
+    values = serializers.ListField(required=False)
 
     @classmethod
     def serialize_data(cls, data):
