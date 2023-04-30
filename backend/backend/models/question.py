@@ -38,6 +38,7 @@ class Question(Core):
             ("Text", "Text"),
             ("Number", "Number"),
             ("Dropdown", "Dropdown"),
+            ("Toggle", "Toggle"),
         ),
     )
     label = models.CharField(
