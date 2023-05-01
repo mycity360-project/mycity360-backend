@@ -13,6 +13,7 @@ class AnswerSerializer(serializers.ModelSerializer):
             question=dict(
                 id=data.question_id,
                 question=data.question.question,
+                label=data.question.label,
             ),
             created_date=data.created_date,
             updated_date=data.updated_date,
