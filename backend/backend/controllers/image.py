@@ -8,5 +8,5 @@ from ..utils.google_api import upload_basic
 def upload_image(image):
     if not image:
         raise ValidationError(detail=FILE_REQUIRED)
-    image = image_gateway.create_image(data=dict(url=upload_basic(image)))
+    image = image_gateway.create_image(data=dict(image=upload_basic(image)))
     return ImageSerializer.serialize_data(image)

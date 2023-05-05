@@ -9,7 +9,6 @@ class ImageSerializer(serializers.ModelSerializer):
         return dict(
             id=data.id,
             image=serialize_image(data.image.url if data.image else None),
-            url=data.url
         )
 
     class Meta:

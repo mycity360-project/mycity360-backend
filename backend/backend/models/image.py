@@ -26,11 +26,6 @@ class Image(Core):
         null=True,
         blank=True
     )
-    url = models.URLField(
-        _("Image"),
-        null=True,
-        blank=True
-    )
 
     objects = ImageManager.from_queryset(ImageQueryset)()
 
