@@ -21,11 +21,8 @@ class Image(Core):
     Description of Image Model
     """
 
-    image = models.ImageField(
+    image = models.URLField(
         _("Image"),
-        upload_to=get_file_path,
-        storage=gd_storage,
-        max_length=1024,
         null=True,
         blank=True
     )
