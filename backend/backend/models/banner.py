@@ -39,6 +39,11 @@ class Banner(Core):
         null=True,
         blank=True,
     )
+    url = models.URLField(
+        _("Image"),
+        null=True,
+        blank=True
+    )
 
     objects = BannerManager.from_queryset(BannerQueryset)()
 

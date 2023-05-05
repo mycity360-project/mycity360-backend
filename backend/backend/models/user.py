@@ -64,6 +64,11 @@ class User(AbstractBaseUser, PermissionsMixin, Core):
         upload_to=get_file_path,
         storage=gd_storage,
     )
+    url = models.URLField(
+        _("Image"),
+        null=True,
+        blank=True
+    )
     is_staff = models.BooleanField(
         _("staff status"),
         default=False,

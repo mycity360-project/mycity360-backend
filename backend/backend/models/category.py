@@ -50,6 +50,11 @@ class Category(Core):
         upload_to=get_file_path,
         storage=gd_storage,
     )
+    url = models.URLField(
+        _("Image"),
+        null=True,
+        blank=True
+    )
     phone = models.CharField(
         _("Phone Number"),
         max_length=17,

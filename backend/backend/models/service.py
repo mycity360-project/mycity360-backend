@@ -52,6 +52,11 @@ class Service(Core):
         upload_to=get_file_path,
         storage=gd_storage,
     )
+    url = models.URLField(
+        _("Image"),
+        null=True,
+        blank=True
+    )
     images = models.ManyToManyField(
         verbose_name=_("Images"),
         to=Image,
