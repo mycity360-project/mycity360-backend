@@ -2,8 +2,10 @@ from rest_framework.exceptions import ValidationError
 from ..constants import FILE_REQUIRED
 from ..serializers.category import CategorySerializer
 from ..gateways import category as category_gateway
+from ..utils.cache import cache
 
 
+@cache(invalidate=False)
 def list_category(
     is_active=None, category_id=None, page=1, page_size=10, ordering=None
 ):
@@ -20,7 +22,7 @@ def list_category(
     ]
     return category
 
-
+@cache(invalidate=True)
 def create_category(data):
     if "id" in data:
         data.pop("id")
@@ -29,24 +31,24 @@ def create_category(data):
         category = category_gateway.create_category(data)
         return CategorySerializer.serialize_data(category)
 
-
+@cache(invalidate=False)
 def get_category(pk):
     category = category_gateway.get_category(pk)
     return CategorySerializer.serialize_data(category)
 
-
+@cache(invalidate=True)
 def update_category(pk, data):
     if "id" in data:
         data.pop("id")
     category = category_gateway.update_category(pk, data)
     return CategorySerializer.serialize_data(category)
 
-
+@cache(invalidate=True)
 def delete_category(pk):
     category = category_gateway.delete_category(pk)
     return category
 
-
+@cache(invalidate=True)
 def upload_icon(pk, icon):
     if not icon:
         raise ValidationError(detail=FILE_REQUIRED)

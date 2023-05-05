@@ -2,8 +2,10 @@ from rest_framework.exceptions import ValidationError
 from ..constants import FILE_REQUIRED
 from ..serializers.service import ServiceSerializer
 from ..gateways import service as service_gateway
+from ..utils.cache import cache
 
 
+@cache(invalidate=False)
 def list_service(is_active=None, ordering=None):
     service = service_gateway.list_service(
         is_active=is_active, ordering=ordering
@@ -12,6 +14,7 @@ def list_service(is_active=None, ordering=None):
     return service
 
 
+@cache(invalidate=True)
 def create_service(data):
     if "id" in data:
         data.pop("id")
@@ -21,11 +24,13 @@ def create_service(data):
         return ServiceSerializer.serialize_data(service)
 
 
+@cache(invalidate=False)
 def get_service(pk):
     service = service_gateway.get_service(pk)
     return ServiceSerializer.serialize_data(service)
 
 
+@cache(invalidate=True)
 def update_service(pk, data):
     if "id" in data:
         data.pop("id")
@@ -33,11 +38,13 @@ def update_service(pk, data):
     return ServiceSerializer.serialize_data(service)
 
 
+@cache(invalidate=True)
 def delete_service(pk):
     service = service_gateway.delete_service(pk)
     return service
 
 
+@cache(invalidate=True)
 def upload_icon(pk, icon):
     if not icon:
         raise ValidationError(detail=FILE_REQUIRED)
