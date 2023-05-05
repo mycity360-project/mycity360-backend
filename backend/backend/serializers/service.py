@@ -27,7 +27,7 @@ class ServiceSerializer(serializers.ModelSerializer):
             is_active=data.is_active,
             id=data.id,
             sequence=data.sequence,
-            icon=serialize_image(data.icon.url) if data.icon else None,
+            icon=data.icon,
         )
 
     class Meta:

@@ -25,7 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
             first_name=data.first_name,
             last_name=data.last_name,
             country_code=data.country_code,
-            profile_image=serialize_image(data.profile_image.url) if data.profile_image else None,
+            profile_image=data.profile_image,
             date_joined=data.date_joined,
             is_phone_verified=data.is_phone_verified,
             is_email_verified=data.is_email_verified,

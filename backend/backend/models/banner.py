@@ -31,16 +31,7 @@ class Banner(Core):
         related_name="banner_area",
         on_delete=models.CASCADE,
     )
-    image = models.URLField(
-        _("Image"),
-        null=True,
-        blank=True
-    )
-    url = models.URLField(
-        _("Image"),
-        null=True,
-        blank=True
-    )
+    image = models.URLField(_("Image"), null=True, blank=True)
 
     objects = BannerManager.from_queryset(BannerQueryset)()
 

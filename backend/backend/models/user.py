@@ -56,16 +56,7 @@ class User(AbstractBaseUser, PermissionsMixin, Core):
     country_code = models.CharField(
         verbose_name=_("Country Code"), max_length=16, null=True, blank=True
     )
-    profile_image =models.URLField(
-        _("Image"),
-        null=True,
-        blank=True
-    )
-    url = models.URLField(
-        _("Image"),
-        null=True,
-        blank=True
-    )
+    profile_image = models.URLField(_("Image"), null=True, blank=True)
     is_staff = models.BooleanField(
         _("staff status"),
         default=False,

@@ -14,7 +14,7 @@ class BannerSerializer(serializers.ModelSerializer):
             id=data.id,
             redirect_url=data.redirect_url,
             area=dict(id=data.area_id),
-            image=serialize_image(data.image.url) if data.image else None,
+            image=data.image,
         )
 
     class Meta:

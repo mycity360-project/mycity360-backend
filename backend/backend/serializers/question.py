@@ -22,7 +22,6 @@ class QuestionSerializer(serializers.ModelSerializer):
             is_required=data.is_required,
             answer_limit=data.answer_limit,
             values=data.values,
-
         )
 
     class Meta:

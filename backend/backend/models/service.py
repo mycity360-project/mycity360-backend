@@ -44,16 +44,8 @@ class Service(Core):
         validators=[phone_regex],
     )
 
-    icon = models.URLField(
-        _("Image"),
-        null=True,
-        blank=True
-    )
-    url = models.URLField(
-        _("Image"),
-        null=True,
-        blank=True
-    )
+    icon = models.URLField(_("Image"), null=True, blank=True)
+
     images = models.ManyToManyField(
         verbose_name=_("Images"),
         to=Image,

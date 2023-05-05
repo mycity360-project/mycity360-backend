@@ -21,11 +21,7 @@ class Image(Core):
     Description of Image Model
     """
 
-    image = models.URLField(
-        _("Image"),
-        null=True,
-        blank=True
-    )
+    image = models.URLField(_("Image"), null=True, blank=True)
 
     objects = ImageManager.from_queryset(ImageQueryset)()
 

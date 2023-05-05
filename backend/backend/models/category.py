@@ -42,16 +42,8 @@ class Category(Core):
         blank=True,
     )
 
-    icon = models.URLField(
-        _("Image"),
-        null=True,
-        blank=True
-    )
-    url = models.URLField(
-        _("Image"),
-        null=True,
-        blank=True
-    )
+    icon = models.URLField(_("Image"), null=True, blank=True)
+
     phone = models.CharField(
         _("Phone Number"),
         max_length=17,
