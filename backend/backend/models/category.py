@@ -42,13 +42,10 @@ class Category(Core):
         blank=True,
     )
 
-    icon = models.ImageField(
-        verbose_name=_("Icon"),
-        max_length=1024,
+    icon = models.URLField(
+        _("Image"),
         null=True,
-        blank=True,
-        upload_to=get_file_path,
-        storage=gd_storage,
+        blank=True
     )
     url = models.URLField(
         _("Image"),

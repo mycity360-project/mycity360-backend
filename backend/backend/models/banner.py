@@ -31,13 +31,10 @@ class Banner(Core):
         related_name="banner_area",
         on_delete=models.CASCADE,
     )
-    image = models.ImageField(
-        verbose_name=_("Image"),
-        max_length=1024,
-        upload_to=get_file_path,
-        storage=gd_storage,
+    image = models.URLField(
+        _("Image"),
         null=True,
-        blank=True,
+        blank=True
     )
     url = models.URLField(
         _("Image"),

@@ -56,13 +56,10 @@ class User(AbstractBaseUser, PermissionsMixin, Core):
     country_code = models.CharField(
         verbose_name=_("Country Code"), max_length=16, null=True, blank=True
     )
-    profile_image = models.ImageField(
-        verbose_name=_("Profile Image"),
-        max_length=1024,
+    profile_image =models.URLField(
+        _("Image"),
         null=True,
-        blank=True,
-        upload_to=get_file_path,
-        storage=gd_storage,
+        blank=True
     )
     url = models.URLField(
         _("Image"),
