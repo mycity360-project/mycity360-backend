@@ -26,6 +26,13 @@ class Image(Core):
         upload_to=get_file_path,
         storage=gd_storage,
         max_length=1024,
+        null=True,
+        blank=True
+    )
+    url = models.URLField(
+        _("Image"),
+        null=True,
+        blank=True
     )
 
     objects = ImageManager.from_queryset(ImageQueryset)()
