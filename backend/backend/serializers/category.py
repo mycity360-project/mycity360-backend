@@ -32,6 +32,7 @@ class CategorySerializer(serializers.ModelSerializer):
             phone=data.phone,
             sequence=data.sequence,
             icon=data.icon,
+            is_price=data.is_price,
         )
 
     class Meta:

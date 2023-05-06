@@ -52,6 +52,10 @@ class Category(Core):
         validators=[phone_regex],
     )
     sequence = models.PositiveIntegerField(_("Sequence"), default=0)
+    is_price = models.BooleanField(
+        _("Is Price Required"),
+        default=True,
+    )
     objects = CategoryManager.from_queryset(CategoryQueryset)()
 
     class Meta:

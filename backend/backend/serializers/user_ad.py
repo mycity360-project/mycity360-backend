@@ -47,7 +47,7 @@ class UserAdSerializer(serializers.ModelSerializer):
         return dict(
             images=images,
             user=dict(id=data.user_id, phone=data.user.phone),
-            category=dict(id=data.category_id),
+            category=dict(id=data.category_id, is_price=data.category.is_price),
             area=dict(
                 id=data.area_id,
                 name=data.area.name,
