@@ -12,6 +12,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="category",
             name="is_price",
-            field=models.BooleanField(default=True, verbose_name="Is Price Required"),
+            field=models.BooleanField(
+                default=True, verbose_name="Is Price Required"
+            ),
         ),
     ]

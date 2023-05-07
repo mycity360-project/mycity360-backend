@@ -9,6 +9,7 @@ from ..constants import *
 from ..utils import services, oauth
 from dateutil import parser
 from ..serializers.system_config import SystemConfigSerializer
+from ..utils.google_api import upload_basic
 
 
 def list_user(is_active=None, page=1, page_size=10, ordering=None):
@@ -218,7 +219,7 @@ def login(email, password, client_id):
 def upload_profile_image(pk, image):
     if not image:
         raise ValidationError(detail=FILE_REQUIRED)
-    user = user_gateway.upload_profile_image(pk, image)
+    user = user_gateway.upload_profile_image(pk, upload_basic(image))
     return UserSerializer.serialize_data(user)
 
 

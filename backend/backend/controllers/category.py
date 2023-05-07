@@ -3,6 +3,7 @@ from ..constants import FILE_REQUIRED
 from ..serializers.category import CategorySerializer
 from ..gateways import category as category_gateway
 from ..utils.cache import cache
+from ..utils.google_api import upload_basic
 
 
 @cache(invalidate=False)
@@ -22,6 +23,7 @@ def list_category(
     ]
     return category
 
+
 @cache(invalidate=True)
 def create_category(data):
     if "id" in data:
@@ -31,10 +33,12 @@ def create_category(data):
         category = category_gateway.create_category(data)
         return CategorySerializer.serialize_data(category)
 
+
 @cache(invalidate=False)
 def get_category(pk):
     category = category_gateway.get_category(pk)
     return CategorySerializer.serialize_data(category)
+
 
 @cache(invalidate=True)
 def update_category(pk, data):
@@ -43,14 +47,16 @@ def update_category(pk, data):
     category = category_gateway.update_category(pk, data)
     return CategorySerializer.serialize_data(category)
 
+
 @cache(invalidate=True)
 def delete_category(pk):
     category = category_gateway.delete_category(pk)
     return category
 
+
 @cache(invalidate=True)
 def upload_icon(pk, icon):
     if not icon:
         raise ValidationError(detail=FILE_REQUIRED)
-    category = category_gateway.upload_icon(pk, icon)
+    category = category_gateway.upload_icon(pk, upload_basic(icon))
     return CategorySerializer.serialize_data(category)
