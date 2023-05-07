@@ -101,7 +101,7 @@ def signup(**kwargs):
     else:
         kwargs["is_phone_verified"] = True
     user = create_user(kwargs)
-    user = UserSerializer.serialize_data(user)
+    # user = UserSerializer.serialize_data(user)
     if email_required:
         services.send_email(
             subject=EMAIL_SUBJECT,
