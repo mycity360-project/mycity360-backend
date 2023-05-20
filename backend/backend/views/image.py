@@ -16,5 +16,5 @@ def image_upload(request):
 @api_view(["POST"])
 @response_handler()
 def image_upload_v2(request):
-    response = image_controller.upload_image(request.FILES.get("file"))
+    response = image_controller.upload_image_v2(request.FILES.get("file"))
     return response, status.HTTP_200_OK
