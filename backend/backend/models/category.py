@@ -9,11 +9,7 @@ from django.utils.translation import gettext_lazy as _
 
 from ..utils.core import Core
 from ..managers.category import CategoryManager, CategoryQueryset
-from ..utils.services import get_file_path
-from gdstorage.storage import GoogleDriveStorage
 
-# Define Google Drive Storage
-gd_storage = GoogleDriveStorage()
 
 phone_regex = RegexValidator(
     regex=r"^\+?1?\d{9,15}$",

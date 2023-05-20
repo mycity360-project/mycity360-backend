@@ -43,3 +43,5 @@ NEW_PASSWORD_IS_SAME = "New password can not be the same as old password"
 FILE_REQUIRED = "File is required"
 
 CACHE_URL = "redis://127.0.0.1:6379/1"
+
+MEDIA_ROOT = "/var/www/media"

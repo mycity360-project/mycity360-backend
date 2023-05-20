@@ -8,12 +8,6 @@ from django.utils.translation import gettext_lazy as _
 
 from ..utils.core import Core
 from ..managers.image import ImageManager, ImageQueryset
-from ..utils.services import get_file_path
-
-from gdstorage.storage import GoogleDriveStorage
-
-# Define Google Drive Storage
-gd_storage = GoogleDriveStorage()
 
 
 class Image(Core):

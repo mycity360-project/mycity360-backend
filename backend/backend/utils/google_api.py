@@ -3,7 +3,11 @@ from __future__ import print_function
 import os.path
 import base64
 import json
+import traceback
+
 from google.auth.transport.requests import Request
+from uuid import uuid4
+from django.core.files.storage import FileSystemStorage
 
 # from google.oauth2.credentials import Credentials
 from google.oauth2.service_account import Credentials
@@ -21,6 +25,7 @@ import google.auth
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
+from rest_framework.exceptions import ValidationError
 
 
 def send_mail(subject, body, to_email=()):
@@ -102,6 +107,28 @@ def upload_basic(file):
         file = None
 
     return file
+
+
+def upload_to_local(file):
+    """Insert new file.
+    Returns : Id's of the file uploaded
+    """
+    try:
+        img_extension = os.path.splitext(file.name)[1]
+        folder = constants.MEDIA_ROOT
+        if not os.path.exists(folder):
+            os.mkdir(folder)
+
+        img_save_path = f"{folder}/{uuid4()}{img_extension}"
+        with open(img_save_path, 'wb+') as f:
+            for chunk in file.chunks():
+                f.write(chunk)
+
+        return img_save_path
+    except:
+        print(traceback.format_exc())
+        raise ValidationError()
+
 
 
 # if __name__ == '__main__':
