@@ -118,13 +118,13 @@ def upload_to_local(file):
         folder = constants.MEDIA_ROOT
         if not os.path.exists(folder):
             os.mkdir(folder)
-
-        img_save_path = f"{folder}/{uuid4()}{img_extension}"
+        file_name = f"{uuid4()}{img_extension}"
+        img_save_path = f"{folder}/{file_name}"
         with open(img_save_path, 'wb+') as f:
             for chunk in file.chunks():
                 f.write(chunk)
-
-        return img_save_path
+        path = f"{constants.SERVER_BASE_URL}/{file_name}"
+        return path
     except:
         print(traceback.format_exc())
         raise ValidationError()

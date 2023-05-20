@@ -45,3 +45,4 @@ FILE_REQUIRED = "File is required"
 CACHE_URL = "redis://127.0.0.1:6379/1"
 
 MEDIA_ROOT = "/var/www/media"
+SERVER_BASE_URL = "http://68.178.169.59/media/"
