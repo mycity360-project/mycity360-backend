@@ -115,17 +115,17 @@ def upload_to_local(file, folder=None):
     """
     try:
         img_extension = os.path.splitext(file.name)[1]
-        base_folder = constants.MEDIA_ROOT
-        if not os.path.exists(folder):
-            os.mkdir(folder)
-        file_name = f"{uuid4()}{img_extension}"
+        base_folder = f"{constants.MEDIA_ROOT}"
         if folder:
-            file_name = f"{folder}/{file_name}"
+            base_folder = f"{constants.MEDIA_ROOT}{folder}/"
+        if not os.path.exists(base_folder):
+            os.mkdir(base_folder)
+        file_name = f"{uuid4()}{img_extension}"
         img_save_path = f"{base_folder}{file_name}"
         with open(img_save_path, "wb+") as f:
             for chunk in file.chunks():
                 f.write(chunk)
-        path = f"{constants.SERVER_BASE_URL}{file_name}"
+        path = f"{constants.SERVER_BASE_URL}{folder}{file_name}"
         return path
     except:
         print(traceback.format_exc())
