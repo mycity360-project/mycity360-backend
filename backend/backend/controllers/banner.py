@@ -3,7 +3,7 @@ from rest_framework.exceptions import ValidationError
 from ..constants import FILE_REQUIRED
 from ..gateways import banner as banner_gateway
 from ..utils.cache import cache
-from ..utils.google_api import upload_basic
+from ..utils.google_api import upload_to_local, delete_image
 
 
 @cache(invalidate=False)
@@ -58,6 +58,9 @@ def update_banner(pk, data):
 
 @cache(invalidate=True)
 def delete_banner(pk):
+    banner = banner_gateway.get_banner(pk)
+    if banner.get("image"):
+        delete_image(banner.get("image"))
     banner = banner_gateway.delete_banner(pk)
     return banner
 
@@ -66,5 +69,10 @@ def delete_banner(pk):
 def upload_image(pk, image):
     if not image:
         raise ValidationError(detail=FILE_REQUIRED)
-    banner = banner_gateway.upload_image(pk, upload_basic(image))
+    banner = banner_gateway.get_banner(pk)
+    if banner.get("image"):
+        delete_image(banner.get("image"))
+    banner = banner_gateway.upload_image(
+        pk, upload_to_local(image, folder="banner")
+    )
     return BannerSerializer.serialize_data(banner)

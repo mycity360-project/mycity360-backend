@@ -109,18 +109,20 @@ def upload_basic(file):
     return file
 
 
-def upload_to_local(file):
+def upload_to_local(file, folder=None):
     """Insert new file.
     Returns : Id's of the file uploaded
     """
     try:
         img_extension = os.path.splitext(file.name)[1]
-        folder = constants.MEDIA_ROOT
+        base_folder = constants.MEDIA_ROOT
         if not os.path.exists(folder):
             os.mkdir(folder)
         file_name = f"{uuid4()}{img_extension}"
-        img_save_path = f"{folder}/{file_name}"
-        with open(img_save_path, 'wb+') as f:
+        if folder:
+            file_name = f"{folder}/{file_name}"
+        img_save_path = f"{base_folder}{file_name}"
+        with open(img_save_path, "wb+") as f:
             for chunk in file.chunks():
                 f.write(chunk)
         path = f"{constants.SERVER_BASE_URL}{file_name}"
@@ -129,6 +131,14 @@ def upload_to_local(file):
         print(traceback.format_exc())
         raise ValidationError()
 
+
+def delete_image(filename):
+    try:
+        os.remove(
+            filename.replace(constants.SERVER_BASE_URL, constants.MEDIA_ROOT)
+        )
+    except:
+        print(traceback.format_exc())
 
 
 # if __name__ == '__main__':

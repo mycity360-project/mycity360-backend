@@ -94,9 +94,9 @@ def get_user_ad(pk):
         raise ValidationError(detail="UserAd with this id does not exist")
 
 
-def delete_user_ad(pk):
+def delete_user_ad(pk, force=None):
     try:
-        user_ad = UserAd.objects.filter(is_deleted=False).get(pk=pk)
-        return user_ad.delete()
+        user_ad = UserAd.objects.get(pk=pk)
+        return user_ad.delete(force=force)
     except UserAd.DoesNotExist:
         raise ValidationError(detail="UserAd with this id does not exist")

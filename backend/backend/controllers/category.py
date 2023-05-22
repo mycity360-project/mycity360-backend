@@ -3,7 +3,7 @@ from ..constants import FILE_REQUIRED
 from ..serializers.category import CategorySerializer
 from ..gateways import category as category_gateway
 from ..utils.cache import cache
-from ..utils.google_api import upload_basic
+from ..utils.google_api import upload_to_local, delete_image
 
 
 @cache(invalidate=False)
@@ -50,6 +50,9 @@ def update_category(pk, data):
 
 @cache(invalidate=True)
 def delete_category(pk):
+    category = category_gateway.get_category(pk)
+    if category.get("icon"):
+        delete_image(category.get("icon"))
     category = category_gateway.delete_category(pk)
     return category
 
@@ -58,5 +61,10 @@ def delete_category(pk):
 def upload_icon(pk, icon):
     if not icon:
         raise ValidationError(detail=FILE_REQUIRED)
-    category = category_gateway.upload_icon(pk, upload_basic(icon))
+    category = category_gateway.get_category(pk)
+    if category.get("icon"):
+        delete_image(category.get("icon"))
+    category = category_gateway.upload_icon(
+        pk, upload_to_local(icon, folder="category")
+    )
     return CategorySerializer.serialize_data(category)

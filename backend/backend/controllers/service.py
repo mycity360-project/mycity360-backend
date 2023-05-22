@@ -3,6 +3,7 @@ from ..constants import FILE_REQUIRED
 from ..serializers.service import ServiceSerializer
 from ..gateways import service as service_gateway
 from ..utils.cache import cache
+from ..utils.google_api import upload_to_local, delete_image
 
 
 @cache(invalidate=False)
@@ -40,6 +41,9 @@ def update_service(pk, data):
 
 @cache(invalidate=True)
 def delete_service(pk):
+    service = service_gateway.get_service(pk)
+    if service.get("icon"):
+        delete_image(service.get("icon"))
     service = service_gateway.delete_service(pk)
     return service
 
@@ -48,5 +52,10 @@ def delete_service(pk):
 def upload_icon(pk, icon):
     if not icon:
         raise ValidationError(detail=FILE_REQUIRED)
-    service = service_gateway.upload_icon(pk, icon)
+    service = service_gateway.get_service(pk)
+    if service.get("icon"):
+        delete_image(service.get("icon"))
+    service = service_gateway.upload_icon(
+        pk, upload_to_local(icon, folder="service")
+    )
     return ServiceSerializer.serialize_data(service)

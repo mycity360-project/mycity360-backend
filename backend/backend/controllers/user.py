@@ -9,7 +9,7 @@ from ..constants import *
 from ..utils import services, oauth
 from dateutil import parser
 from ..serializers.system_config import SystemConfigSerializer
-from ..utils.google_api import upload_basic
+from ..utils.google_api import upload_to_local, delete_image
 
 
 def list_user(is_active=None, page=1, page_size=10, ordering=None):
@@ -219,7 +219,12 @@ def login(email, password, client_id):
 def upload_profile_image(pk, image):
     if not image:
         raise ValidationError(detail=FILE_REQUIRED)
-    user = user_gateway.upload_profile_image(pk, upload_basic(image))
+    user = user_gateway.get_user(pk)
+    if user.get("icon"):
+        delete_image(user.get("profile_image"))
+    user = user_gateway.upload_profile_image(
+        pk, upload_to_local(image, folder="user")
+    )
     return UserSerializer.serialize_data(user)
 
 

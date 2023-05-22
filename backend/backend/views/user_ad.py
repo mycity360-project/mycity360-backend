@@ -4,6 +4,7 @@ from rest_framework.decorators import (
 )
 from ..controllers import user_ad as user_ad_controller
 from ..utils.views import response_handler
+from ..constants import ADMIN_ROLE
 
 
 @api_view(["GET", "POST"])
@@ -32,6 +33,22 @@ def user_ad_list(request):
 @api_view(["GET", "PUT", "DELETE"])
 @response_handler()
 def user_ad_details(request, pk):
+    if request.method == "GET":
+        response = user_ad_controller.get_user_ad(pk)
+        return response, status.HTTP_200_OK
+
+    elif request.method == "PUT":
+        response = user_ad_controller.update_user_ad(pk, request.data)
+        return response, status.HTTP_200_OK
+
+    elif request.method == "DELETE":
+        response = user_ad_controller.delete_user_ad(pk)
+        return response, status.HTTP_204_NO_CONTENT
+
+
+@api_view(["GET", "PUT", "DELETE"])
+@response_handler(ADMIN_ROLE)
+def user_ad_details_admin(request, pk):
     if request.method == "GET":
         response = user_ad_controller.get_user_ad(pk)
         return response, status.HTTP_200_OK

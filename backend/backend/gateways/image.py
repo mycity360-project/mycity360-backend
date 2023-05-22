@@ -46,6 +46,6 @@ def get_image(pk):
 def delete_image(pk):
     try:
         image = Image.objects.filter(is_deleted=False).get(pk=pk)
-        return image.delete()
+        return image.delete(force=True)
     except Image.DoesNotExist:
         raise ValidationError(detail=IMAGE_DOES_NOT_EXIST)

@@ -2,6 +2,7 @@ import string
 import random
 from ..serializers.user_ad import UserAdSerializer
 from ..gateways import user_ad as user_ad_gateway
+from ..controllers.image import delete_image
 
 
 def list_user_ad(
@@ -70,4 +71,12 @@ def update_user_ad(pk, data):
 
 def delete_user_ad(pk):
     user_ad = user_ad_gateway.delete_user_ad(pk)
+    return user_ad
+
+
+def delete_user_ad_admin(pk):
+    user_ad = user_ad_gateway.get_user_ad(pk)
+    for img in user_ad.get("images"):
+        delete_image(pk=img.get("id"))
+    user_ad = user_ad_gateway.delete_user_ad(pk, force=True)
     return user_ad
