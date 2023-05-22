@@ -76,6 +76,7 @@ def delete_user_ad(pk):
 
 def delete_user_ad_admin(pk):
     user_ad = user_ad_gateway.get_user_ad(pk)
+    user_ad = UserAdSerializer.serialize_data(user_ad)
     for img in user_ad.get("images"):
         delete_image(pk=img.get("id"))
     user_ad = user_ad_gateway.delete_user_ad(pk, force=True)

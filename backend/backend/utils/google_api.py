@@ -125,7 +125,7 @@ def upload_to_local(file, folder=None):
         with open(img_save_path, "wb+") as f:
             for chunk in file.chunks():
                 f.write(chunk)
-        path = f"{constants.SERVER_BASE_URL}{folder}{file_name}"
+        path = f"{constants.SERVER_BASE_URL}{folder}/{file_name}"
         return path
     except:
         print(traceback.format_exc())

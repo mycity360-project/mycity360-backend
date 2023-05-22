@@ -59,8 +59,8 @@ def update_banner(pk, data):
 @cache(invalidate=True)
 def delete_banner(pk):
     banner = banner_gateway.get_banner(pk)
-    if banner.get("image"):
-        delete_image(banner.get("image"))
+    if banner.image:
+        delete_image(banner.image)
     banner = banner_gateway.delete_banner(pk)
     return banner
 
@@ -70,8 +70,8 @@ def upload_image(pk, image):
     if not image:
         raise ValidationError(detail=FILE_REQUIRED)
     banner = banner_gateway.get_banner(pk)
-    if banner.get("image"):
-        delete_image(banner.get("image"))
+    if banner.image:
+        delete_image(banner.image)
     banner = banner_gateway.upload_image(
         pk, upload_to_local(image, folder="banner")
     )

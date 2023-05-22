@@ -33,7 +33,7 @@ def upload_to_local(
         img_save_path = f"{base_folder}{file_name}"
         with open(img_save_path, "wb+") as f:
             f.write(file)
-        path = f"{constants.SERVER_BASE_URL}{folder}{file_name}"
+        path = f"{constants.SERVER_BASE_URL}{folder}/{file_name}"
         return path
     except:
         print(traceback.format_exc())

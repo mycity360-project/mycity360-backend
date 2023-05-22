@@ -42,8 +42,8 @@ def update_service(pk, data):
 @cache(invalidate=True)
 def delete_service(pk):
     service = service_gateway.get_service(pk)
-    if service.get("icon"):
-        delete_image(service.get("icon"))
+    if service.icon:
+        delete_image(service.icon)
     service = service_gateway.delete_service(pk)
     return service
 
@@ -53,8 +53,8 @@ def upload_icon(pk, icon):
     if not icon:
         raise ValidationError(detail=FILE_REQUIRED)
     service = service_gateway.get_service(pk)
-    if service.get("icon"):
-        delete_image(service.get("icon"))
+    if service.icon:
+        delete_image(service.icon)
     service = service_gateway.upload_icon(
         pk, upload_to_local(icon, folder="service")
     )

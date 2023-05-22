@@ -51,8 +51,8 @@ def update_category(pk, data):
 @cache(invalidate=True)
 def delete_category(pk):
     category = category_gateway.get_category(pk)
-    if category.get("icon"):
-        delete_image(category.get("icon"))
+    if category.icon:
+        delete_image(category.icon)
     category = category_gateway.delete_category(pk)
     return category
 
@@ -62,8 +62,8 @@ def upload_icon(pk, icon):
     if not icon:
         raise ValidationError(detail=FILE_REQUIRED)
     category = category_gateway.get_category(pk)
-    if category.get("icon"):
-        delete_image(category.get("icon"))
+    if category.icon:
+        delete_image(category.icon)
     category = category_gateway.upload_icon(
         pk, upload_to_local(icon, folder="category")
     )

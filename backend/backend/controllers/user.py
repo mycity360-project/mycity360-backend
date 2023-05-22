@@ -220,8 +220,8 @@ def upload_profile_image(pk, image):
     if not image:
         raise ValidationError(detail=FILE_REQUIRED)
     user = user_gateway.get_user(pk)
-    if user.get("icon"):
-        delete_image(user.get("profile_image"))
+    if user.profile_image:
+        delete_image(user.profile_image)
     user = user_gateway.upload_profile_image(
         pk, upload_to_local(image, folder="user")
     )
