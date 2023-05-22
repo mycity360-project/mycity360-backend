@@ -29,7 +29,7 @@ def upload_to_local(
             base_folder = f"{constants.MEDIA_ROOT}{folder}/"
         if not os.path.exists(base_folder):
             os.mkdir(base_folder)
-        file_name = f"{uuid4()}.png}"
+        file_name = f"{uuid4()}.png"
         img_save_path = f"{base_folder}{file_name}"
         with open(img_save_path, "wb+") as f:
             f.write(file)
