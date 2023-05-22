@@ -29,7 +29,7 @@ def upload_to_local(
             base_folder = f"{constants.MEDIA_ROOT}{folder}/"
         if not os.path.exists(base_folder):
             os.mkdir(base_folder)
-        file_name = f"{uuid4()}{ext}"
+        file_name = f"{uuid4()}.png}"
         img_save_path = f"{base_folder}{file_name}"
         with open(img_save_path, "wb+") as f:
             f.write(file)
@@ -53,6 +53,7 @@ for cat in category:
             c.icon = path
             c.save()
         except Exception as e:
+            print("Category")
             print(e)
 
 banner = Banner.objects.all()
@@ -69,6 +70,7 @@ for cat in banner:
             c.image = path
             c.save()
         except Exception as e:
+            print("Banner")
             print(e)
 
 service = Service.objects.all()
@@ -76,6 +78,8 @@ for cat in service:
     if cat.icon:
         try:
             response = requests.get(cat.icon)
+            print("=============")
+            print(response)
             path = upload_to_local(
                 response.content,
                 ext=f'.{cat.icon.split(".")[-1]}',
@@ -85,4 +89,5 @@ for cat in service:
             c.icon = path
             c.save()
         except Exception as e:
+            print("Service")
             print(e)
