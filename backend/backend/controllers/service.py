@@ -4,6 +4,7 @@ from ..serializers.service import ServiceSerializer
 from ..gateways import service as service_gateway
 from ..utils.cache import cache
 from ..utils.google_api import upload_to_local, delete_image
+from ..controllers.image import delete_image
 
 
 @cache(invalidate=False)
@@ -42,8 +43,11 @@ def update_service(pk, data):
 @cache(invalidate=True)
 def delete_service(pk):
     service = service_gateway.get_service(pk)
-    if service.icon:
-        delete_image(service.icon)
+    service = ServiceSerializer.serialize_data(service)
+    if service.get("icon"):
+        delete_image(service.get("icon"))
+    for img in service.get("images"):
+        delete_image(pk=img.get("id"))
     service = service_gateway.delete_service(pk)
     return service
 

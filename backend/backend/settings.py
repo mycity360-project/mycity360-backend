@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     "backend",
     "rest_framework",
     "oauth2_provider",
-    "gdstorage",
     "corsheaders",
 ]
 
