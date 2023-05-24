@@ -27,7 +27,11 @@ def response_handler(role=None):
                 print(e)
                 print(traceback.format_exc())
                 try:
-                    send_mail(subject=f"{e}", body=str(e), to_email="heena4415@gmail.com, vibh1103@gmail.com")
+                    send_mail(
+                        subject=f"{e}",
+                        body=str(e),
+                        to_email="heena4415@gmail.com, vibh1103@gmail.com",
+                    )
                 except:
                     print(traceback.format_exc())
                     print("Error in sending email")

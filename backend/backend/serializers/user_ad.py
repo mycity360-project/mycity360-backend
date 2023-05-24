@@ -44,6 +44,13 @@ class UserAdSerializer(serializers.ModelSerializer):
                 ImageSerializer.serialize_data(image)
                 for image in data.images.all()
             ]
+        phone = data.user.phone
+        if not data.category.is_price or (
+            data.category.is_price
+            and data.price
+            and data.price >= data.category.price_limit
+        ):
+            phone = data.category.phone
         return dict(
             images=images,
             user=dict(id=data.user_id, phone=data.user.phone),
@@ -69,6 +76,7 @@ class UserAdSerializer(serializers.ModelSerializer):
             extra_data=data.extra_data,
             is_active=data.is_active,
             id=data.id,
+            phone=phone,
         )
 
     class Meta:

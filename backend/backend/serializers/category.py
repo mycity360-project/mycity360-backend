@@ -33,6 +33,7 @@ class CategorySerializer(serializers.ModelSerializer):
             sequence=data.sequence,
             icon=data.icon,
             is_price=data.is_price,
+            price_limit=data.price_limit,
         )
 
     class Meta:
