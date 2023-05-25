@@ -13,7 +13,7 @@ def list_category(
     page=1,
     page_size=10,
     ordering=None,
-    parent=None,
+    parent=True,
 ):
     category = category_gateway.list_category(
         is_active=is_active,

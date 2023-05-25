@@ -17,6 +17,7 @@ def category_list(request):
             ordering=request.query_params.get("ordering"),
             page=request.query_params.get("page", 1),
             page_size=request.query_params.get("page_size", 10),
+            parent=True,
         )
         return response, status.HTTP_200_OK
 
