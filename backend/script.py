@@ -38,6 +38,7 @@ def upload_to_local(
     except:
         print(traceback.format_exc())
 
+
 #
 # category = Category.objects.all()
 # for cat in category:

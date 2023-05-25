@@ -8,7 +8,12 @@ from ..utils.google_api import upload_to_local, delete_image
 
 @cache(invalidate=False)
 def list_category(
-    is_active=None, category_id=None, page=1, page_size=10, ordering=None
+    is_active=None,
+    category_id=None,
+    page=1,
+    page_size=10,
+    ordering=None,
+    parent=None,
 ):
     category = category_gateway.list_category(
         is_active=is_active,
@@ -16,6 +21,7 @@ def list_category(
         page=page,
         page_size=page_size,
         ordering=ordering,
+        parent=parent,
     )
     category["results"] = [
         CategorySerializer.serialize_data(data)

@@ -6,7 +6,12 @@ from ..utils.paginate import paginate_queryset
 
 
 def list_category(
-    is_active=None, category_id=None, page=1, page_size=10, ordering=None
+    is_active=None,
+    category_id=None,
+    page=1,
+    page_size=10,
+    ordering=None,
+    parent=True,
 ):
     category = Category.objects.all().filter(is_deleted=False)
     if is_active is not None:
@@ -14,7 +19,10 @@ def list_category(
     if category_id is not None:
         category = category.filter(category_id=category_id)
     if not category_id:
-        category = category.filter(category_id__isnull=True)
+        if parent is True:
+            category = category.filter(category_id__isnull=True)
+        if parent is False:
+            category = category.filter(category_id__isnull=False)
     if not ordering:
         ordering = "sequence"
     category = category.order_by(ordering)

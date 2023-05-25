@@ -51,6 +51,7 @@ def category_list_user(request):
             ordering=request.query_params.get("ordering"),
             page=request.query_params.get("page", 1),
             page_size=request.query_params.get("page_size", 10),
+            parent=True,
         )
         return response, status.HTTP_200_OK
 
@@ -60,3 +61,18 @@ def category_list_user(request):
 def category_icon_upload(request, pk):
     response = category_controller.upload_icon(pk, request.FILES.get("file"))
     return response, status.HTTP_200_OK
+
+
+@api_view(["GET"])
+@response_handler(ADMIN_ROLE)
+def sub_category_list(request):
+    if request.method == "GET":
+        response = category_controller.list_category(
+            is_active=request.query_params.get("is_active"),
+            category_id=request.query_params.get("category_id"),
+            ordering=request.query_params.get("ordering"),
+            page=request.query_params.get("page", 1),
+            page_size=request.query_params.get("page_size", 10),
+            parent=False,
+        )
+        return response, status.HTTP_200_OK
