@@ -2,6 +2,7 @@ import string
 import random
 from ..serializers.user_ad import UserAdSerializer
 from ..gateways import user_ad as user_ad_gateway
+from ..controllers import category as category_controller
 from ..controllers.image import delete_image
 
 
@@ -47,12 +48,21 @@ def create_user_ad(data):
         category = data.pop("category")
         if category:
             data["category_id"] = category.get("id")
+            category = category_controller.get_category(category.get("id"))
         user = data.pop("user")
         if user:
             data["user_id"] = user.get("id")
         area = data.pop("area")
         if area:
             data["area_id"] = area.get("id")
+        tags = [data.get("code")]
+        if data.get("name"):
+            tags.extend(data.get("name").split(" "))
+        if data.get("description"):
+            tags.extend(data.get("description").split(" "))
+        if category and category.get("name"):
+            tags.extend(category.get("name").split(" "))
+        data["tags"] = data.get("tags") + tags
         user_ad = user_ad_gateway.create_user_ad(data)
         return UserAdSerializer.serialize_data(user_ad)
 
@@ -65,6 +75,16 @@ def get_user_ad(pk):
 def update_user_ad(pk, data):
     if "id" in data:
         data.pop("id")
+    user_ad = get_user_ad(pk)
+    tags = [user_ad.get("code")]
+    if data.get("name"):
+        tags.extend(data.get("name").split(" "))
+    if data.get("description"):
+        tags.extend(data.get("description").split(" "))
+    category = category_controller.get_category(data.get("category").get("id"))
+    if category.get("name"):
+        tags.extend(category.get("name").split(" "))
+    data["tags"] = data.get("tags") + tags
     user_ad = user_ad_gateway.update_user_ad(pk, data)
     return UserAdSerializer.serialize_data(user_ad)
 

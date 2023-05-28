@@ -33,12 +33,13 @@ def list_user_ad(
     if location_id:
         user_ad = user_ad.filter(area__location_id=location_id)
     if search:
+        search = search.split(" ")
         user_ad = user_ad.filter(
-            Q(name=search)
-            | Q(code=search)
-            | Q(description=search)
-            | Q(category__name=search)
-            | Q(tags__contains=search)
+            Q(name__in=search)
+            | Q(code__in=search)
+            | Q(description__in=search)
+            | Q(category__name__in=search)
+            # | Q(tags__contains=search)
         )
     user_ad = user_ad.select_related(
         "user", "category", "area", "area__location"
@@ -46,7 +47,7 @@ def list_user_ad(
     user_ad = user_ad.prefetch_related("images")
     if not ordering:
         ordering = "-pk"
-    user_ad = user_ad.order_by(ordering)
+    user_ad = user_ad.order_by("-is_featured", ordering)
     data = paginate_queryset(queryset=user_ad, page=page, page_size=page_size)
     # serializers = UserAdSerializer(data.get("results"), many=True)
     # data["results"] = serializers.data
