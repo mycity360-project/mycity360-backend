@@ -11,6 +11,6 @@ urlpatterns = [
     path("back-admin/", admin.site.urls),
     path("api/v1/", include("backend.routes.v1")),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
-    re_path(r"^$", render_react),
-    re_path(r"^(?:.*)/?$", render_react),
+    # re_path(r"^$", render_react),
+    # re_path(r"^(?:.*)/?$", render_react),
 ]
