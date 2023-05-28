@@ -48,6 +48,8 @@ class Cache:
     def set(self, key, value, seconds=None):
         if not self.is_configured:
             return False
+        if not seconds:
+            seconds = constants.CACHE_VALIDITY
         if seconds:
             self.__client.set(key, pickle.dumps(value), seconds)
         else:
