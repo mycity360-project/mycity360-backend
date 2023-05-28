@@ -55,14 +55,23 @@ def create_user_ad(data):
         area = data.pop("area")
         if area:
             data["area_id"] = area.get("id")
-        tags = [data.get("code")]
+        tags = []
+        if data.get("tags"):
+            tags = data.get("tags")
+        tags.append(data.get("code"))
         if data.get("name"):
             tags.extend(data.get("name").split(" "))
         if data.get("description"):
             tags.extend(data.get("description").split(" "))
         if category and category.get("name"):
             tags.extend(category.get("name").split(" "))
-        data["tags"] = data.get("tags") + tags
+        tags = list(
+            filter(
+                lambda x: True if x and x != " " and x != "," else False, tags
+            )
+        )
+        tags = [i.replace(",", "") for i in tags]
+        data["tags"] = tags
         user_ad = user_ad_gateway.create_user_ad(data)
         return UserAdSerializer.serialize_data(user_ad)
 
@@ -76,7 +85,10 @@ def update_user_ad(pk, data):
     if "id" in data:
         data.pop("id")
     user_ad = get_user_ad(pk)
-    tags = [user_ad.get("code")]
+    tags = []
+    if data.get("tags"):
+        tags = data.get("tags")
+    tags.append(user_ad.get("code"))
     if data.get("name"):
         tags.extend(data.get("name").split(" "))
     if data.get("description"):
@@ -84,7 +96,11 @@ def update_user_ad(pk, data):
     category = category_controller.get_category(data.get("category").get("id"))
     if category.get("name"):
         tags.extend(category.get("name").split(" "))
-    data["tags"] = data.get("tags") + tags
+    tags = list(
+        filter(lambda x: True if x and x != " " and x != "," else False, tags)
+    )
+    tags = [i.replace(",", "") for i in tags]
+    data["tags"] = tags
     user_ad = user_ad_gateway.update_user_ad(pk, data)
     return UserAdSerializer.serialize_data(user_ad)
 
