@@ -1,3 +1,3 @@
-import * as env from "./env";
+import * as env from './env'
 
-export {env};
+export { env }
