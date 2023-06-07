@@ -19,7 +19,10 @@
     "start": "react-scripts  start",
     "build": "react-scripts  build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint --fix \"src/**/*.{js,jsx}\"",
+    "format": "prettier --write \"src/**/*.{js,jsx}\"",
+    "relocate": "npm run lint && npm run format && npm run build && rm -rf ../backend/build && mv -f build ../backend"
   },
   "eslintConfig": {
     "extends": [
