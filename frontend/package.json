@@ -1,9 +1,14 @@
 {
+<<<<<<< Updated upstream
   "name": "frontend",
+=======
+  "name": "login-admin-app",
+>>>>>>> Stashed changes
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
+<<<<<<< Updated upstream
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "react": "^18.2.0",
@@ -20,6 +25,24 @@
     "lint": "eslint --fix \"src/**/*.{js,jsx}\"",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "relocate": "npm run lint && npm run format && npm run build && rm -rf ../backend/build && mv -f build ../backend"
+=======
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.4.0",
+    "bootstrap": "^5.2.3",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.7.4",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.11.2",
+    "react-scripts": "^5.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "HTTPS=true react-scripts  start",
+    "build": "react-scripts  build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+>>>>>>> Stashed changes
   },
   "eslintConfig": {
     "extends": [
@@ -40,8 +63,12 @@
     ]
   },
   "devDependencies": {
+<<<<<<< Updated upstream
     "eslint": "^8.34.0",
     "eslint-plugin-react": "^7.32.2",
     "prettier": "2.8.4"
+=======
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.10"
+>>>>>>> Stashed changes
   }
 }
