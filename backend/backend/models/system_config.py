@@ -17,12 +17,12 @@ class SystemConfig(Core):
 
     key = models.CharField(
         _("Name"),
-        max_length=1024,
+        max_length=128,
         unique=True,
     )
     value = models.CharField(
         _("Value"),
-        max_length=1024,
+        max_length=128,
     )
 
     objects = SystemConfigManager.from_queryset(SystemConfigQueryset)()

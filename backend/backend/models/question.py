@@ -63,7 +63,7 @@ class Question(Core):
     )
     values = ListCharField(
         base_field=models.CharField(max_length=128),
-        max_length=1024,
+        max_length=256,
         null=True,
         blank=True,
     )

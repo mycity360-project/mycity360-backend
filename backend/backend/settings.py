@@ -90,11 +90,15 @@ WSGI_APPLICATION = "backend.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "mycity360",
+        "NAME": "mycity360_prod",
         "USER": "root",
         "PASSWORD": "Pass@1234",
         "HOST": "localhost",
         "PORT": "3306",
+        "OPTIONS": {
+            "charset": "utf8mb4",
+            "use_unicode": True,
+        },
     }
 }
 
