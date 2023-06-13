@@ -19,6 +19,7 @@ class LocationSerializer(serializers.ModelSerializer):
             is_active=data.is_active,
             id=data.id,
             name=data.name,
+            is_deleted=data.is_deleted,
         )
 
     class Meta:

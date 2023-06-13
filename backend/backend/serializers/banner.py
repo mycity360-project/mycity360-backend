@@ -15,6 +15,7 @@ class BannerSerializer(serializers.ModelSerializer):
             redirect_url=data.redirect_url,
             area=dict(id=data.area_id),
             image=data.image,
+            is_deleted=data.is_deleted,
         )
 
     class Meta:

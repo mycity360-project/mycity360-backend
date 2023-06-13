@@ -43,6 +43,7 @@ class UserSerializer(serializers.ModelSerializer):
                     name=data.area.location.name,
                 ),
             ),
+            is_deleted=data.is_deleted,
         )
 
     class Meta:

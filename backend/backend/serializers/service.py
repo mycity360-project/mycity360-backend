@@ -28,6 +28,7 @@ class ServiceSerializer(serializers.ModelSerializer):
             id=data.id,
             sequence=data.sequence,
             icon=data.icon,
+            is_deleted=data.is_deleted,
         )
 
     class Meta:

@@ -18,6 +18,7 @@ class SavedAdSerializer(serializers.ModelSerializer):
             extra_data=data.extra_data,
             is_active=data.is_active,
             id=data.id,
+            is_deleted=data.is_deleted,
         )
 
     class Meta:

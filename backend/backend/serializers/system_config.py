@@ -13,6 +13,7 @@ class SystemConfigSerializer(serializers.ModelSerializer):
             id=data.id,
             key=data.key,
             value=data.value,
+            is_deleted=data.is_deleted,
         )
 
     class Meta:

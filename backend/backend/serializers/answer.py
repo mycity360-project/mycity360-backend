@@ -19,6 +19,7 @@ class AnswerSerializer(serializers.ModelSerializer):
             updated_date=data.updated_date,
             extra_data=data.extra_data,
             is_active=data.is_active,
+            is_deleted=data.is_deleted,
             id=data.id,
             answer=data.answer,
         )

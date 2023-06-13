@@ -20,6 +20,7 @@ class AreaSerializer(serializers.ModelSerializer):
             id=data.id,
             name=data.name,
             pincode=data.pincode,
+            is_deleted=data.is_deleted,
         )
 
     class Meta:

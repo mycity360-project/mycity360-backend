@@ -77,6 +77,7 @@ class UserAdSerializer(serializers.ModelSerializer):
             is_active=data.is_active,
             id=data.id,
             phone=phone,
+            is_deleted=data.is_deleted,
         )
 
     class Meta:
