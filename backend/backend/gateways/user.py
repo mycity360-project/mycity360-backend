@@ -1,4 +1,6 @@
 import datetime
+from django.db.models import Q
+
 from rest_framework.exceptions import NotFound
 from ..models.user import User
 from ..serializers.user import UserSerializer
@@ -6,10 +8,19 @@ from ..constants import USER_DOES_NOT_EXIST
 from ..utils.paginate import paginate_queryset
 
 
-def list_user(is_active=None, page=1, page_size=10, ordering=None):
+def list_user(
+    is_active=None, page=1, page_size=10, ordering=None, search=None
+):
     user = User.objects.all().filter(is_deleted=False)
     if is_active is not None:
         user = user.filter(is_active=is_active)
+    if search:
+        user = user.filter(
+            Q(email__icontains=search)
+            | Q(first_name__icontains=search)
+            | Q(last_name__icontains=search)
+            | Q(phone__icontains=search)
+        )
     if not ordering:
         ordering = "-pk"
     user = user.order_by(ordering)

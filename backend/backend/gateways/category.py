@@ -12,6 +12,7 @@ def list_category(
     page_size=10,
     ordering=None,
     parent=True,
+    search=None,
 ):
     category = Category.objects.all().filter(is_deleted=False)
     if is_active is not None:
@@ -23,6 +24,8 @@ def list_category(
             category = category.filter(category_id__isnull=True)
         if parent is False:
             category = category.filter(category_id__isnull=False)
+    if search:
+        category = category.filter(name__icontains=search)
     if not ordering:
         ordering = "sequence"
     category = category.order_by(ordering)

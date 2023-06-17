@@ -11,12 +11,15 @@ def list_banner(
     page=1,
     page_size=10,
     ordering=None,
+    search=None,
 ):
     banner = Banner.objects.all().filter(is_deleted=False)
     if is_active is not None:
         banner = banner.filter(is_active=is_active)
     if area_id is not None:
         banner = banner.filter(area_id=area_id)
+    if search:
+        banner = banner.filter(area__name__icontains=search)
     if not ordering:
         ordering = "-pk"
     banner = banner.order_by(ordering)

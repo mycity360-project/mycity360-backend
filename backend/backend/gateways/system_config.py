@@ -4,7 +4,9 @@ from ..serializers.system_config import SystemConfigSerializer
 from ..constants import SYSTEM_CONFIG_DOES_NOT_EXIST
 
 
-def list_system_config(keys=None, is_active=None, key=None, ordering=None):
+def list_system_config(
+    keys=None, is_active=None, key=None, ordering=None, search=None
+):
     system_config = SystemConfig.objects.all().filter(is_deleted=False)
     if keys:
         system_config = system_config.filter(key__in=keys)
@@ -12,6 +14,8 @@ def list_system_config(keys=None, is_active=None, key=None, ordering=None):
         system_config = system_config.filter(is_active=is_active)
     if key is not None:
         system_config = system_config.filter(key=key)
+    if search:
+        system_config = system_config.filter(key__icontains=search)
     if not ordering:
         ordering = "-pk"
     system_config = system_config.order_by(ordering)

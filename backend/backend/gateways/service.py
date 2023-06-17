@@ -4,10 +4,12 @@ from ..serializers.service import ServiceSerializer
 from ..constants import SERVICE_DOES_NOT_EXIST
 
 
-def list_service(is_active=None, ordering=None):
+def list_service(is_active=None, ordering=None, search=None):
     service = Service.objects.all().filter(is_deleted=False)
     if is_active is not None:
         service = service.filter(is_active=is_active)
+    if search:
+        service = service.filter(name__icontains=search)
     if not ordering:
         ordering = "sequence"
     service = service.order_by(ordering)

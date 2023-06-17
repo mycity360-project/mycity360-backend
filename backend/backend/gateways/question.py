@@ -1,3 +1,5 @@
+from django.db.models import Q
+
 from rest_framework.exceptions import ValidationError
 from ..models.question import Question
 from ..serializers.question import QuestionSerializer
@@ -6,13 +8,24 @@ from ..utils.paginate import paginate_queryset
 
 
 def list_question(
-    is_active=None, category_id=None, page=1, page_size=100, ordering=None
+    is_active=None,
+    category_id=None,
+    page=1,
+    page_size=100,
+    ordering=None,
+    search=None,
 ):
     question = Question.objects.all().filter(is_deleted=False)
     if is_active is not None:
         question = question.filter(is_active=is_active)
     if category_id is not None:
         question = question.filter(category_id=category_id)
+    if search:
+        question = question.filter(
+            Q(question__icontains=search)
+            | Q(label__icontains=search)
+            | Q(placeholder__icontains=search)
+        )
     if not ordering:
         ordering = "sequence"
     question = question.order_by(ordering)
