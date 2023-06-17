@@ -17,6 +17,7 @@ def area_list(request):
             is_active=request.query_params.get("is_active"),
             location_id=request.query_params.get("location_id"),
             ordering=request.query_params.get("ordering"),
+            search=request.query_params.get("search"),
         )
         return response, status.HTTP_200_OK
 
@@ -51,5 +52,6 @@ def public_area_list(request):
             is_active=request.query_params.get("is_active"),
             location_id=request.query_params.get("location_id"),
             ordering=request.query_params.get("ordering"),
+            search=request.query_params.get("search"),
         )
         return response, status.HTTP_200_OK

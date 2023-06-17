@@ -4,9 +4,12 @@ from ..utils.cache import cache
 
 
 @cache(invalidate=False)
-def list_location(is_active=None, state_id=None, ordering=None):
+def list_location(is_active=None, state_id=None, ordering=None, search=None):
     location = location_gateway.list_location(
-        is_active=is_active, state_id=state_id, ordering=ordering
+        is_active=is_active,
+        state_id=state_id,
+        ordering=ordering,
+        search=search,
     )
     location = [LocationSerializer.serialize_data(data) for data in location]
     return location

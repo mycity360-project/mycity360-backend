@@ -5,7 +5,12 @@ from ..utils.cache import cache
 
 @cache(invalidate=False)
 def list_question(
-    is_active=None, category_id=None, page=1, page_size=100, ordering=None
+    is_active=None,
+    category_id=None,
+    page=1,
+    page_size=100,
+    ordering=None,
+    search=None,
 ):
     question = question_gateway.list_question(
         is_active=is_active,
@@ -13,6 +18,7 @@ def list_question(
         page=page,
         page_size=page_size,
         ordering=ordering,
+        search=search,
     )
     question["results"] = [
         QuestionSerializer.serialize_data(data)

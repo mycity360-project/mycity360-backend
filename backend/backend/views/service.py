@@ -14,6 +14,7 @@ def service_list(request):
         response = service_controller.list_service(
             is_active=request.query_params.get("is_active"),
             ordering=request.query_params.get("ordering"),
+            search=request.query_params.get("search"),
         )
         return response, status.HTTP_200_OK
 
@@ -45,6 +46,7 @@ def service_list_user(request):
         response = service_controller.list_service(
             is_active=request.query_params.get("is_active"),
             ordering=request.query_params.get("ordering"),
+            search=request.query_params.get("search"),
         )
         return response, status.HTTP_200_OK
 

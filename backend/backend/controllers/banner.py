@@ -13,6 +13,7 @@ def list_banner(
     page=1,
     page_size=10,
     ordering=None,
+    search=None,
 ):
     banner = banner_gateway.list_banner(
         is_active=is_active,
@@ -20,6 +21,7 @@ def list_banner(
         page=page,
         page_size=page_size,
         ordering=ordering,
+        search=search,
     )
     banner["results"] = [
         BannerSerializer.serialize_data(data) for data in banner.get("results")

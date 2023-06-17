@@ -8,9 +8,9 @@ from ..controllers.image import delete_image
 
 
 @cache(invalidate=False)
-def list_service(is_active=None, ordering=None):
+def list_service(is_active=None, ordering=None, search=None):
     service = service_gateway.list_service(
-        is_active=is_active, ordering=ordering
+        is_active=is_active, ordering=ordering, search=search
     )
     service = [ServiceSerializer.serialize_data(data) for data in service]
     return service

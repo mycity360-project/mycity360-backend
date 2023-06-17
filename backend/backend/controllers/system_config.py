@@ -2,9 +2,9 @@ from ..serializers.system_config import SystemConfigSerializer
 from ..gateways import system_config as system_config_gateway
 
 
-def list_system_config(is_active=None, key=None, ordering=None):
+def list_system_config(is_active=None, key=None, ordering=None, search=None):
     system_config = system_config_gateway.list_system_config(
-        is_active=is_active, key=key, ordering=ordering
+        is_active=is_active, key=key, ordering=ordering, search=search
     )
     system_config = [
         SystemConfigSerializer.serialize_data(data) for data in system_config

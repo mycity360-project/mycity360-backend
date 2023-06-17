@@ -14,6 +14,7 @@ def list_category(
     page_size=10,
     ordering=None,
     parent=True,
+    search=None,
 ):
     category = category_gateway.list_category(
         is_active=is_active,
@@ -22,6 +23,7 @@ def list_category(
         page_size=page_size,
         ordering=ordering,
         parent=parent,
+        search=search,
     )
     category["results"] = [
         CategorySerializer.serialize_data(data)

@@ -17,6 +17,7 @@ def category_list(request):
             ordering=request.query_params.get("ordering"),
             page=request.query_params.get("page", 1),
             page_size=request.query_params.get("page_size", 10),
+            search=request.query_params.get("search"),
             parent=True,
         )
         return response, status.HTTP_200_OK
@@ -52,6 +53,7 @@ def category_list_user(request):
             ordering=request.query_params.get("ordering"),
             page=request.query_params.get("page", 1),
             page_size=request.query_params.get("page_size", 10),
+            search=request.query_params.get("search"),
             parent=True,
         )
         return response, status.HTTP_200_OK
@@ -74,6 +76,7 @@ def sub_category_list(request):
             ordering=request.query_params.get("ordering"),
             page=request.query_params.get("page", 1),
             page_size=request.query_params.get("page_size", 10),
+            search=request.query_params.get("search"),
             parent=False,
         )
         return response, status.HTTP_200_OK

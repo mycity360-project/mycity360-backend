@@ -14,6 +14,7 @@ def state_list(request):
         response = state_controller.list_state(
             is_active=request.query_params.get("is_active"),
             ordering=request.query_params.get("ordering"),
+            search=request.query_params.get("search"),
         )
         return response, status.HTTP_200_OK
 

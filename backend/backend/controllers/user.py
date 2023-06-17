@@ -12,9 +12,15 @@ from ..serializers.system_config import SystemConfigSerializer
 from ..utils.google_api import upload_to_local, delete_image
 
 
-def list_user(is_active=None, page=1, page_size=10, ordering=None):
+def list_user(
+    is_active=None, page=1, page_size=10, ordering=None, search=None
+):
     users = user_gateway.list_user(
-        is_active=is_active, page=page, page_size=page_size, ordering=ordering
+        is_active=is_active,
+        page=page,
+        page_size=page_size,
+        ordering=ordering,
+        search=search,
     )
     users["results"] = [
         UserSerializer.serialize_data(user) for user in users.get("results")

@@ -17,6 +17,7 @@ def question_list(request):
             ordering=request.query_params.get("ordering"),
             page=request.query_params.get("page", 1),
             page_size=request.query_params.get("page_size", 100),
+            search=request.query_params.get("search"),
         )
         return response, status.HTTP_200_OK
 
@@ -51,5 +52,6 @@ def question_list_user(request):
             ordering=request.query_params.get("ordering"),
             page=request.query_params.get("page", 1),
             page_size=request.query_params.get("page_size", 100),
+            search=request.query_params.get("search"),
         )
         return response, status.HTTP_200_OK
