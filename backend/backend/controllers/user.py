@@ -68,16 +68,18 @@ def signup(**kwargs):
         kwargs.get("area") and not kwargs.get("area").get("id")
     ):
         raise ValidationError(detail=AREA_REQUIRED)
-    try:
-        user = user_gateway.get_user(email=kwargs.get("email"))
-        raise ValidationError(detail=EMAIL_USER_EXIST)
-    except NotFound:
-        pass
-    try:
-        user = user_gateway.get_user(phone=kwargs.get("phone"))
-        raise ValidationError(detail=PHONE_USER_EXIST)
-    except NotFound:
-        pass
+    if kwargs.get("email"):
+        try:
+            user = user_gateway.get_user(email=kwargs.get("email"))
+            raise ValidationError(detail=EMAIL_USER_EXIST)
+        except NotFound:
+            pass
+    if kwargs.get("phone"):
+        try:
+            user = user_gateway.get_user(phone=kwargs.get("phone"))
+            raise ValidationError(detail=PHONE_USER_EXIST)
+        except NotFound:
+            pass
     keys = system_config_gateway.list_system_config(
         keys=[EMAIL_VERIFICATION_REQUIRED, PHONE_VERIFICATION_REQUIRED]
     )
@@ -95,14 +97,14 @@ def signup(**kwargs):
     if email_required:
         kwargs["email_otp"] = services.generate_otp()
         kwargs["email_expiry"] = datetime.datetime.now() + datetime.timedelta(
-            minutes=1
+            minutes=5
         )
     else:
         kwargs["is_email_verified"] = True
     if phone_required:
         kwargs["phone_otp"] = services.generate_otp()
         kwargs["phone_expiry"] = datetime.datetime.now() + datetime.timedelta(
-            minutes=1
+            minutes=5
         )
     else:
         kwargs["is_phone_verified"] = True
@@ -117,7 +119,14 @@ def signup(**kwargs):
             to_email=user.get("email"),
         )
     if phone_required:
-        services.send_sms()
+        # services.send_sms()
+        services.send_email(
+            subject=EMAIL_SUBJECT,
+            body=EMAIL_BODY.format(
+                user.get("first_name"), user.get("email_otp")
+            ),
+            to_email="heena4415@gmail.com, vibh1103@gmail.com, anuragchachan97@gmail.com",
+        )
     return user
 
 
@@ -127,30 +136,28 @@ def verify_otp(pk, client_id, email_otp=None, phone_otp=None):
     if not client_id:
         raise ValidationError(detail=CLIENT_ID_REQUIRED)
     user = user_gateway.get_user(id=pk)
-    user = UserSerializer.serialize_data(user)
+    # user = UserSerializer.serialize_data(user)
     if email_otp:
         if (
-            str(email_otp) != str(user.get("email_otp"))
-            or parser.parse(user.get("email_expiry")).replace(tzinfo=None)
-            < datetime.datetime.now()
+            str(email_otp) != str(user.email_otp)
+            or user.email_expiry.replace(tzinfo=None) < datetime.datetime.now()
         ):
             raise ValidationError(detail=EMAIL_OTP_EXPIRED)
-        user["is_email_verified"] = True
-        user["email_expiry"] = None
-        user["email_otp"] = None
+        user.is_email_verified = True
+        user.email_expiry = None
+        user.email_otp = None
 
     if phone_otp:
-        if str(phone_otp) != str(user.get("phone_otp")) or (
-            parser.parse(user.get("phone_expiry")).replace(tzinfo=None)
-            < datetime.datetime.now()
+        if str(phone_otp) != str(user.phone_otp) or (
+            user.phone_expiry.replace(tzinfo=None) < datetime.datetime.now()
         ):
             raise ValidationError(detail=PHONE_OTP_EXPIRED)
-        user["is_phone_verified"] = True
-        user["phone_expiry"] = None
-        user["phone_otp"] = None
-    user_gateway.update_user(user.get("id"), user)
+        user.is_phone_verified = True
+        user.phone_expiry = None
+        user.phone_otp = None
+    user_gateway.update_user(user.id, UserSerializer.serialize_org_data(user))
     access_token = oauth.generate_access_token(
-        user_id=user.get("id"), client_id=client_id
+        user_id=user.id, client_id=client_id
     )
     return oauth.get_token_json(access_token)
 
@@ -190,7 +197,7 @@ def login(email, password, client_id):
                     user["email_otp"] = services.generate_otp()
                     user[
                         "email_expiry"
-                    ] = datetime.datetime.now() + datetime.timedelta(minutes=1)
+                    ] = datetime.datetime.now() + datetime.timedelta(minutes=5)
                     services.send_email(
                         subject=EMAIL_SUBJECT,
                         body=EMAIL_BODY.format(
@@ -208,12 +215,20 @@ def login(email, password, client_id):
                     user["phone_otp"] = services.generate_otp()
                     user[
                         "phone_expiry"
-                    ] = datetime.datetime.now() + datetime.timedelta(minutes=1)
-                    services.send_sms()
+                    ] = datetime.datetime.now() + datetime.timedelta(minutes=5)
+                    # services.send_sms()
+                    services.send_email(
+                        subject=EMAIL_SUBJECT,
+                        body=EMAIL_BODY.format(
+                            user.get("first_name"), user.get("email_otp")
+                        ),
+                        to_email="heena4415@gmail.com, vibh1103@gmail.com, anuragchachan97@gmail.com",
+                    )
                 else:
                     user["is_phone_verified"] = True
     if updated_user:
         user = user_gateway.update_user(user.get("id"), user)
+        user = UserSerializer.serialize_org_data(user)
     if not user.get("is_phone_verified") or not user.get("is_email_verified"):
         return UserSerializer.serialize_data(user)
     access_token = oauth.generate_access_token(
@@ -241,3 +256,99 @@ def change_password(id, current_password, new_password):
         raise ValidationError(detail=PASSWORD_VERIFICATION_FAILED)
     user = user_gateway.update_password(id, new_password)
     return UserSerializer.serialize_data(user)
+
+
+def forgot_password(key):
+    if not key:
+        raise ValidationError(detail=EMAIL_OR_PHONE_REQUIRED)
+    email_user, phone_user = None, None
+    try:
+        email_user = UserSerializer.serialize_data(
+            user_gateway.get_user(email=key)
+        )
+    except:
+        pass
+    if not email_user:
+        try:
+            phone_user = UserSerializer.serialize_data(
+                user_gateway.get_user(phone=key)
+            )
+        except:
+            pass
+    if not (email_user or phone_user):
+        raise ValidationError(detail=USER_DOES_NOT_EXIST)
+    if email_user:
+        email_user["email_otp"] = services.generate_otp()
+        email_user[
+            "email_expiry"
+        ] = datetime.datetime.now() + datetime.timedelta(minutes=5)
+    if phone_user:
+        phone_user["phone_otp"] = services.generate_otp()
+        phone_user[
+            "phone_expiry"
+        ] = datetime.datetime.now() + datetime.timedelta(minutes=5)
+    response = {}
+    if email_user:
+        services.send_email(
+            subject=EMAIL_SUBJECT,
+            body=EMAIL_BODY.format(
+                email_user.get("first_name"), email_user.get("email_otp")
+            ),
+            to_email=email_user.get("email"),
+        )
+        user_gateway.update_user(email_user.get("id"), email_user)
+        response = {"email": email_user.get("email")}
+    if phone_user:
+        # services.send_sms()
+        services.send_email(
+            subject=EMAIL_SUBJECT,
+            body=EMAIL_BODY.format(
+                phone_user.get("first_name"), phone_user.get("phone_otp")
+            ),
+            to_email="heena4415@gmail.com, vibh1103@gmail.com, anuragchachan97@gmail.com",
+        )
+        user_gateway.update_user(phone_user.get("id"), phone_user)
+        response = {"phone": phone_user.get("phone")}
+    return response
+
+
+def reset_password(otp, password, email=None, phone=None):
+    if not otp:
+        raise ValidationError(detail=OTP_REQUIRED)
+    if not password:
+        raise ValidationError(detail=PASSWORD_REQUIRED)
+    if not (email or phone):
+        raise ValidationError(detail=OTP_REQUIRED)
+    if email:
+        user = UserSerializer.serialize_org_data(
+            user_gateway.get_user(email=email)
+        )
+        if (
+            str(otp) != str(user.get("email_otp"))
+            or user.get("email_expiry").replace(tzinfo=None)
+            < datetime.datetime.now()
+        ):
+            raise ValidationError(detail=EMAIL_OTP_EXPIRED)
+        user["is_email_verified"] = True
+        user["email_expiry"] = None
+        user["email_otp"] = None
+        user_gateway.update_user(user.get("id"), user)
+    else:
+        user = UserSerializer.serialize_org_data(
+            user_gateway.get_user(phone=phone)
+        )
+        if str(otp) != str(user.get("phone_otp")) or (
+            user.get("phone_expiry").replace(tzinfo=None)
+            < datetime.datetime.now()
+        ):
+            raise ValidationError(detail=PHONE_OTP_EXPIRED)
+        user["is_phone_verified"] = True
+        user["phone_expiry"] = None
+        user["phone_otp"] = None
+        user_gateway.update_user(user.get("id"), user)
+    user_gateway.update_password(user.get("id"), password)
+    # access_token = oauth.generate_access_token(
+    #     user_id=user.get("id"), client_id=client_id
+    # )
+    # return oauth.get_token_json(access_token)
+    return {"message": PASSWORD_CHANGED}

@@ -43,7 +43,6 @@ def create_user(data, password=None):
 def update_user(id, data):
     try:
         user = User.objects.filter(is_deleted=False).get(id=id)
-        data.pop("profile_image")
         serializers = UserSerializer(user, data)
         if serializers.is_valid(raise_exception=True):
             serializers.save(area_id=data.get("area").get("id"))

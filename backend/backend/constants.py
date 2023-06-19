@@ -23,9 +23,13 @@ PASSWORD_REQUIRED = "Password is required"
 EMAIL_OTP_EXPIRED = "Email OTP Expired"
 PHONE_OTP_EXPIRED = "Phone OTP Expired"
 PASSWORD_VERIFICATION_FAILED = "Password verification failed"
+PASSWORD_CHANGED = "Password changed successfully"
 
 EMAIL_SUBJECT = "MyCity360 Email Verification"
-EMAIL_BODY = "Hi {} \n This is your OTP for email verification. \n {} \n Regards\nMyCity360 Team"
+EMAIL_BODY = "Hi {} \nThis is your OTP for email verification. \n{} \nRegards\nMyCity360 Team"
+
+FORGOT_PASSWORD_SUBJECT = "MyCity360 Password Change"
+FORGOT_PASSWORD_BODY = "Hi {} \nThis is your OTP for changing password. \n{} \nRegards\nMyCity360 Team"
 
 AREA_DOES_NOT_EXIST = "Area with this id does not exist"
 CATEGORY_DOES_NOT_EXIST = "Category with this id does not exist"

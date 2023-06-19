@@ -116,3 +116,28 @@ def change_password(request, pk):
         current_password=request.data.get("current_password"),
     )
     return response, status.HTTP_200_OK
+
+
+@api_view(["POST"])
+@authentication_classes([])
+@permission_classes([])
+@response_handler()
+def forgot_password(request):
+    response = user_controller.forgot_password(
+        key=request.data.get("key"),
+    )
+    return response, status.HTTP_200_OK
+
+
+@api_view(["POST"])
+@authentication_classes([])
+@permission_classes([])
+@response_handler()
+def reset_password(request):
+    response = user_controller.reset_password(
+        otp=request.data.get("otp"),
+        password=request.data.get("password"),
+        email=request.data.get("email"),
+        phone=request.data.get("phone"),
+    )
+    return response, status.HTTP_200_OK
