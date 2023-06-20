@@ -32,7 +32,8 @@ def create_service(data):
 def update_service(pk, data):
     try:
         service = Service.objects.filter(is_deleted=False).get(id=pk)
-        data.pop("icon")
+        if "icon" in data:
+            data.pop("icon")
         service.images.clear()
         for image in data.get("images"):
             service.images.add(image.get("id"))

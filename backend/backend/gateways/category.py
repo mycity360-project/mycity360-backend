@@ -45,7 +45,8 @@ def create_category(data):
 def update_category(pk, data):
     try:
         category = Category.objects.filter(is_deleted=False).get(id=pk)
-        data.pop("icon")
+        if "icon" in data:
+            data.pop("icon")
         serializers = CategorySerializer(category, data)
         if serializers.is_valid(raise_exception=True):
             kwargs = {}
