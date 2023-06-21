@@ -99,16 +99,18 @@ def signup(**kwargs):
         kwargs["email_expiry"] = datetime.datetime.now() + datetime.timedelta(
             minutes=5
         )
-    else:
-        kwargs["is_email_verified"] = True
+    # else:
+        # kwargs["is_email_verified"] = True
     if phone_required:
         kwargs["phone_otp"] = services.generate_otp()
         kwargs["phone_expiry"] = datetime.datetime.now() + datetime.timedelta(
             minutes=5
         )
-    else:
-        kwargs["is_phone_verified"] = True
+    # else:
+        # kwargs["is_phone_verified"] = True
     user = create_user(kwargs)
+    if not phone_required:
+        user["is_phone_verified"] = True
     # user = UserSerializer.serialize_data(user)
     if email_required:
         services.send_email(
@@ -118,6 +120,8 @@ def signup(**kwargs):
             ),
             to_email=user.get("email"),
         )
+    else:
+        user["is_email_verified"] = True
     if phone_required:
         # services.send_sms()
         services.send_email(
@@ -127,6 +131,8 @@ def signup(**kwargs):
             ),
             to_email="heena4415@gmail.com, vibh1103@gmail.com, anuragchachan97@gmail.com",
         )
+    else:
+        user["is_phone_verified"] = True
     return user
 
 
@@ -188,12 +194,14 @@ def login(email, password, client_id):
     )
     keys = [SystemConfigSerializer.serialize_data(data) for data in keys]
     updated_user = False
+    # email_required = False
+    # phone_required = False
     for key in keys:
         if key.get("key") == EMAIL_VERIFICATION_REQUIRED:
             if not user.get("is_email_verified"):
                 updated_user = True
                 if key.get("value") == "true":
-
+                    # email_required = True
                     user["email_otp"] = services.generate_otp()
                     user[
                         "email_expiry"
@@ -205,13 +213,13 @@ def login(email, password, client_id):
                         ),
                         to_email=user.get("email"),
                     )
-                else:
-                    user["is_email_verified"] = True
+                # else:
+                #     user["is_email_verified"] = True
         if key.get("key") == PHONE_VERIFICATION_REQUIRED:
             if not user.get("is_phone_verified"):
                 updated_user = True
                 if key.get("value") == "true":
-
+                    # phone_required = True
                     user["phone_otp"] = services.generate_otp()
                     user[
                         "phone_expiry"
@@ -224,11 +232,16 @@ def login(email, password, client_id):
                         ),
                         to_email="heena4415@gmail.com, vibh1103@gmail.com, anuragchachan97@gmail.com",
                     )
-                else:
-                    user["is_phone_verified"] = True
+                # else:
+                #     user["is_phone_verified"] = True
     if updated_user:
         user = user_gateway.update_user(user.get("id"), user)
-        return UserSerializer.serialize_data(user)
+        user = UserSerializer.serialize_data(user)
+        # if not email_required:
+        #     user["is_email_verified"] = True
+        # if not phone_required:
+        #     user["is_phone_verified"] = True
+        return user
     access_token = oauth.generate_access_token(
         user_id=user.get("id"), client_id=client_id
     )
