@@ -28,7 +28,9 @@ OTP_SENT = "OTP sent successfully"
 USER_VERIFIED = "User Already Verified"
 
 EMAIL_SUBJECT = "MyCity360 Email Verification"
+PHONE_SUBJECT = "MyCity360 Phone Verification"
 EMAIL_BODY = "Hi {} \nThis is your OTP for email verification. \n{} \nRegards\nMyCity360 Team"
+PHONE_BODY = "Hi {} \nThis is your OTP for phone verification. \n{} \nRegards\nMyCity360 Team"
 
 FORGOT_PASSWORD_SUBJECT = "MyCity360 Password Change"
 FORGOT_PASSWORD_BODY = "Hi {} \nThis is your OTP for changing password. \n{} \nRegards\nMyCity360 Team"

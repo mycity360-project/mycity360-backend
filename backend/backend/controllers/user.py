@@ -125,8 +125,8 @@ def signup(**kwargs):
     if phone_required:
         # services.send_sms()
         services.send_email(
-            subject=EMAIL_SUBJECT,
-            body=EMAIL_BODY.format(
+            subject=PHONE_SUBJECT,
+            body=PHONE_BODY.format(
                 user.get("first_name"), kwargs.get("phone_otp")
             ),
             to_email="heena4415@gmail.com, vibh1103@gmail.com, anuragchachan97@gmail.com",
@@ -312,8 +312,8 @@ def forgot_password(key):
     if phone_user:
         # services.send_sms()
         services.send_email(
-            subject=EMAIL_SUBJECT,
-            body=EMAIL_BODY.format(
+            subject=PHONE_SUBJECT,
+            body=PHONE_BODY.format(
                 phone_user.get("first_name"), phone_user.get("phone_otp")
             ),
             to_email="heena4415@gmail.com, vibh1103@gmail.com, anuragchachan97@gmail.com",
@@ -400,8 +400,8 @@ def resend_otp(pk):
                     ] = datetime.datetime.now() + datetime.timedelta(minutes=5)
                     # services.send_sms()
                     services.send_email(
-                        subject=EMAIL_SUBJECT,
-                        body=EMAIL_BODY.format(
+                        subject=PHONE_SUBJECT,
+                        body=PHONE_BODY.format(
                             user.get("first_name"), user.get("phone_otp")
                         ),
                         to_email="heena4415@gmail.com, vibh1103@gmail.com, anuragchachan97@gmail.com",
