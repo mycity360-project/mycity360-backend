@@ -141,3 +141,14 @@ def reset_password(request):
         phone=request.data.get("phone"),
     )
     return response, status.HTTP_200_OK
+
+
+@api_view(["POST"])
+@authentication_classes([])
+@permission_classes([])
+@response_handler()
+def resend_otp(request, pk):
+    response = user_controller.resend_otp(
+        pk=pk,
+    )
+    return response, status.HTTP_200_OK

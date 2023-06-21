@@ -363,3 +363,50 @@ def reset_password(otp, password, email=None, phone=None):
     # )
     # return oauth.get_token_json(access_token)
     return {"message": PASSWORD_CHANGED}
+
+
+def resend_otp(pk):
+    user = user_gateway.get_user(id=pk)
+    user = UserSerializer.serialize_org_data(user)
+    keys = system_config_gateway.list_system_config(
+        keys=[EMAIL_VERIFICATION_REQUIRED, PHONE_VERIFICATION_REQUIRED]
+    )
+    keys = [SystemConfigSerializer.serialize_data(data) for data in keys]
+    if user.get("is_email_verified") and user.get("is_phone_verified"):
+        raise ValidationError(detail=USER_VERIFIED)
+    for key in keys:
+        if key.get("key") == EMAIL_VERIFICATION_REQUIRED:
+            if not user.get("is_email_verified"):
+                if key.get("value") == "true":
+                    user["email_otp"] = services.generate_otp()
+                    user[
+                        "email_expiry"
+                    ] = datetime.datetime.now() + datetime.timedelta(minutes=5)
+                    services.send_email(
+                        subject=EMAIL_SUBJECT,
+                        body=EMAIL_BODY.format(
+                            user.get("first_name"), user.get("email_otp")
+                        ),
+                        to_email=user.get("email"),
+                    )
+                # else:
+                #     user["is_email_verified"] = True
+        if key.get("key") == PHONE_VERIFICATION_REQUIRED:
+            if not user.get("is_phone_verified"):
+                if key.get("value") == "true":
+                    user["phone_otp"] = services.generate_otp()
+                    user[
+                        "phone_expiry"
+                    ] = datetime.datetime.now() + datetime.timedelta(minutes=5)
+                    # services.send_sms()
+                    services.send_email(
+                        subject=EMAIL_SUBJECT,
+                        body=EMAIL_BODY.format(
+                            user.get("first_name"), user.get("phone_otp")
+                        ),
+                        to_email="heena4415@gmail.com, vibh1103@gmail.com, anuragchachan97@gmail.com",
+                    )
+                # else:
+                #     user["is_phone_verified"] = True
+    user_gateway.update_user(user.get("id"), user)
+    return {"message": OTP_SENT}

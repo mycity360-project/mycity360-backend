@@ -24,6 +24,8 @@ EMAIL_OTP_EXPIRED = "Email OTP Expired"
 PHONE_OTP_EXPIRED = "Phone OTP Expired"
 PASSWORD_VERIFICATION_FAILED = "Password verification failed"
 PASSWORD_CHANGED = "Password changed successfully"
+OTP_SENT = "OTP sent successfully"
+USER_VERIFIED = "User Already Verified"
 
 EMAIL_SUBJECT = "MyCity360 Email Verification"
 EMAIL_BODY = "Hi {} \nThis is your OTP for email verification. \n{} \nRegards\nMyCity360 Team"
