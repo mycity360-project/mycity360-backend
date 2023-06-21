@@ -194,14 +194,14 @@ def login(email, password, client_id):
     )
     keys = [SystemConfigSerializer.serialize_data(data) for data in keys]
     updated_user = False
-    # email_required = False
-    # phone_required = False
+    email_required = False
+    phone_required = False
     for key in keys:
         if key.get("key") == EMAIL_VERIFICATION_REQUIRED:
             if not user.get("is_email_verified"):
                 if key.get("value") == "true":
                     updated_user = True
-                    # email_required = True
+                    email_required = True
                     user["email_otp"] = services.generate_otp()
                     user[
                         "email_expiry"
@@ -219,7 +219,7 @@ def login(email, password, client_id):
             if not user.get("is_phone_verified"):
                 if key.get("value") == "true":
                     updated_user = True
-                    # phone_required = True
+                    phone_required = True
                     user["phone_otp"] = services.generate_otp()
                     user[
                         "phone_expiry"
@@ -237,10 +237,10 @@ def login(email, password, client_id):
     if updated_user:
         user = user_gateway.update_user(user.get("id"), user)
         user = UserSerializer.serialize_data(user)
-        # if not email_required:
-        #     user["is_email_verified"] = True
-        # if not phone_required:
-        #     user["is_phone_verified"] = True
+        if not email_required:
+            user["is_email_verified"] = True
+        if not phone_required:
+            user["is_phone_verified"] = True
         return user
     access_token = oauth.generate_access_token(
         user_id=user.get("id"), client_id=client_id
