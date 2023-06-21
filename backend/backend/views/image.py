@@ -20,7 +20,7 @@ def image_upload_v2(request):
     return response, status.HTTP_200_OK
 
 
-@api_view(["POST"])
+@api_view(["DELETE"])
 @response_handler()
 def delete_image(request, pk):
     response = image_controller.delete_image(pk)
