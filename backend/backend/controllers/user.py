@@ -123,7 +123,7 @@ def signup(**kwargs):
         services.send_email(
             subject=EMAIL_SUBJECT,
             body=EMAIL_BODY.format(
-                user.get("first_name"), user.get("email_otp")
+                user.get("first_name"), user.get("phone_otp")
             ),
             to_email="heena4415@gmail.com, vibh1103@gmail.com, anuragchachan97@gmail.com",
         )
@@ -220,7 +220,7 @@ def login(email, password, client_id):
                     services.send_email(
                         subject=EMAIL_SUBJECT,
                         body=EMAIL_BODY.format(
-                            user.get("first_name"), user.get("email_otp")
+                            user.get("first_name"), user.get("phone_otp")
                         ),
                         to_email="heena4415@gmail.com, vibh1103@gmail.com, anuragchachan97@gmail.com",
                     )
