@@ -199,8 +199,8 @@ def login(email, password, client_id):
     for key in keys:
         if key.get("key") == EMAIL_VERIFICATION_REQUIRED:
             if not user.get("is_email_verified"):
-                updated_user = True
                 if key.get("value") == "true":
+                    updated_user = True
                     # email_required = True
                     user["email_otp"] = services.generate_otp()
                     user[
@@ -217,8 +217,8 @@ def login(email, password, client_id):
                 #     user["is_email_verified"] = True
         if key.get("key") == PHONE_VERIFICATION_REQUIRED:
             if not user.get("is_phone_verified"):
-                updated_user = True
                 if key.get("value") == "true":
+                    updated_user = True
                     # phone_required = True
                     user["phone_otp"] = services.generate_otp()
                     user[
