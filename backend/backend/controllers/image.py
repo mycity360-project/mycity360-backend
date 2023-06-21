@@ -25,7 +25,7 @@ def upload_image_v2(image):
 
 def delete_image(pk):
     image = image_gateway.get_image(pk)
-    if image.get("image"):
-        delete_image(image.get("image"))
+    if image.image:
+        delete_image(image.image)
     image = image_gateway.delete_image(pk)
     return image
