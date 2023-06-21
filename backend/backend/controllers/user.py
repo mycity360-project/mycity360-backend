@@ -228,8 +228,6 @@ def login(email, password, client_id):
                     user["is_phone_verified"] = True
     if updated_user:
         user = user_gateway.update_user(user.get("id"), user)
-        user = UserSerializer.serialize_org_data(user)
-    if not user.get("is_phone_verified") or not user.get("is_email_verified"):
         return UserSerializer.serialize_data(user)
     access_token = oauth.generate_access_token(
         user_id=user.get("id"), client_id=client_id
