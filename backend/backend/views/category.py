@@ -31,7 +31,7 @@ def category_list(request):
 @response_handler(ADMIN_ROLE)
 def category_details(request, pk):
     if request.method == "GET":
-        response = category_controller.get_category(pk)
+        response = category_controller.get_category(pk=pk)
         return response, status.HTTP_200_OK
 
     elif request.method == "PUT":

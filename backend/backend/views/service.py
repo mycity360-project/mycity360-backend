@@ -27,7 +27,7 @@ def service_list(request):
 @response_handler(ADMIN_ROLE)
 def service_details(request, pk):
     if request.method == "GET":
-        response = service_controller.get_service(pk)
+        response = service_controller.get_service(pk=pk)
         return response, status.HTTP_200_OK
 
     elif request.method == "PUT":

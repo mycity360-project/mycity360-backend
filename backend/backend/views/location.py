@@ -30,7 +30,7 @@ def location_list(request):
 @response_handler(ADMIN_ROLE)
 def location_details(request, pk):
     if request.method == "GET":
-        response = location_controller.get_location(pk)
+        response = location_controller.get_location(pk=pk)
         return response, status.HTTP_200_OK
 
     elif request.method == "PUT":

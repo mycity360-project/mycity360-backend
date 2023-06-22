@@ -30,7 +30,7 @@ def banner_list(request):
 @response_handler(ADMIN_ROLE)
 def banner_details(request, pk):
     if request.method == "GET":
-        response = banner_controller.get_banner(pk)
+        response = banner_controller.get_banner(pk=pk)
         return response, status.HTTP_200_OK
 
     elif request.method == "PUT":

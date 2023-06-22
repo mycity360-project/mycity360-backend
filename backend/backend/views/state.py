@@ -27,7 +27,7 @@ def state_list(request):
 @response_handler(ADMIN_ROLE)
 def state_details(request, pk):
     if request.method == "GET":
-        response = state_controller.get_state(pk)
+        response = state_controller.get_state(pk=pk)
         return response, status.HTTP_200_OK
 
     elif request.method == "PUT":

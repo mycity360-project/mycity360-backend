@@ -30,7 +30,7 @@ def question_list(request):
 @response_handler(ADMIN_ROLE)
 def question_details(request, pk):
     if request.method == "GET":
-        response = question_controller.get_question(pk)
+        response = question_controller.get_question(pk=pk)
         return response, status.HTTP_200_OK
 
     elif request.method == "PUT":

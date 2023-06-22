@@ -30,7 +30,7 @@ def area_list(request):
 @response_handler(ADMIN_ROLE)
 def area_details(request, pk):
     if request.method == "GET":
-        response = area_controller.get_area(pk)
+        response = area_controller.get_area(pk=pk)
         return response, status.HTTP_200_OK
 
     elif request.method == "PUT":

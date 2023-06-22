@@ -28,7 +28,7 @@ def system_config_list(request):
 @response_handler(ADMIN_ROLE)
 def system_config_details(request, pk):
     if request.method == "GET":
-        response = system_config_controller.get_system_config(pk)
+        response = system_config_controller.get_system_config(pk=pk)
         return response, status.HTTP_200_OK
 
     elif request.method == "PUT":
