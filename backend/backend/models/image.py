@@ -5,9 +5,21 @@ from __future__ import unicode_literals
 # lib imports
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+import os
+
+from django.db import models
+from django.utils.timezone import now as timezone_now
 
 from ..utils.core import Core
 from ..managers.image import ImageManager, ImageQueryset
+from ..constants import MEDIA_ROOT
+
+
+def upload_to(instance, filename):
+    now = timezone_now()
+    base, ext = os.path.splitext(filename)
+    ext = ext.lower()
+    return f"{MEDIA_ROOT}/{now:%Y/%m/%Y%m%d%H%M%S}{ext}"
 
 
 class Image(Core):
@@ -16,6 +28,7 @@ class Image(Core):
     """
 
     image = models.URLField(_("Image"), null=True, blank=True)
+    image_new = models.ImageField(_("Image"), null=True, blank=True, upload_to="image/")
 
     objects = ImageManager.from_queryset(ImageQueryset)()
 

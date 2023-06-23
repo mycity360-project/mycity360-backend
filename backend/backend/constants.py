@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 EMAIL_VERIFICATION_REQUIRED = "email_verification_required"
 PHONE_VERIFICATION_REQUIRED = "phone_verification_required"
 FROM_EMAIL = ""
@@ -53,5 +52,6 @@ FILE_REQUIRED = "File is required"
 CACHE_URL = "redis://127.0.0.1:6379/1"
 
 MEDIA_ROOT = "/var/www/media/"
+# MEDIA_ROOT = settings.BASE_DIR
 SERVER_BASE_URL = "http://68.178.169.59/media/"
 CACHE_VALIDITY = 86400
