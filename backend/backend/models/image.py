@@ -3,7 +3,8 @@
 from __future__ import unicode_literals
 
 # lib imports
-from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 import os
 
@@ -12,7 +13,7 @@ from django.utils.timezone import now as timezone_now
 
 from ..utils.core import Core
 from ..managers.image import ImageManager, ImageQueryset
-from ..constants import MEDIA_ROOT
+from ..constants import MEDIA_ROOT, SERVER_BASE_URL
 
 
 def upload_to(instance, filename):
@@ -27,7 +28,7 @@ class Image(Core):
     Description of Image Model
     """
 
-    image = models.URLField(_("Image"), null=True, blank=True)
+    image = models.URLField(_("Image URL"), null=True, blank=True)
     image_new = models.ImageField(_("Image"), null=True, blank=True, upload_to="image/")
 
     objects = ImageManager.from_queryset(ImageQueryset)()
@@ -42,3 +43,8 @@ class Image(Core):
 
     def __unicode__(self):
         return str(self.id)
+
+
+@receiver(pre_save,sender=Image)
+def create_profile(sender,instance,**kwargs):
+    instance.image = f"{SERVER_BASE_URL}image/{instance.image_new.name}"

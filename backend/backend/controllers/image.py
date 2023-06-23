@@ -10,7 +10,8 @@ def upload_image(image):
     if not image:
         raise ValidationError(detail=FILE_REQUIRED)
     image = image_gateway.create_image(
-        data=dict(image=upload_to_local(image, folder="image"))
+        # data=dict(image=upload_to_local(image, folder="image"))
+        data=dict(image_new=image)
     )
     return ImageSerializer.serialize_data(image)
 

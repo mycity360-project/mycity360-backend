@@ -198,6 +198,7 @@ CORS_ALLOW_HEADERS = ["*"]
 #     "x-csrftoken",
 #     "x-requested-with",
 # ]
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # media directory in the root directory
 
 MEDIA_ROOT = "/var/www/media/" # media directory in the root directory
 MEDIA_URL = "media/"
