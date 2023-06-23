@@ -200,5 +200,5 @@ CORS_ALLOW_HEADERS = ["*"]
 # ]
 
 MEDIA_ROOT = "/var/www/media/" # media directory in the root directory
-MEDIA_URL = ""
+MEDIA_URL = "media/"
 CSRF_TRUSTED_ORIGINS = ["http://68.178.169.59"]
