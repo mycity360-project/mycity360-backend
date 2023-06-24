@@ -49,6 +49,5 @@ class CustomModelAdmin(admin.ModelAdmin):
         Clear cache
         """
         # TODO: Only clear cache for selected models
-        # cache.clear()
-        # keys = "*"
-        cache.delete_many("*")
+        cache.delete_many(cache.keys("*"))
+
