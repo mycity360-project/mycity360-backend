@@ -16,7 +16,7 @@ from .. import constants
 
 class Cache:
     """
-    Granite cache using redis
+    Redis cache
     """
 
     is_configured = False
