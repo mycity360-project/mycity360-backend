@@ -58,6 +58,7 @@ class AreaAdmin(CustomModelAdmin):
         "updated_date",
         "location__name",
     )
+    ordering = ("is_deleted", "is_active")
 
 
 class UserAdmin(CustomModelAdmin):
@@ -70,12 +71,14 @@ class UserAdmin(CustomModelAdmin):
         "updated_date",
         "area__name",
     )
+    ordering = ("is_deleted", "is_active")
 
 
 class StateAdmin(CustomModelAdmin):
     list_display = ("pk", "name")
     search_fields = ("name",)
     list_filter = ("is_active", "is_deleted", "created_date", "updated_date")
+    ordering = ("is_deleted", "is_active")
 
 
 class LocationAdmin(CustomModelAdmin):
@@ -91,12 +94,14 @@ class LocationAdmin(CustomModelAdmin):
         "updated_date",
         "state__name",
     )
+    ordering = ("is_deleted", "is_active")
 
 
 class SystemConfigAdmin(CustomModelAdmin):
     list_display = ("pk", "key", "value")
     search_fields = ("name", "key")
     list_filter = ("is_active", "is_deleted", "created_date", "updated_date")
+    ordering = ("is_deleted", "is_active")
 
 
 class CategoryAdmin(CustomModelAdmin):
@@ -116,6 +121,7 @@ class CategoryAdmin(CustomModelAdmin):
         "updated_date",
         ParentCategoryListFilter,
     )
+    ordering = ("is_deleted", "is_active")
 
 
 class UserAdAdmin(CustomModelAdmin):
@@ -149,6 +155,7 @@ class UserAdAdmin(CustomModelAdmin):
         "area",
         "extra_data"
     )
+    ordering = ("is_deleted", "is_active")
 
 
 class ServiceAdmin(CustomModelAdmin):
@@ -160,6 +167,7 @@ class ServiceAdmin(CustomModelAdmin):
         "created_date",
         "updated_date",
     )
+    ordering = ("is_deleted", "is_active")
 
 
 class ImageAdmin(CustomModelAdmin):
@@ -171,6 +179,7 @@ class ImageAdmin(CustomModelAdmin):
         "created_date",
         "updated_date",
     )
+    ordering = ("is_deleted", "is_active")
 
 
 class QuestionAdmin(CustomModelAdmin):
@@ -183,6 +192,7 @@ class QuestionAdmin(CustomModelAdmin):
         "updated_date",
         "category__name",
     )
+    ordering = ("is_deleted", "is_active")
 
 
 class AnswerAdmin(CustomModelAdmin):
@@ -192,6 +202,7 @@ class AnswerAdmin(CustomModelAdmin):
         "question__question",
     )
     list_filter = ("is_active", "is_deleted", "created_date", "updated_date")
+    ordering = ("is_deleted", "is_active")
 
 
 class BannerAdmin(CustomModelAdmin):
@@ -207,6 +218,7 @@ class BannerAdmin(CustomModelAdmin):
         "updated_date",
         "area__name",
     )
+    ordering = ("is_deleted", "is_active")
 
 
 admin.site.register(User, UserAdmin)
