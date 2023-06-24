@@ -20,7 +20,7 @@ def upload_to(instance, filename):
     now = timezone_now()
     base, ext = os.path.splitext(filename)
     ext = ext.lower()
-    return f"{MEDIA_ROOT}/{now:%Y/%m/%Y%m%d%H%M%S}{ext}"
+    return f"image/{now:%Y/%m/%Y%m%d%H%M%S}{ext}"
 
 
 class Image(Core):
@@ -30,7 +30,7 @@ class Image(Core):
 
     image = models.URLField(_("Image URL"), null=True, blank=True)
     image_new = models.ImageField(
-        _("Image"), null=True, blank=True, upload_to="image/"
+        _("Image"), null=True, blank=True, upload_to=upload_to
     )
 
     objects = ImageManager.from_queryset(ImageQueryset)()
