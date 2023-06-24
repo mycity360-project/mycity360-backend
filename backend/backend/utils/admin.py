@@ -22,16 +22,16 @@ class CustomModelAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
         # return True if settings.DEBUG else False
-        return request.user.groups.filter(name='Manager').exists()
+        return request.user.is_superuser or request.user.groups.filter(name='Manager').exists()
 
     def has_change_permission(self, request, obj=None):
         # return True if settings.DEBUG else False
-        return request.user.groups.filter(name='Manager').exists()
+        return request.user.is_superuser or request.user.groups.filter(name='Manager').exists()
 
     def has_delete_permission(self, request, obj=None):
         # TODO make it false again later once we found out a way to use shell commands from somewhere
         # return True if settings.DEBUG else False
-        return request.user.groups.filter(name='Manager').exists()
+        return request.user.is_superuser or request.user.groups.filter(name='Manager').exists()
 
     def get_actions(self, request):
         actions = super().get_actions(request)
