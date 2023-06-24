@@ -77,10 +77,10 @@ def delete_category(pk):
         raise ValidationError(detail=CATEGORY_DOES_NOT_EXIST)
 
 
-def upload_icon(pk, icon):
+def upload_icon(pk, icon_data):
     try:
         category = Category.objects.filter(is_deleted=False).get(id=pk)
-        category.icon = icon
+        category.icon_data = icon_data
         category.save()
         # serializers = CategorySerializer(category)
         # return serializers.data

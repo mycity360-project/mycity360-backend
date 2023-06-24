@@ -5,10 +5,13 @@ from __future__ import unicode_literals
 # lib imports
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.core.validators import RegexValidator
 from ..utils.core import Core
 from ..managers.service import ServiceManager, ServiceQueryset
 from ..models.image import Image
+from ..constants import SERVER_BASE_URL
 
 
 phone_regex = RegexValidator(
@@ -40,7 +43,10 @@ class Service(Core):
         validators=[phone_regex],
     )
 
-    icon = models.URLField(_("Image"), null=True, blank=True)
+    icon = models.URLField(_("Image URL"), null=True, blank=True)
+    icon_data = models.ImageField(
+        _("Image"), null=True, blank=True, upload_to="service/"
+    )
 
     images = models.ManyToManyField(
         verbose_name=_("Images"),
@@ -61,3 +67,8 @@ class Service(Core):
 
     def __unicode__(self):
         return self.name
+
+
+@receiver(pre_save, sender=Service)
+def create_profile(sender, instance, **kwargs):
+    instance.icon = f"{SERVER_BASE_URL}service/{instance.icon_data.name}"

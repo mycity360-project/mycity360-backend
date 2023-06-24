@@ -70,10 +70,10 @@ def delete_banner(pk):
         raise ValidationError(detail=BANNER_DOES_NOT_EXIST)
 
 
-def upload_image(pk, image):
+def upload_image(pk, image_data):
     try:
         banner = Banner.objects.filter(is_deleted=False).get(id=pk)
-        banner.image = image
+        banner.image_data = image_data
         banner.save()
         # serializers = BannerSerializer(banner)
         # return serializers.data

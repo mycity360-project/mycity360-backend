@@ -29,7 +29,9 @@ class Image(Core):
     """
 
     image = models.URLField(_("Image URL"), null=True, blank=True)
-    image_new = models.ImageField(_("Image"), null=True, blank=True, upload_to="image/")
+    image_new = models.ImageField(
+        _("Image"), null=True, blank=True, upload_to="image/"
+    )
 
     objects = ImageManager.from_queryset(ImageQueryset)()
 
@@ -45,6 +47,6 @@ class Image(Core):
         return str(self.id)
 
 
-@receiver(pre_save,sender=Image)
-def create_profile(sender,instance,**kwargs):
+@receiver(pre_save, sender=Image)
+def create_profile(sender, instance, **kwargs):
     instance.image = f"{SERVER_BASE_URL}image/{instance.image_new.name}"

@@ -72,7 +72,5 @@ def upload_icon(pk, icon):
     category = category_gateway.get_category(pk)
     if category.icon:
         delete_image(category.icon)
-    category = category_gateway.upload_icon(
-        pk, upload_to_local(icon, folder="category")
-    )
+    category = category_gateway.upload_icon(pk, icon)
     return CategorySerializer.serialize_data(category)

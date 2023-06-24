@@ -74,7 +74,5 @@ def upload_image(pk, image):
     banner = banner_gateway.get_banner(pk)
     if banner.image:
         delete_image(banner.image)
-    banner = banner_gateway.upload_image(
-        pk, upload_to_local(image, folder="banner")
-    )
+    banner = banner_gateway.upload_image(pk, image)
     return BannerSerializer.serialize_data(banner)

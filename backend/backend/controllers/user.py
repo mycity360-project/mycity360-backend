@@ -100,14 +100,14 @@ def signup(**kwargs):
             minutes=5
         )
     # else:
-        # kwargs["is_email_verified"] = True
+    # kwargs["is_email_verified"] = True
     if phone_required:
         kwargs["phone_otp"] = services.generate_otp()
         kwargs["phone_expiry"] = datetime.datetime.now() + datetime.timedelta(
             minutes=5
         )
     # else:
-        # kwargs["is_phone_verified"] = True
+    # kwargs["is_phone_verified"] = True
     user = create_user(kwargs)
     if not phone_required:
         user["is_phone_verified"] = True

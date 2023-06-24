@@ -64,10 +64,10 @@ def delete_service(pk):
         raise ValidationError(detail=SERVICE_DOES_NOT_EXIST)
 
 
-def upload_icon(pk, icon):
+def upload_icon(pk, icon_data):
     try:
         service = Service.objects.filter(is_deleted=False).get(id=pk)
-        service.icon = icon
+        service.icon_data = icon_data
         service.save()
         # serializers = ServiceSerializer(service)
         # return serializers.data

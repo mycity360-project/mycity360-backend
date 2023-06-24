@@ -12,7 +12,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="image",
             name="image",
-            field=models.URLField(blank=True, null=True, verbose_name="Image URL"),
+            field=models.URLField(
+                blank=True, null=True, verbose_name="Image URL"
+            ),
         ),
         migrations.AlterField(
             model_name="image",

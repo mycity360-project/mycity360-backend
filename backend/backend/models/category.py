@@ -6,9 +6,12 @@ from __future__ import unicode_literals
 from django.db import models
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 from ..utils.core import Core
 from ..managers.category import CategoryManager, CategoryQueryset
+from ..constants import SERVER_BASE_URL
 
 
 phone_regex = RegexValidator(
@@ -38,7 +41,10 @@ class Category(Core):
         blank=True,
     )
 
-    icon = models.URLField(_("Image"), null=True, blank=True)
+    icon = models.URLField(_("Image URL"), null=True, blank=True)
+    icon_data = models.ImageField(
+        _("Image"), null=True, blank=True, upload_to="category/"
+    )
 
     phone = models.CharField(
         _("Phone Number"),
@@ -65,3 +71,8 @@ class Category(Core):
 
     def __unicode__(self):
         return self.name
+
+
+@receiver(pre_save, sender=Category)
+def create_profile(sender, instance, **kwargs):
+    instance.icon = f"{SERVER_BASE_URL}category/{instance.icon_data.name}"
