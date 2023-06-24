@@ -7,8 +7,8 @@ from __future__ import unicode_literals
 
 # lib imports
 from django.contrib import admin
-from django.conf import settings
 from django.core.cache import cache
+from .cache import Cache
 
 
 class CustomModelAdmin(admin.ModelAdmin):
@@ -48,6 +48,7 @@ class CustomModelAdmin(admin.ModelAdmin):
         """
         Clear cache
         """
+        core_cache = Cache()
         # TODO: Only clear cache for selected models
-        cache.delete_many(cache.keys("*"))
+        core_cache.delete_many(["*"])
 
