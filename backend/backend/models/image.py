@@ -49,7 +49,6 @@ class Image(Core):
 
 @receiver(post_save, sender=Image)
 def create_profile(sender, instance, **kwargs):
-    print(instance.__dict__)
     if instance.image != f"{SERVER_BASE_URL}{instance.image_new}":
         instance.image = f"{SERVER_BASE_URL}{instance.image_new}"
         instance.save()

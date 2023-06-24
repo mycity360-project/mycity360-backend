@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 # python imports
 from __future__ import unicode_literals
+import os
+from uuid import uuid4
 
 # lib imports
 from django.db import models
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
-from django.db.models.signals import pre_save
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from ..utils.core import Core
@@ -19,6 +21,12 @@ phone_regex = RegexValidator(
     message="Phone number must be entered in the format:"
     " '+999999999'. Up to 15 digits allowed.",
 )
+
+
+def upload_to(instance, filename):
+    base, ext = os.path.splitext(filename)
+    ext = ext.lower()
+    return f"category/{uuid4()}{ext}"
 
 
 class Category(Core):
@@ -43,7 +51,7 @@ class Category(Core):
 
     icon = models.URLField(_("Image URL"), null=True, blank=True)
     icon_data = models.ImageField(
-        _("Image"), null=True, blank=True, upload_to="category/"
+        _("Image"), null=True, blank=True, upload_to=upload_to
     )
 
     phone = models.CharField(
@@ -73,6 +81,8 @@ class Category(Core):
         return self.name
 
 
-@receiver(pre_save, sender=Category)
+@receiver(post_save, sender=Category)
 def create_profile(sender, instance, **kwargs):
-    instance.icon = f"{SERVER_BASE_URL}category/{instance.icon_data.name}"
+    if instance.icon != f"{SERVER_BASE_URL}{instance.icon_data}":
+        instance.icon = f"{SERVER_BASE_URL}{instance.icon_data}"
+        instance.save()
