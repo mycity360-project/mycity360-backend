@@ -135,6 +135,20 @@ class UserAdAdmin(CustomModelAdmin):
         "updated_date",
         "area",
     )
+    readonly_fields = (
+        "created_date",
+        "updated_date",
+        "name",
+        "description",
+        "code",
+        "tags",
+        "images",
+        "price",
+        "category",
+        "user",
+        "area",
+        "extra_data"
+    )
 
 
 class ServiceAdmin(CustomModelAdmin):
