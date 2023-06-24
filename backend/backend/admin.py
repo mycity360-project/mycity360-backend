@@ -59,15 +59,6 @@ class AreaAdmin(CustomModelAdmin):
         "location__name",
     )
 
-    def has_add_permission(self, request):
-        return True
-
-    def has_change_permission(self, request, obj=None):
-        return True
-
-    def has_delete_permission(self, request, obj=None):
-        return True
-
 
 class UserAdmin(CustomModelAdmin):
     list_display = ("pk", "email", "phone", "first_name", "last_name")
@@ -80,29 +71,11 @@ class UserAdmin(CustomModelAdmin):
         "area__name",
     )
 
-    def has_add_permission(self, request):
-        return True
-
-    def has_change_permission(self, request, obj=None):
-        return True
-
-    def has_delete_permission(self, request, obj=None):
-        return True
-
 
 class StateAdmin(CustomModelAdmin):
     list_display = ("pk", "name")
     search_fields = ("name",)
     list_filter = ("is_active", "is_deleted", "created_date", "updated_date")
-
-    def has_add_permission(self, request):
-        return True
-
-    def has_change_permission(self, request, obj=None):
-        return True
-
-    def has_delete_permission(self, request, obj=None):
-        return True
 
 
 class LocationAdmin(CustomModelAdmin):
@@ -119,29 +92,11 @@ class LocationAdmin(CustomModelAdmin):
         "state__name",
     )
 
-    def has_add_permission(self, request):
-        return True
-
-    def has_change_permission(self, request, obj=None):
-        return True
-
-    def has_delete_permission(self, request, obj=None):
-        return True
-
 
 class SystemConfigAdmin(CustomModelAdmin):
     list_display = ("pk", "key", "value")
     search_fields = ("name", "key")
     list_filter = ("is_active", "is_deleted", "created_date", "updated_date")
-
-    def has_add_permission(self, request):
-        return True
-
-    def has_change_permission(self, request, obj=None):
-        return True
-
-    def has_delete_permission(self, request, obj=None):
-        return True
 
 
 class CategoryAdmin(CustomModelAdmin):
@@ -162,15 +117,6 @@ class CategoryAdmin(CustomModelAdmin):
         ParentCategoryListFilter,
     )
 
-    def has_add_permission(self, request):
-        return True
-
-    def has_change_permission(self, request, obj=None):
-        return True
-
-    def has_delete_permission(self, request, obj=None):
-        return True
-
 
 class UserAdAdmin(CustomModelAdmin):
     list_display = (
@@ -190,15 +136,6 @@ class UserAdAdmin(CustomModelAdmin):
         "area",
     )
 
-    def has_add_permission(self, request):
-        return True
-
-    def has_change_permission(self, request, obj=None):
-        return True
-
-    def has_delete_permission(self, request, obj=None):
-        return True
-
 
 class ServiceAdmin(CustomModelAdmin):
     list_display = ("pk", "name", "sequence")
@@ -210,15 +147,6 @@ class ServiceAdmin(CustomModelAdmin):
         "updated_date",
     )
 
-    def has_add_permission(self, request):
-        return True
-
-    def has_change_permission(self, request, obj=None):
-        return True
-
-    def has_delete_permission(self, request, obj=None):
-        return True
-
 
 class ImageAdmin(CustomModelAdmin):
     list_display = ("pk", "image")
@@ -229,15 +157,6 @@ class ImageAdmin(CustomModelAdmin):
         "created_date",
         "updated_date",
     )
-
-    def has_add_permission(self, request):
-        return True
-
-    def has_change_permission(self, request, obj=None):
-        return True
-
-    def has_delete_permission(self, request, obj=None):
-        return True
 
 
 class QuestionAdmin(CustomModelAdmin):
@@ -251,15 +170,6 @@ class QuestionAdmin(CustomModelAdmin):
         "category__name",
     )
 
-    def has_add_permission(self, request):
-        return True
-
-    def has_change_permission(self, request, obj=None):
-        return True
-
-    def has_delete_permission(self, request, obj=None):
-        return True
-
 
 class AnswerAdmin(CustomModelAdmin):
     list_display = ("pk", "answer", "question")
@@ -268,15 +178,6 @@ class AnswerAdmin(CustomModelAdmin):
         "question__question",
     )
     list_filter = ("is_active", "is_deleted", "created_date", "updated_date")
-
-    def has_add_permission(self, request):
-        return True
-
-    def has_change_permission(self, request, obj=None):
-        return True
-
-    def has_delete_permission(self, request, obj=None):
-        return True
 
 
 class BannerAdmin(CustomModelAdmin):
@@ -292,15 +193,6 @@ class BannerAdmin(CustomModelAdmin):
         "updated_date",
         "area__name",
     )
-
-    def has_add_permission(self, request):
-        return True
-
-    def has_change_permission(self, request, obj=None):
-        return True
-
-    def has_delete_permission(self, request, obj=None):
-        return True
 
 
 admin.site.register(User, UserAdmin)
