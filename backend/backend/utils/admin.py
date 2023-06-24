@@ -55,4 +55,3 @@ class CustomModelAdmin(admin.ModelAdmin):
         keys.extend(core_cache.keys(f"*__{key}__*"))
         print(keys)
         core_cache.delete_many(keys)
-        cache.delete_many(cache.keys("*"))
