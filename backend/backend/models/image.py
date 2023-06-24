@@ -3,10 +3,11 @@
 from __future__ import unicode_literals
 
 # lib imports
-from django.db.models.signals import pre_save
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 import os
+from uuid import uuid4
 
 from django.db import models
 from django.utils.timezone import now as timezone_now
@@ -17,10 +18,9 @@ from ..constants import MEDIA_ROOT, SERVER_BASE_URL
 
 
 def upload_to(instance, filename):
-    now = timezone_now()
     base, ext = os.path.splitext(filename)
     ext = ext.lower()
-    return f"image/{now:%Y/%m/%Y%m%d%H%M%S}{ext}"
+    return f"image/{uuid4()}{ext}"
 
 
 class Image(Core):
@@ -47,6 +47,9 @@ class Image(Core):
         return str(self.id)
 
 
-@receiver(pre_save, sender=Image)
+@receiver(post_save, sender=Image)
 def create_profile(sender, instance, **kwargs):
-    instance.image = f"{SERVER_BASE_URL}image/{instance.image_new.name}"
+    print(instance.__dict__)
+    if instance.image != f"{SERVER_BASE_URL}{instance.image_new}":
+        instance.image = f"{SERVER_BASE_URL}{instance.image_new}"
+        instance.save()
