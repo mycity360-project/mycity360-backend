@@ -48,8 +48,4 @@ class CustomModelAdmin(admin.ModelAdmin):
         """
         Clear cache
         """
-        core_cache = Cache()
-        # TODO: Only clear cache for selected models
-        model = args[1].path_info.split("/")[-2]
-        keys = [f"*{model}"]
-        core_cache.delete_many(keys)
+        cache.delete_many(cache.keys("*"))
