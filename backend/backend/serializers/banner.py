@@ -16,6 +16,7 @@ class BannerSerializer(serializers.ModelSerializer):
             area=dict(id=data.area_id),
             image=data.image,
             is_deleted=data.is_deleted,
+            sequence=data.sequence,
         )
 
     class Meta:

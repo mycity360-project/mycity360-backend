@@ -39,7 +39,7 @@ class Banner(Core):
     image_data = models.ImageField(
         _("Image"), null=True, blank=True, upload_to=upload_to
     )
-
+    sequence = models.PositiveIntegerField(_("Sequence"), default=0)
     objects = BannerManager.from_queryset(BannerQueryset)()
 
     class Meta:

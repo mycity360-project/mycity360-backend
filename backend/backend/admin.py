@@ -206,7 +206,7 @@ class AnswerAdmin(CustomModelAdmin):
 
 
 class BannerAdmin(CustomModelAdmin):
-    list_display = ("pk", "area", "redirect_url", "image")
+    list_display = ("pk", "image", "sequence", "area", "redirect_url",)
     search_fields = (
         "area__name",
         "redirect_url",
@@ -218,7 +218,7 @@ class BannerAdmin(CustomModelAdmin):
         "updated_date",
         "area__name",
     )
-    ordering = ("is_deleted", "is_active")
+    ordering = ("is_deleted", "is_active", "sequence")
 
 
 admin.site.register(User, UserAdmin)
