@@ -33,9 +33,12 @@ def send_mail(subject, body, to_email=()):
     SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
     creds = None
     if os.path.exists(constants.TOKEN_FILE_PATH):
-        creds = Credentials.from_authorized_user_file(
-            constants.TOKEN_FILE_PATH, SCOPES
-        )
+        try:
+            creds = Credentials.from_authorized_user_file(
+                constants.TOKEN_FILE_PATH, SCOPES
+            )
+        except:
+            pass
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
