@@ -152,3 +152,14 @@ def resend_otp(request, pk):
         pk=pk,
     )
     return response, status.HTTP_200_OK
+
+
+@api_view(["POST"])
+@authentication_classes([])
+@permission_classes([])
+@response_handler()
+def delete_account_request(request):
+    response = user_controller.delete_account_request(
+        key=request.data.get("key"),
+    )
+    return response, status.HTTP_200_OK

@@ -5,13 +5,18 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("backend", "0006_alter_banner_image_data_alter_category_icon_data_and_more"),
+        (
+            "backend",
+            "0006_alter_banner_image_data_alter_category_icon_data_and_more",
+        ),
     ]
 
     operations = [
         migrations.AddField(
             model_name="banner",
             name="sequence",
-            field=models.PositiveIntegerField(default=0, verbose_name="Sequence"),
+            field=models.PositiveIntegerField(
+                default=0, verbose_name="Sequence"
+            ),
         ),
     ]

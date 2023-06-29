@@ -153,7 +153,7 @@ class UserAdAdmin(CustomModelAdmin):
         "category",
         "user",
         "area",
-        "extra_data"
+        "extra_data",
     )
     ordering = ("is_deleted", "is_active")
 
@@ -206,7 +206,13 @@ class AnswerAdmin(CustomModelAdmin):
 
 
 class BannerAdmin(CustomModelAdmin):
-    list_display = ("pk", "image", "sequence", "area", "redirect_url",)
+    list_display = (
+        "pk",
+        "image",
+        "sequence",
+        "area",
+        "redirect_url",
+    )
     search_fields = (
         "area__name",
         "redirect_url",

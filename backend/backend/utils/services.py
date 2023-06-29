@@ -12,9 +12,6 @@ def generate_otp():
 
 
 def send_email(subject, body, from_email=FROM_EMAIL, to_email=()):
-    print(subject)
-    print(body)
-    print(to_email)
     try:
         # pass
         response = send_mail(

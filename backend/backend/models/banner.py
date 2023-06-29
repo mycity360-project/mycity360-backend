@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 import os
 from uuid import uuid4
+
 # lib imports
 from django.db import models
 from django.utils.translation import gettext_lazy as _

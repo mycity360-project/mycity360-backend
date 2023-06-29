@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 import os
 from uuid import uuid4
+
 # lib imports
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -22,10 +23,12 @@ phone_regex = RegexValidator(
     " '+999999999'. Up to 15 digits allowed.",
 )
 
+
 def upload_to(instance, filename):
     base, ext = os.path.splitext(filename)
     ext = ext.lower()
     return f"banner/{uuid4()}{ext}"
+
 
 class Service(Core):
     """

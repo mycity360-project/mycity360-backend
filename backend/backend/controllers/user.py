@@ -205,7 +205,9 @@ def login(email, password, client_id):
                     user["email_otp"] = services.generate_otp()
                     user[
                         "email_expiry"
-                    ] = datetime.datetime.now() + datetime.timedelta(minutes=OTP_EXPIRE_MINUTES)
+                    ] = datetime.datetime.now() + datetime.timedelta(
+                        minutes=OTP_EXPIRE_MINUTES
+                    )
                     services.send_email(
                         subject=EMAIL_SUBJECT,
                         body=EMAIL_BODY.format(
@@ -223,7 +225,9 @@ def login(email, password, client_id):
                     user["phone_otp"] = services.generate_otp()
                     user[
                         "phone_expiry"
-                    ] = datetime.datetime.now() + datetime.timedelta(minutes=OTP_EXPIRE_MINUTES)
+                    ] = datetime.datetime.now() + datetime.timedelta(
+                        minutes=OTP_EXPIRE_MINUTES
+                    )
                     # services.send_sms()
                     services.send_email(
                         subject=EMAIL_SUBJECT,
@@ -292,12 +296,16 @@ def forgot_password(key):
         email_user["email_otp"] = services.generate_otp()
         email_user[
             "email_expiry"
-        ] = datetime.datetime.now() + datetime.timedelta(minutes=OTP_EXPIRE_MINUTES)
+        ] = datetime.datetime.now() + datetime.timedelta(
+            minutes=OTP_EXPIRE_MINUTES
+        )
     if phone_user:
         phone_user["phone_otp"] = services.generate_otp()
         phone_user[
             "phone_expiry"
-        ] = datetime.datetime.now() + datetime.timedelta(minutes=OTP_EXPIRE_MINUTES)
+        ] = datetime.datetime.now() + datetime.timedelta(
+            minutes=OTP_EXPIRE_MINUTES
+        )
     response = {}
     if email_user:
         services.send_email(
@@ -381,7 +389,9 @@ def resend_otp(pk):
                     user["email_otp"] = services.generate_otp()
                     user[
                         "email_expiry"
-                    ] = datetime.datetime.now() + datetime.timedelta(minutes=OTP_EXPIRE_MINUTES)
+                    ] = datetime.datetime.now() + datetime.timedelta(
+                        minutes=OTP_EXPIRE_MINUTES
+                    )
                     services.send_email(
                         subject=EMAIL_SUBJECT,
                         body=EMAIL_BODY.format(
@@ -397,7 +407,9 @@ def resend_otp(pk):
                     user["phone_otp"] = services.generate_otp()
                     user[
                         "phone_expiry"
-                    ] = datetime.datetime.now() + datetime.timedelta(minutes=OTP_EXPIRE_MINUTES)
+                    ] = datetime.datetime.now() + datetime.timedelta(
+                        minutes=OTP_EXPIRE_MINUTES
+                    )
                     # services.send_sms()
                     services.send_email(
                         subject=PHONE_SUBJECT,
@@ -410,3 +422,34 @@ def resend_otp(pk):
                 #     user["is_phone_verified"] = True
     user_gateway.update_user(user.get("id"), user)
     return {"message": OTP_SENT}
+
+
+def delete_account_request(key):
+    if not key:
+        raise ValidationError(detail=EMAIL_OR_PHONE_REQUIRED)
+    user = None
+    try:
+        user = UserSerializer.serialize_data(
+            user_gateway.get_user(email=key)
+        )
+    except:
+        pass
+    if not user:
+        try:
+            user = UserSerializer.serialize_data(
+                user_gateway.get_user(phone=key)
+            )
+        except:
+            pass
+    if not user:
+        return {"message": "Success"}
+    services.send_email(
+        subject=DELETE_EMAIL_SUBJECT,
+        body=DELETE_EMAIL_BODY.format(
+            user.get("first_name"),
+            user.get("phone"),
+            user.get("email"),
+        ),
+        to_email=SUPPORT_EMAILS,
+    ),
+    return {"message": "Success"}
