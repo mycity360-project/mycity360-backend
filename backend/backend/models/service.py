@@ -39,9 +39,8 @@ class Service(Core):
         _("Name"),
         max_length=128,
     )
-    description = models.CharField(
+    description = models.TextField(
         _("Description"),
-        max_length=128,
     )
     code = models.CharField(_("Code"), max_length=128, unique=True)
     phone = models.CharField(
