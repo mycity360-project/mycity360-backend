@@ -27,7 +27,7 @@ phone_regex = RegexValidator(
 def upload_to(instance, filename):
     base, ext = os.path.splitext(filename)
     ext = ext.lower()
-    return f"banner/{uuid4()}{ext}"
+    return f"service/{uuid4()}{ext}"
 
 
 class Service(Core):

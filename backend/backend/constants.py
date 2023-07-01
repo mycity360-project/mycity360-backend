@@ -53,7 +53,7 @@ CACHE_URL = "redis://127.0.0.1:6379/1"
 
 MEDIA_ROOT = "/var/www/media/"
 # MEDIA_ROOT = settings.BASE_DIR
-SERVER_BASE_URL = "http://68.178.169.59/media/"
+SERVER_BASE_URL = "http://mycity.in/media/"
 CACHE_VALIDITY = 10800
 
 OTP_EXPIRE_MINUTES = 2
