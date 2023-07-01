@@ -114,6 +114,7 @@ class CategoryAdmin(CustomModelAdmin):
 
     list_display = ("pk", "name", "sequence")
     search_fields = ("name",)
+    list_editable = ("sequence",)
     list_filter = (
         "is_active",
         "is_deleted",
@@ -121,7 +122,7 @@ class CategoryAdmin(CustomModelAdmin):
         "updated_date",
         ParentCategoryListFilter,
     )
-    ordering = ("is_deleted", "is_active")
+    ordering = ("is_deleted", "is_active", "sequence")
 
 
 class UserAdAdmin(CustomModelAdmin):
@@ -161,13 +162,14 @@ class UserAdAdmin(CustomModelAdmin):
 class ServiceAdmin(CustomModelAdmin):
     list_display = ("pk", "name", "sequence")
     search_fields = ("name", "code")
+    list_editable = ("sequence",)
     list_filter = (
         "is_active",
         "is_deleted",
         "created_date",
         "updated_date",
     )
-    ordering = ("is_deleted", "is_active")
+    ordering = ("is_deleted", "is_active", "sequence")
 
 
 class ImageAdmin(CustomModelAdmin):
@@ -213,6 +215,7 @@ class BannerAdmin(CustomModelAdmin):
         "area",
         "redirect_url",
     )
+    list_editable = ("sequence",)
     search_fields = (
         "area__name",
         "redirect_url",
