@@ -28,6 +28,8 @@ class Banner(Core):
 
     redirect_url = models.URLField(
         _("Redirect URL"),
+        null=True,
+        blank=True
     )
 
     area = models.ForeignKey(
