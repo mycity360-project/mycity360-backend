@@ -51,10 +51,10 @@ class Banner(Core):
         verbose_name_plural = _("Banners")
 
     def __str__(self):
-        return self.redirect_url
+        return str(self.id)
 
     def __unicode__(self):
-        return self.redirect_url
+        return str(self.id)
 
 
 @receiver(post_save, sender=Banner)
