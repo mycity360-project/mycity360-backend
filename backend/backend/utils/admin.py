@@ -40,8 +40,15 @@ class CustomModelAdmin(admin.ModelAdmin):
             "clear_cache",
             f"Clear Cache for {self.model._meta.verbose_name_plural}",
         )
-        if "delete_selected" in actions:
-            del actions["delete_selected"]
+        # if not request.user.is_superuser:
+        #     if request.user.groups.filter(name='Manager').exists():
+        #         if "banner" not in request.path_info:
+        #             if "delete_selected" in actions:
+        #                 del actions["delete_selected"]
+        #     else:
+        #         if "delete_selected" in actions:
+        #             del actions["delete_selected"]
+        # print(actions)
         return actions
 
     def clear_cache(self, *args, **kwargs):

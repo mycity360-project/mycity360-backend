@@ -83,6 +83,6 @@ class Category(Core):
 
 @receiver(post_save, sender=Category)
 def create_profile(sender, instance, **kwargs):
-    if instance.icon != f"{SERVER_BASE_URL}{instance.icon_data}":
+    if instance.icon_data and instance.icon != f"{SERVER_BASE_URL}{instance.icon_data}":
         instance.icon = f"{SERVER_BASE_URL}{instance.icon_data}"
         instance.save()

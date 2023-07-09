@@ -33,7 +33,10 @@ def list_user_ad(
     if location_id:
         user_ad = user_ad.filter(area__location_id=location_id)
     if search:
-        search = search.split(" ")
+        search_ = search.split(" ")
+        search_.append(search)
+        search = search_
+        # search = search.split(" ")
         user_ad = user_ad.filter(
             Q(name__in=search)
             | Q(code__in=search)
