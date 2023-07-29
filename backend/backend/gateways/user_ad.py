@@ -33,15 +33,13 @@ def list_user_ad(
     if location_id:
         user_ad = user_ad.filter(area__location_id=location_id)
     if search:
-        search_ = search.split(" ")
-        search_.append(search)
-        search = search_
-        # search = search.split(" ")
+        # search_ = search.split(" ")
+        # search_.append(search)
         user_ad = user_ad.filter(
-            Q(name__in=search)
-            | Q(code__in=search)
-            | Q(description__in=search)
-            | Q(category__name__in=search)
+            Q(name__search=search)
+            | Q(code__search=search)
+            | Q(description__search=search)
+            | Q(category__name__search=search)
             # | Q(tags__contains=search)
         )
     user_ad = user_ad.select_related(

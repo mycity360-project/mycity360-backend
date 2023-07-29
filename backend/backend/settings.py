@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.postgres",
     "backend",
     "rest_framework",
     "oauth2_provider",
@@ -89,16 +90,16 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": "mycity360_prod",
-        "USER": "root",
-        "PASSWORD": "Pass@1234",
+        "USER": "postgres",
+        "PASSWORD": "postgres",
         "HOST": "localhost",
-        "PORT": "3306",
-        "OPTIONS": {
-            "charset": "utf8mb4",
-            "use_unicode": True,
-        },
+        "PORT": "5432",
+        # "OPTIONS": {
+        #     "charset": "utf8mb4",
+        #     "use_unicode": True,
+        # },
     }
 }
 
