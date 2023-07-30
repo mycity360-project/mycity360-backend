@@ -71,9 +71,10 @@ class UserAdmin(CustomModelAdmin):
         "last_name",
         "username",
         "is_active",
+        "is_user_verified",
     )
     search_fields = ("email", "phone", "first_name", "last_name")
-    list_editable = ("is_active",)
+    list_editable = ("is_active", "is_user_verified")
     list_filter = (
         "is_active",
         "is_deleted",
@@ -139,7 +140,15 @@ class CategoryAdmin(CustomModelAdmin):
 
 
 class UserAdAdmin(CustomModelAdmin):
-    list_display = ("pk", "name", "code", "is_featured", "price", "is_active")
+    list_display = (
+        "pk",
+        "name",
+        "code",
+        "is_featured",
+        "price",
+        "is_active",
+        "user",
+    )
     list_editable = ("is_featured", "is_active")
     search_fields = ("name", "user__email", "user__phone", "code")
     list_filter = (
