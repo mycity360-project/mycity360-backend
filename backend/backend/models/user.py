@@ -122,7 +122,9 @@ class User(AbstractBaseUser, PermissionsMixin, Core):
     phone_expiry = models.DateTimeField(
         _("Phone Expiry"), null=True, blank=True
     )
-
+    is_user_verified = models.BooleanField(
+        _("Is User Verified"), default=False
+    )
     objects = UserManager.from_queryset(UserQueryset)()
 
     EMAIL_FIELD = "email"

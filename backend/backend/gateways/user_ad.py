@@ -16,6 +16,7 @@ def list_user_ad(
     page_size=10,
     ordering=None,
     search=None,
+    is_home=None,
 ):
     user_ad = UserAd.objects.all().filter(is_deleted=False)
     if is_active is not None:
@@ -32,6 +33,8 @@ def list_user_ad(
         user_ad = user_ad.filter(area_id=area_id)
     if location_id:
         user_ad = user_ad.filter(area__location_id=location_id)
+    if is_home:
+        user_ad = user_ad.exclude(category__category__name="Matrimony")
     if search:
         # search_ = search.split(" ")
         # search_.append(search)

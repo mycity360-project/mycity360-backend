@@ -45,17 +45,20 @@ class UserAdSerializer(serializers.ModelSerializer):
                 for image in data.images.all()
             ]
         phone = data.user.phone
-        if not data.category.is_price or (
-            data.category.is_price
+        category = data.category.category
+        is_price = category.is_price if category else data.category.is_price
+        price_limit = category.price_limit if category else data.category.price_limit
+        if not is_price or (
+            is_price
             and data.price
-            and data.price >= data.category.price_limit
+            and data.price >= price_limit
         ):
             phone = data.category.phone
         return dict(
             images=images,
             user=dict(id=data.user_id, phone=data.user.phone),
             category=dict(
-                id=data.category_id, is_price=data.category.is_price
+                id=data.category_id, is_price=is_price
             ),
             area=dict(
                 id=data.area_id,

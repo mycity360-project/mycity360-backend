@@ -49,8 +49,9 @@ class ParentCategoryListFilter(admin.SimpleListFilter):
 
 
 class AreaAdmin(CustomModelAdmin):
-    list_display = ("pk", "name", "pincode")
+    list_display = ("pk", "name", "pincode", "is_active")
     search_fields = ("name", "location__name")
+    list_editable = ("is_active",)
     list_filter = (
         "is_active",
         "is_deleted",
@@ -62,8 +63,17 @@ class AreaAdmin(CustomModelAdmin):
 
 
 class UserAdmin(CustomModelAdmin):
-    list_display = ("pk", "email", "phone", "first_name", "last_name")
+    list_display = (
+        "pk",
+        "email",
+        "phone",
+        "first_name",
+        "last_name",
+        "username",
+        "is_active",
+    )
     search_fields = ("email", "phone", "first_name", "last_name")
+    list_editable = ("is_active",)
     list_filter = (
         "is_active",
         "is_deleted",
@@ -75,18 +85,20 @@ class UserAdmin(CustomModelAdmin):
 
 
 class StateAdmin(CustomModelAdmin):
-    list_display = ("pk", "name")
+    list_display = ("pk", "name", "is_active")
     search_fields = ("name",)
+    list_editable = ("is_active",)
     list_filter = ("is_active", "is_deleted", "created_date", "updated_date")
     ordering = ("is_deleted", "is_active")
 
 
 class LocationAdmin(CustomModelAdmin):
-    list_display = ("pk", "name")
+    list_display = ("pk", "name", "is_active")
     search_fields = (
         "name",
         "state__name",
     )
+    list_editable = ("is_active",)
     list_filter = (
         "is_active",
         "is_deleted",
@@ -98,7 +110,8 @@ class LocationAdmin(CustomModelAdmin):
 
 
 class SystemConfigAdmin(CustomModelAdmin):
-    list_display = ("pk", "key", "value")
+    list_display = ("pk", "key", "value", "is_active")
+    list_editable = ("is_active",)
     search_fields = ("name", "key")
     list_filter = ("is_active", "is_deleted", "created_date", "updated_date")
     ordering = ("is_deleted", "is_active")
@@ -112,9 +125,9 @@ class CategoryAdmin(CustomModelAdmin):
         )
         return form
 
-    list_display = ("pk", "name", "sequence")
+    list_display = ("pk", "name", "sequence", "is_active")
     search_fields = ("name",)
-    list_editable = ("sequence",)
+    list_editable = ("sequence", "is_active")
     list_filter = (
         "is_active",
         "is_deleted",
@@ -126,14 +139,8 @@ class CategoryAdmin(CustomModelAdmin):
 
 
 class UserAdAdmin(CustomModelAdmin):
-    list_display = (
-        "pk",
-        "name",
-        "code",
-        "is_featured",
-        "price",
-    )
-    list_editable = ("is_featured",)
+    list_display = ("pk", "name", "code", "is_featured", "price", "is_active")
+    list_editable = ("is_featured", "is_active")
     search_fields = ("name", "user__email", "user__phone", "code")
     list_filter = (
         ("is_active", admin.BooleanFieldListFilter),
@@ -160,9 +167,9 @@ class UserAdAdmin(CustomModelAdmin):
 
 
 class ServiceAdmin(CustomModelAdmin):
-    list_display = ("pk", "name", "sequence")
+    list_display = ("pk", "name", "sequence", "is_active")
     search_fields = ("name", "code")
-    list_editable = ("sequence",)
+    list_editable = ("sequence", "is_active")
     list_filter = (
         "is_active",
         "is_deleted",
@@ -173,7 +180,8 @@ class ServiceAdmin(CustomModelAdmin):
 
 
 class ImageAdmin(CustomModelAdmin):
-    list_display = ("pk", "image")
+    list_display = ("pk", "image", "is_active")
+    list_editable = ("is_active",)
     # search_fields = ("name", "code")
     list_filter = (
         "is_active",
@@ -185,8 +193,9 @@ class ImageAdmin(CustomModelAdmin):
 
 
 class QuestionAdmin(CustomModelAdmin):
-    list_display = ("pk", "question", "field_type", "category")
+    list_display = ("pk", "question", "field_type", "category", "is_active")
     search_fields = ("question", "category__name")
+    list_editable = ("is_active",)
     list_filter = (
         "is_active",
         "is_deleted",
@@ -198,7 +207,8 @@ class QuestionAdmin(CustomModelAdmin):
 
 
 class AnswerAdmin(CustomModelAdmin):
-    list_display = ("pk", "answer", "question")
+    list_display = ("pk", "answer", "question", "is_active")
+    list_editable = ("is_active",)
     search_fields = (
         "answer",
         "question__question",
@@ -214,8 +224,9 @@ class BannerAdmin(CustomModelAdmin):
         "sequence",
         "area",
         "redirect_url",
+        "is_active",
     )
-    list_editable = ("sequence",)
+    list_editable = ("sequence", "is_active")
     search_fields = (
         "area__name",
         "redirect_url",

@@ -20,6 +20,7 @@ def user_ad_list(request):
             location_id=request.query_params.get("location_id"),
             search=request.query_params.get("search"),
             ordering=request.query_params.get("ordering"),
+            is_home=request.query_params.get("is_home"),
             page=request.query_params.get("page", 1),
             page_size=request.query_params.get("page_size", 10),
         )

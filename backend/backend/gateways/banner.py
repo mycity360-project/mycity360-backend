@@ -21,7 +21,7 @@ def list_banner(
     if search:
         banner = banner.filter(area__name__icontains=search)
     if not ordering:
-        ordering = "-pk"
+        ordering = "sequence"
     banner = banner.order_by(ordering)
     data = paginate_queryset(queryset=banner, page=page, page_size=page_size)
     # serializers = BannerSerializer(data.get("results"), many=True)

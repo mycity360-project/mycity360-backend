@@ -17,6 +17,7 @@ def list_user_ad(
     page_size=10,
     ordering=None,
     search=None,
+    is_home=None,
 ):
     user_ads = user_ad_gateway.list_user_ad(
         is_active=is_active,
@@ -29,6 +30,7 @@ def list_user_ad(
         page_size=page_size,
         ordering=ordering,
         search=search,
+        is_home=is_home,
     )
     user_ads["results"] = [
         UserAdSerializer.serialize_data(user_ad)

@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from ..models.user import User
 from ..serializers.area import AreaSerializer
-from ..utils.serializer import serialize_image
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -36,6 +35,7 @@ class UserSerializer(serializers.ModelSerializer):
             failed_login_time=data.failed_login_time,
             current_address=data.current_address,
             role=data.role,
+            is_user_verified=data.is_user_verified,
             area=dict(
                 id=data.area_id,
                 name=data.area.name,
@@ -86,6 +86,7 @@ class UserSerializer(serializers.ModelSerializer):
                 ),
             ),
             is_deleted=data.is_deleted,
+            is_user_verified=data.is_user_verified,
         )
 
     class Meta:
