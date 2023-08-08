@@ -4,7 +4,7 @@ from ..serializers.state import StateSerializer
 from ..constants import STATE_DOES_NOT_EXIST
 
 
-def list_state(is_active=None, ordering=None, search=None):
+def list_state(is_active=True, ordering=None, search=None):
     state = State.objects.all().filter(is_deleted=False)
     if is_active is not None:
         state = state.filter(is_active=is_active)
@@ -39,7 +39,9 @@ def update_state(pk, data):
 
 def get_state(pk):
     try:
-        state = State.objects.filter(is_deleted=False).get(id=pk)
+        state = State.objects.filter(is_deleted=False, is_active=True).get(
+            id=pk
+        )
         # serializers = StateSerializer(state)
         # return serializers.data
         return state

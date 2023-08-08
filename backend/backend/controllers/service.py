@@ -8,7 +8,7 @@ from ..controllers.image import delete_image as delete_image_controller
 
 
 @cache(invalidate=False)
-def list_service(is_active=None, ordering=None, search=None):
+def list_service(is_active=True, ordering=None, search=None):
     service = service_gateway.list_service(
         is_active=is_active, ordering=ordering, search=search
     )

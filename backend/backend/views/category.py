@@ -12,7 +12,7 @@ from ..constants import ADMIN_ROLE
 def category_list(request):
     if request.method == "GET":
         response = category_controller.list_category(
-            is_active=request.query_params.get("is_active"),
+            is_active=request.query_params.get("is_active", True),
             category_id=request.query_params.get("category_id"),
             ordering=request.query_params.get("ordering"),
             page=request.query_params.get("page", 1),
@@ -48,7 +48,7 @@ def category_details(request, pk):
 def category_list_user(request):
     if request.method == "GET":
         response = category_controller.list_category(
-            is_active=request.query_params.get("is_active"),
+            is_active=request.query_params.get("is_active", True),
             category_id=request.query_params.get("category_id"),
             ordering=request.query_params.get("ordering"),
             page=request.query_params.get("page", 1),
@@ -71,7 +71,7 @@ def category_icon_upload(request, pk):
 def sub_category_list(request):
     if request.method == "GET":
         response = category_controller.list_category(
-            is_active=request.query_params.get("is_active"),
+            is_active=request.query_params.get("is_active", True),
             category_id=request.query_params.get("category_id"),
             ordering=request.query_params.get("ordering"),
             page=request.query_params.get("page", 1),

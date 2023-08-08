@@ -14,7 +14,7 @@ from ..constants import ADMIN_ROLE
 def location_list(request):
     if request.method == "GET":
         response = location_controller.list_location(
-            is_active=request.query_params.get("is_active"),
+            is_active=request.query_params.get("is_active", True),
             state_id=request.query_params.get("state_id"),
             ordering=request.query_params.get("ordering"),
             search=request.query_params.get("search"),
@@ -45,11 +45,11 @@ def location_details(request, pk):
 @api_view(["GET"])
 @authentication_classes([])
 @permission_classes([])
-@response_handler()
+@response_handler(login_required=False)
 def public_location_list(request):
     if request.method == "GET":
         response = location_controller.list_location(
-            is_active=request.query_params.get("is_active"),
+            is_active=request.query_params.get("is_active", True),
             state_id=request.query_params.get("state_id"),
             ordering=request.query_params.get("ordering"),
             search=request.query_params.get("search"),

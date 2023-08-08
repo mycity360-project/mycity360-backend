@@ -11,7 +11,7 @@ from ..utils.views import response_handler
 def answer_list(request):
     if request.method == "GET":
         response = answer_controller.list_answer(
-            is_active=request.query_params.get("is_active"),
+            is_active=request.query_params.get("is_active", True),
             question_id=request.query_params.get("question_id"),
             user_id=request.query_params.get("user_id"),
             user_ad_id=request.query_params.get("user_ad_id"),

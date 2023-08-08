@@ -64,5 +64,4 @@ urlpatterns = [
     path("banner/<int:pk>/", banner.banner_details),
     path("banner/image/<int:pk>/", banner.banner_image_upload),
     path("user/delete-account/", user.delete_account_request),
-
 ]

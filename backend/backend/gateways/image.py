@@ -4,7 +4,7 @@ from ..serializers.image import ImageSerializer
 from ..constants import IMAGE_DOES_NOT_EXIST
 
 
-def list_image(is_active=None, ordering=None):
+def list_image(is_active=True, ordering=None):
     image = Image.objects.all().filter(is_deleted=False)
     if is_active is not None:
         image = image.filter(is_active=is_active)
@@ -35,7 +35,9 @@ def update_image(pk, data):
 
 def get_image(pk):
     try:
-        image = Image.objects.filter(is_deleted=False).get(id=pk)
+        image = Image.objects.filter(is_deleted=False, is_active=True).get(
+            id=pk
+        )
         # serializers = ImageSerializer(image)
         # return serializers.data
         return image

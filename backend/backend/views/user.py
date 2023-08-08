@@ -58,7 +58,7 @@ def user_details_admin(request, pk):
 @api_view(["POST"])
 @authentication_classes([])
 @permission_classes([])
-@response_handler()
+@response_handler(login_required=False)
 def signup(request):
     if request.method == "POST":
         response = user_controller.signup(**request.data)
@@ -68,7 +68,7 @@ def signup(request):
 @api_view(["POST"])
 @authentication_classes([])
 @permission_classes([])
-@response_handler()
+@response_handler(login_required=False)
 def login(request):
     if request.method == "POST":
         data = request.data
@@ -84,7 +84,7 @@ def login(request):
 @api_view(["POST"])
 @authentication_classes([])
 @permission_classes([])
-@response_handler()
+@response_handler(login_required=False)
 def verify_otp(request, pk):
     if request.method == "POST":
         data = request.data
@@ -121,7 +121,7 @@ def change_password(request, pk):
 @api_view(["POST"])
 @authentication_classes([])
 @permission_classes([])
-@response_handler()
+@response_handler(login_required=False)
 def forgot_password(request):
     response = user_controller.forgot_password(
         key=request.data.get("key"),
@@ -132,7 +132,7 @@ def forgot_password(request):
 @api_view(["POST"])
 @authentication_classes([])
 @permission_classes([])
-@response_handler()
+@response_handler(login_required=False)
 def reset_password(request):
     response = user_controller.reset_password(
         otp=request.data.get("otp"),
@@ -146,7 +146,7 @@ def reset_password(request):
 @api_view(["POST"])
 @authentication_classes([])
 @permission_classes([])
-@response_handler()
+@response_handler(login_required=False)
 def resend_otp(request, pk):
     response = user_controller.resend_otp(
         pk=pk,
@@ -157,7 +157,7 @@ def resend_otp(request, pk):
 @api_view(["POST"])
 @authentication_classes([])
 @permission_classes([])
-@response_handler()
+@response_handler(login_required=False)
 def delete_account_request(request):
     response = user_controller.delete_account_request(
         key=request.data.get("key"),

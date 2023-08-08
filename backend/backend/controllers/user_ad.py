@@ -7,7 +7,7 @@ from ..controllers.image import delete_image
 
 
 def list_user_ad(
-    is_active=None,
+    is_active=True,
     is_featured=None,
     category_id=None,
     user_id=None,

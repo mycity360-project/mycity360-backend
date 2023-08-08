@@ -26,11 +26,7 @@ class Banner(Core):
     Description of Banner Model
     """
 
-    redirect_url = models.URLField(
-        _("Redirect URL"),
-        null=True,
-        blank=True
-    )
+    redirect_url = models.URLField(_("Redirect URL"), null=True, blank=True)
 
     area = models.ForeignKey(
         verbose_name=_("Area"),
@@ -59,6 +55,9 @@ class Banner(Core):
 
 @receiver(post_save, sender=Banner)
 def create_profile(sender, instance, **kwargs):
-    if instance.image_data and instance.image != f"{SERVER_BASE_URL}{instance.image_data}":
+    if (
+        instance.image_data
+        and instance.image != f"{SERVER_BASE_URL}{instance.image_data}"
+    ):
         instance.image = f"{SERVER_BASE_URL}{instance.image_data}"
         instance.save()

@@ -6,7 +6,7 @@ from ..utils.paginate import paginate_queryset
 
 
 def list_banner(
-    is_active=None,
+    is_active=True,
     area_id=None,
     page=1,
     page_size=10,
@@ -54,7 +54,9 @@ def update_banner(pk, data):
 
 def get_banner(pk):
     try:
-        banner = Banner.objects.filter(is_deleted=False).get(id=pk)
+        banner = Banner.objects.filter(is_deleted=False, is_active=True).get(
+            id=pk
+        )
         # serializers = BannerSerializer(banner)
         # return serializers.data
         return banner

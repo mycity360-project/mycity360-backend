@@ -5,7 +5,7 @@ from ..constants import SYSTEM_CONFIG_DOES_NOT_EXIST
 
 
 def list_system_config(
-    keys=None, is_active=None, key=None, ordering=None, search=None
+    keys=None, is_active=True, key=None, ordering=None, search=None
 ):
     system_config = SystemConfig.objects.all().filter(is_deleted=False)
     if keys:
@@ -52,9 +52,9 @@ def get_system_config(pk=None, key=None):
             kwargs["pk"] = pk
         if key:
             kwargs["key"] = key
-        system_config = SystemConfig.objects.filter(is_deleted=False).get(
-            **kwargs
-        )
+        system_config = SystemConfig.objects.filter(
+            is_deleted=False, is_active=True
+        ).get(**kwargs)
         # serializers = SystemConfigSerializer(system_config)
         # return serializers.data
         return system_config

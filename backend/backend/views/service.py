@@ -12,7 +12,7 @@ from ..constants import ADMIN_ROLE
 def service_list(request):
     if request.method == "GET":
         response = service_controller.list_service(
-            is_active=request.query_params.get("is_active"),
+            is_active=request.query_params.get("is_active", True),
             ordering=request.query_params.get("ordering"),
             search=request.query_params.get("search"),
         )
@@ -44,7 +44,7 @@ def service_details(request, pk):
 def service_list_user(request):
     if request.method == "GET":
         response = service_controller.list_service(
-            is_active=request.query_params.get("is_active"),
+            is_active=request.query_params.get("is_active", True),
             ordering=request.query_params.get("ordering"),
             search=request.query_params.get("search"),
         )

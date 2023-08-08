@@ -13,7 +13,7 @@ from ..utils.google_api import upload_to_local, delete_image
 
 
 def list_user(
-    is_active=None, page=1, page_size=10, ordering=None, search=None
+    is_active=True, page=1, page_size=10, ordering=None, search=None
 ):
     users = user_gateway.list_user(
         is_active=is_active,
@@ -429,9 +429,7 @@ def delete_account_request(key):
         raise ValidationError(detail=EMAIL_OR_PHONE_REQUIRED)
     user = None
     try:
-        user = UserSerializer.serialize_data(
-            user_gateway.get_user(email=key)
-        )
+        user = UserSerializer.serialize_data(user_gateway.get_user(email=key))
     except:
         pass
     if not user:

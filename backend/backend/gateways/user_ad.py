@@ -6,7 +6,7 @@ from ..utils.paginate import paginate_queryset
 
 
 def list_user_ad(
-    is_active=None,
+    is_active=True,
     is_featured=None,
     category_id=None,
     user_id=None,
@@ -91,7 +91,9 @@ def update_user_ad(pk, data):
 
 def get_user_ad(pk):
     try:
-        user_ad = UserAd.objects.filter(is_deleted=False).get(id=pk)
+        user_ad = UserAd.objects.filter(is_deleted=False, is_active=True).get(
+            id=pk
+        )
         # serializers = UserAdSerializer(user_ad)
         # return serializers.data
         return user_ad

@@ -12,7 +12,7 @@ from ..constants import ADMIN_ROLE
 def banner_list(request):
     if request.method == "GET":
         response = banner_controller.list_banner(
-            is_active=request.query_params.get("is_active"),
+            is_active=request.query_params.get("is_active", True),
             area_id=request.query_params.get("area_id"),
             ordering=request.query_params.get("ordering"),
             page=request.query_params.get("page", 1),
@@ -47,7 +47,7 @@ def banner_details(request, pk):
 def banner_list_user(request):
     if request.method == "GET":
         response = banner_controller.list_banner(
-            is_active=request.query_params.get("is_active"),
+            is_active=request.query_params.get("is_active", True),
             area_id=request.query_params.get("area_id"),
             ordering=request.query_params.get("ordering"),
             page=request.query_params.get("page", 1),

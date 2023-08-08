@@ -4,7 +4,7 @@ from ..serializers.service import ServiceSerializer
 from ..constants import SERVICE_DOES_NOT_EXIST
 
 
-def list_service(is_active=None, ordering=None, search=None):
+def list_service(is_active=True, ordering=None, search=None):
     service = Service.objects.all().filter(is_deleted=False)
     if is_active is not None:
         service = service.filter(is_active=is_active)
@@ -48,7 +48,9 @@ def update_service(pk, data):
 
 def get_service(pk):
     try:
-        service = Service.objects.filter(is_deleted=False).get(id=pk)
+        service = Service.objects.filter(is_deleted=False, is_active=True).get(
+            id=pk
+        )
         # serializers = ServiceSerializer(service)
         # return serializers.data
         return service

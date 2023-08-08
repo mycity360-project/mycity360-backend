@@ -4,7 +4,7 @@ from ..utils.cache import cache
 
 
 @cache(invalidate=False)
-def list_location(is_active=None, state_id=None, ordering=None, search=None):
+def list_location(is_active=True, state_id=None, ordering=None, search=None):
     location = location_gateway.list_location(
         is_active=is_active,
         state_id=state_id,

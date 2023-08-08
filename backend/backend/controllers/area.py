@@ -4,7 +4,7 @@ from ..utils.cache import cache
 
 
 @cache(invalidate=False)
-def list_area(is_active=None, location_id=None, ordering=None, search=None):
+def list_area(is_active=True, location_id=None, ordering=None, search=None):
     area = area_gateway.list_area(
         is_active=is_active,
         location_id=location_id,

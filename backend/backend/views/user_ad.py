@@ -12,7 +12,7 @@ from ..constants import ADMIN_ROLE
 def user_ad_list(request):
     if request.method == "GET":
         response = user_ad_controller.list_user_ad(
-            is_active=request.query_params.get("is_active"),
+            is_active=request.query_params.get("is_active", True),
             is_featured=request.query_params.get("is_featured"),
             category_id=request.query_params.get("category_id"),
             user_id=request.query_params.get("user_id"),

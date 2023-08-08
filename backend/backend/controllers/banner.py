@@ -8,7 +8,7 @@ from ..utils.google_api import upload_to_local, delete_image
 
 @cache(invalidate=False)
 def list_banner(
-    is_active=None,
+    is_active=True,
     area_id=None,
     page=1,
     page_size=10,

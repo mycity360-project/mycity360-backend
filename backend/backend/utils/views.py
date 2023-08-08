@@ -1,13 +1,15 @@
 import traceback
 from rest_framework.response import Response
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import PermissionDenied, NotAuthenticated
 from rest_framework.exceptions import ValidationError, NotFound
 from ..utils.google_api import send_mail
 
 
-def response_handler(role=None):
+def response_handler(role=None, login_required=True):
     def decorator(func):
         def inner(request, *args, **kwargs):
+            if login_required and not request.user.is_active:
+                raise NotAuthenticated()
             if (
                 request.user.is_authenticated
                 and role

@@ -12,7 +12,7 @@ from ..constants import ADMIN_ROLE
 def question_list(request):
     if request.method == "GET":
         response = question_controller.list_question(
-            is_active=request.query_params.get("is_active"),
+            is_active=request.query_params.get("is_active", True),
             category_id=request.query_params.get("category_id"),
             ordering=request.query_params.get("ordering"),
             page=request.query_params.get("page", 1),
@@ -47,7 +47,7 @@ def question_details(request, pk):
 def question_list_user(request):
     if request.method == "GET":
         response = question_controller.list_question(
-            is_active=request.query_params.get("is_active"),
+            is_active=request.query_params.get("is_active", True),
             category_id=request.query_params.get("category_id"),
             ordering=request.query_params.get("ordering"),
             page=request.query_params.get("page", 1),

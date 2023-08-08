@@ -6,7 +6,7 @@ from ..utils.paginate import paginate_queryset
 
 
 def list_answer(
-    is_active=None,
+    is_active=True,
     question_id=None,
     user_id=None,
     user_ad_id=None,
@@ -59,7 +59,9 @@ def update_answer(pk, data):
 
 def get_answer(pk):
     try:
-        answer = Answer.objects.filter(is_deleted=False).get(id=pk)
+        answer = Answer.objects.filter(is_deleted=False, is_active=True).get(
+            id=pk
+        )
         # serializers = AnswerSerializer(answer)
         # return serializers.data
         return answer

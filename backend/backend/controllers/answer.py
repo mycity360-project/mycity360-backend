@@ -3,7 +3,7 @@ from ..gateways import answer as answer_gateway
 
 
 def list_answer(
-    is_active=None,
+    is_active=True,
     question_id=None,
     user_id=None,
     user_ad_id=None,

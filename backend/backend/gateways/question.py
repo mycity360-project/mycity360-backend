@@ -8,7 +8,7 @@ from ..utils.paginate import paginate_queryset
 
 
 def list_question(
-    is_active=None,
+    is_active=True,
     category_id=None,
     page=1,
     page_size=100,
@@ -59,7 +59,9 @@ def update_question(pk, data):
 
 def get_question(pk):
     try:
-        question = Question.objects.filter(is_deleted=False).get(id=pk)
+        question = Question.objects.filter(
+            is_deleted=False, is_active=True
+        ).get(id=pk)
         # serializers = QuestionSerializer(question)
         # return serializers.data
         return question

@@ -203,6 +203,6 @@ CORS_ALLOW_HEADERS = ["*"]
 #     BASE_DIR, "media"
 # )  # media directory in the root directory
 
-MEDIA_ROOT = "/var/www/media/" # media directory in the root directory
+MEDIA_ROOT = "/var/www/media/"  # media directory in the root directory
 MEDIA_URL = "media/"
 CSRF_TRUSTED_ORIGINS = ["http://mycity360.in"]

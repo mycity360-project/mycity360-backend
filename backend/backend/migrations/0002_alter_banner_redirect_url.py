@@ -12,6 +12,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="banner",
             name="redirect_url",
-            field=models.URLField(blank=True, null=True, verbose_name="Redirect URL"),
+            field=models.URLField(
+                blank=True, null=True, verbose_name="Redirect URL"
+            ),
         ),
     ]

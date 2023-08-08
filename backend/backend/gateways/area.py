@@ -4,7 +4,7 @@ from ..serializers.area import AreaSerializer
 from ..constants import AREA_DOES_NOT_EXIST
 
 
-def list_area(is_active=None, location_id=None, ordering=None, search=None):
+def list_area(is_active=True, location_id=None, ordering=None, search=None):
     area = Area.objects.all().filter(is_deleted=False)
     if is_active is not None:
         area = area.filter(is_active=is_active)
@@ -41,7 +41,7 @@ def update_area(pk, data):
 
 def get_area(pk):
     try:
-        area = Area.objects.filter(is_deleted=False).get(id=pk)
+        area = Area.objects.filter(is_deleted=False, is_active=True).get(id=pk)
         # serializers = AreaSerializer(area)
         # return serializers.data
         return area

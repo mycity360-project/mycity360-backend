@@ -5,7 +5,7 @@ from ..utils.cache import cache
 
 @cache(invalidate=False)
 def list_question(
-    is_active=None,
+    is_active=True,
     category_id=None,
     page=1,
     page_size=100,

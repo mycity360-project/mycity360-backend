@@ -58,6 +58,8 @@ CACHE_VALIDITY = 10800
 
 OTP_EXPIRE_MINUTES = 2
 
-SUPPORT_EMAILS = "heena4415@gmail.com, vibh1103@gmail.com, anuragchachan97@gmail.com"
+SUPPORT_EMAILS = (
+    "heena4415@gmail.com, vibh1103@gmail.com, anuragchachan97@gmail.com"
+)
 DELETE_EMAIL_BODY = "Hi \nThe following user wants to delete their account \n Name: {} \n Phone: {} \n Email: {} \nRegards\nMyCity360 Team"
 DELETE_EMAIL_SUBJECT = "MyCity360 Delete Account"

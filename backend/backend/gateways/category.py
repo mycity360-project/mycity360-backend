@@ -6,7 +6,7 @@ from ..utils.paginate import paginate_queryset
 
 
 def list_category(
-    is_active=None,
+    is_active=True,
     category_id=None,
     page=1,
     page_size=10,
@@ -61,7 +61,9 @@ def update_category(pk, data):
 
 def get_category(pk):
     try:
-        category = Category.objects.filter(is_deleted=False).get(id=pk)
+        category = Category.objects.filter(
+            is_deleted=False, is_active=True
+        ).get(id=pk)
         # serializers = CategorySerializer(category)
         # return serializers.data
         return category

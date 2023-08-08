@@ -4,7 +4,7 @@ from ..utils.cache import cache
 
 
 @cache(invalidate=False)
-def list_state(is_active=None, ordering=None, search=None):
+def list_state(is_active=True, ordering=None, search=None):
     state = state_gateway.list_state(
         is_active=is_active, ordering=ordering, search=search
     )
