@@ -17,6 +17,7 @@ class BannerSerializer(serializers.ModelSerializer):
             image=data.image,
             is_deleted=data.is_deleted,
             sequence=data.sequence,
+            name=data.name,
         )
 
     class Meta:
