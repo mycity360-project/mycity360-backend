@@ -234,6 +234,7 @@ class BannerAdmin(CustomModelAdmin):
         "area",
         "redirect_url",
         "is_active",
+        "name",
     )
     list_editable = ("sequence", "is_active")
     search_fields = (
