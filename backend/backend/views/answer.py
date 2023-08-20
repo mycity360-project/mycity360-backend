@@ -2,13 +2,14 @@ from rest_framework import status
 from rest_framework.decorators import (
     api_view,
 )
+from rest_framework.exceptions import PermissionDenied
 from ..controllers import answer as answer_controller
 from ..utils.views import response_handler
-from ..constants import USER_ROLE, ADMIN_ROLE
+from ..constants import USER_ROLE, ADMIN_ROLE, GUEST_ROLE
 
 
 @api_view(["GET", "POST"])
-@response_handler([USER_ROLE, ADMIN_ROLE])
+@response_handler()
 def answer_list(request):
     if request.method == "GET":
         response = answer_controller.list_answer(
@@ -21,8 +22,11 @@ def answer_list(request):
             page_size=request.query_params.get("page_size", 10),
         )
         return response, status.HTTP_200_OK
-
-    elif request.method == "POST":
+    if request.user.role == GUEST_ROLE:
+        raise PermissionDenied(
+            detail="This user role does not have access to the API"
+        )
+    if request.method == "POST":
         response = answer_controller.create_answer(request.data)
         return response, status.HTTP_201_CREATED
 
