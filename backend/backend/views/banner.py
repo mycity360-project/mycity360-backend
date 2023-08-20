@@ -43,7 +43,7 @@ def banner_details(request, pk):
 
 
 @api_view(["GET"])
-@response_handler([USER_ROLE, GUEST_ROLE])
+@response_handler()
 def banner_list_user(request):
     if request.method == "GET":
         response = banner_controller.list_banner(

@@ -44,7 +44,7 @@ def category_details(request, pk):
 
 
 @api_view(["GET"])
-@response_handler([USER_ROLE, GUEST_ROLE])
+@response_handler()
 def category_list_user(request):
     if request.method == "GET":
         response = category_controller.list_category(
