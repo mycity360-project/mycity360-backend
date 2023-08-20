@@ -4,11 +4,11 @@ from rest_framework.decorators import (
 )
 from ..controllers import answer as answer_controller
 from ..utils.views import response_handler
-from ..constants import USER_ROLE
+from ..constants import USER_ROLE, ADMIN_ROLE
 
 
 @api_view(["GET", "POST"])
-@response_handler([USER_ROLE])
+@response_handler([USER_ROLE, ADMIN_ROLE])
 def answer_list(request):
     if request.method == "GET":
         response = answer_controller.list_answer(
@@ -28,7 +28,7 @@ def answer_list(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
-@response_handler([USER_ROLE])
+@response_handler([USER_ROLE, ADMIN_ROLE])
 def answer_details(request, pk):
     if request.method == "GET":
         response = answer_controller.get_answer(pk)

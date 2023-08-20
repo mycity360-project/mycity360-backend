@@ -43,7 +43,7 @@ def question_details(request, pk):
 
 
 @api_view(["GET"])
-@response_handler([USER_ROLE])
+@response_handler([USER_ROLE, ADMIN_ROLE])
 def question_list_user(request):
     if request.method == "GET":
         response = question_controller.list_question(
