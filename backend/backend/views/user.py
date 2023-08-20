@@ -10,7 +10,7 @@ from ..constants import ADMIN_ROLE
 
 
 @api_view(["GET", "POST"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def user_list(request):
     if request.method == "GET":
         response = user_controller.list_user(
@@ -40,7 +40,7 @@ def user_details(request, pk):
 
 
 @api_view(["GET", "PUT", "DELETE"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def user_details_admin(request, pk):
     if request.method == "GET":
         response = user_controller.get_user(pk)
@@ -163,3 +163,16 @@ def delete_account_request(request):
         key=request.data.get("key"),
     )
     return response, status.HTTP_200_OK
+
+
+@api_view(["POST"])
+@authentication_classes([])
+@permission_classes([])
+@response_handler(login_required=False)
+def guest_login(request):
+    if request.method == "POST":
+        headers = request.headers
+        response = user_controller.guest_login(
+            client_id=headers.get("Clientid"),
+        )
+        return response, status.HTTP_201_CREATED

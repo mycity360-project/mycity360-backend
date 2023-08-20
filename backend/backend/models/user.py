@@ -102,6 +102,7 @@ class User(AbstractBaseUser, PermissionsMixin, Core):
         choices=(
             ("Admin", "Admin"),
             ("User", "User"),
+            ("Guest", "Guest"),
         ),
     )
     email_otp = models.PositiveIntegerField(

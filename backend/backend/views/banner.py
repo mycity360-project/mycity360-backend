@@ -4,11 +4,11 @@ from rest_framework.decorators import (
 )
 from ..controllers import banner as banner_controller
 from ..utils.views import response_handler
-from ..constants import ADMIN_ROLE
+from ..constants import ADMIN_ROLE, USER_ROLE, GUEST_ROLE
 
 
 @api_view(["GET", "POST"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def banner_list(request):
     if request.method == "GET":
         response = banner_controller.list_banner(
@@ -27,7 +27,7 @@ def banner_list(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def banner_details(request, pk):
     if request.method == "GET":
         response = banner_controller.get_banner(pk=pk)
@@ -43,7 +43,7 @@ def banner_details(request, pk):
 
 
 @api_view(["GET"])
-@response_handler()
+@response_handler([USER_ROLE, GUEST_ROLE])
 def banner_list_user(request):
     if request.method == "GET":
         response = banner_controller.list_banner(
@@ -58,7 +58,7 @@ def banner_list_user(request):
 
 
 @api_view(["POST"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def banner_image_upload(request, pk):
     response = banner_controller.upload_image(pk, request.FILES.get("file"))
     return response, status.HTTP_200_OK

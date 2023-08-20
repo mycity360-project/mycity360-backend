@@ -5,7 +5,7 @@ from rest_framework.exceptions import ValidationError, NotFound
 from ..utils.google_api import send_mail
 
 
-def response_handler(role=None, login_required=True):
+def response_handler(role=[], login_required=True):
     def decorator(func):
         def inner(request, *args, **kwargs):
             if login_required and not request.user.is_active:
@@ -13,7 +13,7 @@ def response_handler(role=None, login_required=True):
             if (
                 request.user.is_authenticated
                 and role
-                and request.user.role != role
+                and request.user.role not in role
             ):
                 print(request.user.role)
                 raise PermissionDenied(

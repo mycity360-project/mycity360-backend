@@ -10,7 +10,7 @@ from ..constants import ADMIN_ROLE
 
 
 @api_view(["GET", "POST"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def area_list(request):
     if request.method == "GET":
         response = area_controller.list_area(
@@ -27,7 +27,7 @@ def area_list(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def area_details(request, pk):
     if request.method == "GET":
         response = area_controller.get_area(pk=pk)

@@ -451,3 +451,14 @@ def delete_account_request(key):
         to_email=SUPPORT_EMAILS,
     ),
     return {"message": "Success"}
+
+
+def guest_login(client_id):
+    if not client_id:
+        raise ValidationError(detail=CLIENT_ID_REQUIRED)
+    user = user_gateway.get_user(username="Guest")
+    user = UserSerializer.serialize_data(user)
+    access_token = oauth.generate_access_token(
+        user_id=user.get("id"), client_id=client_id
+    )
+    return oauth.get_token_json(access_token)

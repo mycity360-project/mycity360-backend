@@ -39,12 +39,7 @@ class Banner(Core):
         _("Image"), null=True, blank=True, upload_to=upload_to
     )
     sequence = models.PositiveIntegerField(_("Sequence"), default=0)
-    name = models.CharField(
-        _("Name"),
-        max_length=128,
-        null=True,
-        blank=True
-    )
+    name = models.CharField(_("Name"), max_length=128, null=True, blank=True)
     objects = BannerManager.from_queryset(BannerQueryset)()
 
     class Meta:

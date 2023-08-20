@@ -33,6 +33,7 @@ urlpatterns = [
     path("admin/user/<int:pk>/", user.user_details_admin),
     path("user/signup/", user.signup),
     path("user/login/", user.login),
+    path("user/guest-login/", user.guest_login),
     path("user/<int:pk>/verify-otp/", user.verify_otp),
     path("user/<int:pk>/change-password/", user.change_password),
     path("user/<int:pk>/resend-otp/", user.resend_otp),

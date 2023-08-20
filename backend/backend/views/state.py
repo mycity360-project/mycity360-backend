@@ -8,7 +8,7 @@ from ..constants import ADMIN_ROLE
 
 
 @api_view(["GET", "POST"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def state_list(request):
     if request.method == "GET":
         response = state_controller.list_state(
@@ -24,7 +24,7 @@ def state_list(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def state_details(request, pk):
     if request.method == "GET":
         response = state_controller.get_state(pk=pk)

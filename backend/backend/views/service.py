@@ -8,7 +8,7 @@ from ..constants import ADMIN_ROLE
 
 
 @api_view(["GET", "POST"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def service_list(request):
     if request.method == "GET":
         response = service_controller.list_service(
@@ -24,7 +24,7 @@ def service_list(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def service_details(request, pk):
     if request.method == "GET":
         response = service_controller.get_service(pk=pk)
@@ -52,7 +52,7 @@ def service_list_user(request):
 
 
 @api_view(["POST"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def service_icon_upload(request, pk):
     response = service_controller.upload_icon(pk, request.FILES.get("file"))
     return response, status.HTTP_200_OK

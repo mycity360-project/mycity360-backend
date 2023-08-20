@@ -10,7 +10,7 @@ from ..constants import ADMIN_ROLE
 
 
 @api_view(["GET", "POST"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def location_list(request):
     if request.method == "GET":
         response = location_controller.list_location(
@@ -27,7 +27,7 @@ def location_list(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def location_details(request, pk):
     if request.method == "GET":
         response = location_controller.get_location(pk=pk)

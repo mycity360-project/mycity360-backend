@@ -10,6 +10,7 @@ TOKEN_FILE_PATH = f"{Path.cwd()}/backend/credentials/token.json"
 
 ADMIN_ROLE = "Admin"
 USER_ROLE = "User"
+GUEST_ROLE = "Guest"
 
 # Messages
 CLIENT_ID_REQUIRED = "Client id is required"

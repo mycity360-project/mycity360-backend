@@ -4,11 +4,11 @@ from rest_framework.decorators import (
 )
 from ..controllers import question as question_controller
 from ..utils.views import response_handler
-from ..constants import ADMIN_ROLE
+from ..constants import ADMIN_ROLE, USER_ROLE
 
 
 @api_view(["GET", "POST"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def question_list(request):
     if request.method == "GET":
         response = question_controller.list_question(
@@ -27,7 +27,7 @@ def question_list(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def question_details(request, pk):
     if request.method == "GET":
         response = question_controller.get_question(pk=pk)
@@ -43,7 +43,7 @@ def question_details(request, pk):
 
 
 @api_view(["GET"])
-@response_handler()
+@response_handler([USER_ROLE])
 def question_list_user(request):
     if request.method == "GET":
         response = question_controller.list_question(

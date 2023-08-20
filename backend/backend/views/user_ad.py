@@ -2,9 +2,10 @@ from rest_framework import status
 from rest_framework.decorators import (
     api_view,
 )
+from rest_framework.exceptions import PermissionDenied
 from ..controllers import user_ad as user_ad_controller
 from ..utils.views import response_handler
-from ..constants import ADMIN_ROLE
+from ..constants import ADMIN_ROLE, GUEST_ROLE
 
 
 @api_view(["GET", "POST"])
@@ -25,8 +26,11 @@ def user_ad_list(request):
             page_size=request.query_params.get("page_size", 10),
         )
         return response, status.HTTP_200_OK
-
-    elif request.method == "POST":
+    if request.user.role == GUEST_ROLE:
+        raise PermissionDenied(
+            detail="This user role does not have access to the API"
+        )
+    if request.method == "POST":
         response = user_ad_controller.create_user_ad(request.data)
         return response, status.HTTP_201_CREATED
 
@@ -37,18 +41,21 @@ def user_ad_details(request, pk):
     if request.method == "GET":
         response = user_ad_controller.get_user_ad(pk)
         return response, status.HTTP_200_OK
-
-    elif request.method == "PUT":
+    if request.user.role == GUEST_ROLE:
+        raise PermissionDenied(
+            detail="This user role does not have access to the API"
+        )
+    if request.method == "PUT":
         response = user_ad_controller.update_user_ad(pk, request.data)
         return response, status.HTTP_200_OK
 
-    elif request.method == "DELETE":
+    if request.method == "DELETE":
         response = user_ad_controller.delete_user_ad(pk)
         return response, status.HTTP_204_NO_CONTENT
 
 
 @api_view(["GET", "PUT", "DELETE"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def user_ad_details_admin(request, pk):
     if request.method == "GET":
         response = user_ad_controller.get_user_ad(pk)

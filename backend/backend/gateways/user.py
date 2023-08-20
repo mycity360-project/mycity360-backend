@@ -53,7 +53,7 @@ def update_user(id, data):
         raise NotFound(detail=USER_DOES_NOT_EXIST)
 
 
-def get_user(id=None, email=None, phone=None):
+def get_user(id=None, email=None, phone=None, username=None):
     try:
         kwargs = dict()
         if id:
@@ -62,6 +62,8 @@ def get_user(id=None, email=None, phone=None):
             kwargs["email"] = email
         if phone:
             kwargs["phone"] = phone
+        if username:
+            kwargs["username"] = username
         user = User.objects.filter(is_deleted=False).get(**kwargs)
         # serializers = UserSerializer(user)
         # return serializers.data

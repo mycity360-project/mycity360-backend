@@ -4,11 +4,11 @@ from rest_framework.decorators import (
 )
 from ..controllers import category as category_controller
 from ..utils.views import response_handler
-from ..constants import ADMIN_ROLE
+from ..constants import ADMIN_ROLE, USER_ROLE, GUEST_ROLE
 
 
 @api_view(["GET", "POST"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def category_list(request):
     if request.method == "GET":
         response = category_controller.list_category(
@@ -28,7 +28,7 @@ def category_list(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def category_details(request, pk):
     if request.method == "GET":
         response = category_controller.get_category(pk=pk)
@@ -44,7 +44,7 @@ def category_details(request, pk):
 
 
 @api_view(["GET"])
-@response_handler()
+@response_handler([USER_ROLE, GUEST_ROLE])
 def category_list_user(request):
     if request.method == "GET":
         response = category_controller.list_category(
@@ -60,14 +60,14 @@ def category_list_user(request):
 
 
 @api_view(["POST"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def category_icon_upload(request, pk):
     response = category_controller.upload_icon(pk, request.FILES.get("file"))
     return response, status.HTTP_200_OK
 
 
 @api_view(["GET"])
-@response_handler(ADMIN_ROLE)
+@response_handler([ADMIN_ROLE])
 def sub_category_list(request):
     if request.method == "GET":
         response = category_controller.list_category(
