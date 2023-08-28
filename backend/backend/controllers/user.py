@@ -1,4 +1,6 @@
 import datetime
+import json
+
 from rest_framework.exceptions import ValidationError
 from ..constants import FILE_REQUIRED
 from rest_framework.exceptions import ValidationError, NotFound
@@ -462,3 +464,14 @@ def guest_login(client_id):
         user_id=user.get("id"), client_id=client_id
     )
     return oauth.get_token_json(access_token)
+
+
+def block_user(user, user_id):
+    if not user_id:
+        raise ValidationError(detail=USER_ID_REQUIRED)
+    user = user_gateway.get_user(id=user.id)
+    user = UserSerializer.serialize_org_data(user)
+    user.get("blocked_users").append(user_id)
+    user["blocked_users"] = json.dumps(list(set(user.get("blocked_users"))))
+    user_gateway.update_user(user.get("id"), user)
+    return {"message": USER_BLOCKED}

@@ -176,3 +176,14 @@ def guest_login(request):
             client_id=headers.get("Clientid"),
         )
         return response, status.HTTP_201_CREATED
+
+
+@api_view(["POST"])
+@response_handler()
+def block_user(request):
+    if request.method == "POST":
+        response = user_controller.block_user(
+            user=request.user,
+            user_id=request.data.get("user_id")
+        )
+        return response, status.HTTP_201_CREATED

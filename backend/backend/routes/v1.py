@@ -39,6 +39,7 @@ urlpatterns = [
     path("user/<int:pk>/resend-otp/", user.resend_otp),
     path("user/forgot-password/", user.forgot_password),
     path("user/reset-password/", user.reset_password),
+    path("user/block-user/", user.block_user),
     path("category/", category.category_list),
     path("sub-category/", category.sub_category_list),
     path("category/user/", category.category_list_user),

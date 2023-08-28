@@ -1,3 +1,4 @@
+import json
 from rest_framework import serializers
 from ..models.user import User
 from ..serializers.area import AreaSerializer
@@ -87,6 +88,7 @@ class UserSerializer(serializers.ModelSerializer):
             ),
             is_deleted=data.is_deleted,
             is_user_verified=data.is_user_verified,
+            blocked_users=json.loads(data.blocked_users) if data.blocked_users else [],
         )
 
     class Meta:

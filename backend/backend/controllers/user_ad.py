@@ -1,7 +1,9 @@
 import string
 import random
 from ..serializers.user_ad import UserAdSerializer
+from ..serializers.user import UserSerializer
 from ..gateways import user_ad as user_ad_gateway
+from ..gateways import user as user_gateway
 from ..controllers import category as category_controller
 from ..controllers.image import delete_image
 
@@ -18,7 +20,13 @@ def list_user_ad(
     ordering=None,
     search=None,
     is_home=None,
+    user=None,
 ):
+    blocked_users = []
+    if user:
+        user = UserSerializer.serialize_org_data(
+            user_gateway.get_user(id=user.id))
+        blocked_users = user.get("blocked_users")
     user_ads = user_ad_gateway.list_user_ad(
         is_active=is_active,
         is_featured=is_featured,
@@ -31,6 +39,7 @@ def list_user_ad(
         ordering=ordering,
         search=search,
         is_home=is_home,
+        exclude_user_ids=blocked_users,
     )
     user_ads["results"] = [
         UserAdSerializer.serialize_data(user_ad)

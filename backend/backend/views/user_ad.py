@@ -24,6 +24,7 @@ def user_ad_list(request):
             is_home=request.query_params.get("is_home"),
             page=request.query_params.get("page", 1),
             page_size=request.query_params.get("page_size", 10),
+            user=request.user
         )
         return response, status.HTTP_200_OK
     if request.user.role == GUEST_ROLE:

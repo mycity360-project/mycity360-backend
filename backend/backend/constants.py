@@ -64,3 +64,5 @@ SUPPORT_EMAILS = (
 )
 DELETE_EMAIL_BODY = "Hi \nThe following user wants to delete their account \n Name: {} \n Phone: {} \n Email: {} \nRegards\nMyCity360 Team"
 DELETE_EMAIL_SUBJECT = "MyCity360 Delete Account"
+USER_ID_REQUIRED = "User id is required"
+USER_BLOCKED = "User blocked successfully"

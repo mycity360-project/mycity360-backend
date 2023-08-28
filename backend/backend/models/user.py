@@ -126,6 +126,9 @@ class User(AbstractBaseUser, PermissionsMixin, Core):
     is_user_verified = models.BooleanField(
         _("Is User Verified"), default=False
     )
+    blocked_users = models.CharField(
+        verbose_name=_("Blocked users"), max_length=1024, blank=True
+    )
     objects = UserManager.from_queryset(UserQueryset)()
 
     EMAIL_FIELD = "email"
