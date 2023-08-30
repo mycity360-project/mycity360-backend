@@ -66,7 +66,7 @@ class Category(Core):
         _("Is Price Required"),
         default=True,
     )
-    price_limit = models.FloatField(_("Price Limit"), default=0)
+    price_limit = models.FloatField(_("Price Limit"), null=True, blank=True)
     objects = CategoryManager.from_queryset(CategoryQueryset)()
 
     class Meta:

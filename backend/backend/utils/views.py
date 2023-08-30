@@ -31,7 +31,7 @@ def response_handler(role=[], login_required=True):
                 try:
                     send_mail(
                         subject=f"{e}",
-                        body=str(e),
+                        body=str(traceback.format_exc()),
                         to_email="heena4415@gmail.com, vibh1103@gmail.com",
                     )
                 except:
