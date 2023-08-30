@@ -56,7 +56,7 @@ class UserAdSerializer(serializers.ModelSerializer):
         #     category.price_limit if category else data.category.price_limit
         # )
         if not is_price or (
-            is_price and data.price and price_limit is not None and data.price >= price_limit
+            is_price and data.price and price_limit is not None and data.price > price_limit
         ):
             phone = data.category.phone
         return dict(
