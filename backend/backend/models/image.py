@@ -11,6 +11,10 @@ from uuid import uuid4
 
 from django.db import models
 from django.utils.timezone import now as timezone_now
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
+from ..utils.google_api import delete_image as delete_local_image
+
 
 from ..utils.core import Core
 from ..managers.image import ImageManager, ImageQueryset
@@ -55,3 +59,8 @@ def create_profile(sender, instance, **kwargs):
     ):
         instance.image = f"{SERVER_BASE_URL}{instance.image_new}"
         instance.save()
+
+
+@receiver(pre_delete, sender=Image)
+def create_profile(sender, instance, **kwargs):
+    delete_local_image(instance.image)
