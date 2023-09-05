@@ -6,12 +6,16 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_mysql.models import ListCharField
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
+
 from ..utils.core import Core
 from ..managers.user_ad import UserAdManager, UserAdQueryset
 from ..models.image import Image
 from ..models.category import Category
 from ..models.user import User
 from ..models.area import Area
+from ..controllers.image import delete_image
 
 
 class UserAd(Core):
@@ -78,3 +82,10 @@ class UserAd(Core):
 
     def __unicode__(self):
         return self.name
+
+
+@receiver(pre_delete, sender=UserAd)
+def create_profile(sender, instance, **kwargs):
+    for img in instance.images.all():
+        print(img.image)
+        delete_image(pk=img.id)
