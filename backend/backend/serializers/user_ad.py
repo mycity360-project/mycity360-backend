@@ -45,12 +45,13 @@ class UserAdSerializer(serializers.ModelSerializer):
                 for image in data.images.all()
             ]
         phone = data.user.phone
-        category = data.category.category
-        is_price = category.is_price if category else data.category.is_price
+        # category = data.category.category
+        # is_price = category.is_price if category else data.category.is_price
+        is_price = data.category.is_price
         price_limit = None
-        if category and category.price_limit is not None and category.price_limit != "":
-            price_limit = category.price_limit
-        elif data.category.price_limit is not None and data.category.price_limit != "":
+        # if category and category.price_limit is not None and category.price_limit != "":
+        #     price_limit = category.price_limit
+        if data.category.price_limit is not None and data.category.price_limit != "":
             price_limit = data.category.price_limit
         # price_limit = (
         #     category.price_limit if category else data.category.price_limit
